@@ -4,7 +4,7 @@
 		/* 路由设置 */
     	'URL_ROUTER_ON' => true,// 开启路由	
 
-    	'URL_ROUTE_RULES' => array(
+    	 'URL_ROUTE_RULES' => array(
         // login
         'login$' => 'Manage/Login/show',// 登录页面
         'dologin' => 'Manage/Login/dologin',// 登录验证
@@ -95,6 +95,6 @@
         'crontab/reset/sharestatus' => 'Manage/XiaoyingApi/resetShareStatus',// 定时更新分享状态 wait
         'crontab/update/studentcallnum' => 'Manage/XiaoyingApi/addStudentCallNum',// 定时更新学员call值 每天加5个 wait
         'xy/call/sendsms' => 'Manage/XiaoyingApi/sendsms',// 发送短信验证码 wait
-
+    ),
 	);
 
