@@ -60,7 +60,12 @@
         .layui-form-selected .layui-tree {
             display: block;
         }
-
+        .layui-form-radio{
+            margin-right: 2px !important;
+        }
+        .layui-unselect{
+            margin-right: 2px !important;
+        }
     </style>
 </head>
 
@@ -110,6 +115,7 @@
                                             <th>预览</th>
                                             <th>链接网址</th>
                                             <th>排序</th>
+                                            <th>是否显示</th>
                                             <th>操作</th>
                                         </tr></thead>
                                         <volist name="filedata" id="vo">
@@ -120,6 +126,8 @@
                                                 <td><img src="/Uploads/{$vo.file_path}" alt="" style="height: 5%"></td>
                                                 <td><input type="text" name="link_url[]"  required="required" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.link_url}"></td>
                                                 <td style="width: 15%"><input type="text" name="orders[]"  required="required" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.orders}"></td>
+                                                <!--<td></td>-->
+                                                <td><input type="radio" name="isshow[{$vo.file_id}]" value="1"  <?php if($vo['isshow']==1)echo checked; ?> >是<input type="radio" name="isshow[{$vo.file_id}]" value="0"  <?php if($vo['isshow']==0)echo checked; ?> >否</td>
                                                 <td><button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="{$vo.file_id}">删除</button></td>
                                             </tr>
                                         </volist>

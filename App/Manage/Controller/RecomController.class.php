@@ -39,6 +39,7 @@ class RecomController extends BaseController
             $linkurl = [];
             $newfileids = [];
             $orders = [];
+            $isshow = [];
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
                 foreach ($filearr as $k=>$v){
@@ -52,6 +53,9 @@ class RecomController extends BaseController
                 foreach ($par['orders'] as $k=>$v){
                     $orders[] = $v;
                 }
+                foreach ($par['isshow'] as $k=>$v){
+                    $isshow[] = $v;
+                }
             }
 //            $this->ajaxReturn([$linkurl,$newfileids]);
             $par['create_time'] = time();
@@ -63,6 +67,7 @@ class RecomController extends BaseController
                         $add['recom_id'] = $res;
                         $add['link_url'] = $linkurl[$k];
                         $add['orders'] = $orders[$k];
+                        $add['isshow'] = $isshow[$k];
 //                        $add['type'] = 2;
                         M('recomrfile')->add($add);
                     }
@@ -90,6 +95,7 @@ class RecomController extends BaseController
             $linkurl = [];
             $newfileids = [];
             $orders = [];
+            $isshow = [];
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
                 foreach ($filearr as $k=>$v){
@@ -104,8 +110,11 @@ class RecomController extends BaseController
                 foreach ($par['orders'] as $k=>$v){
                     $orders[] = $v;
                 }
+                foreach ($par['isshow'] as $k=>$v){
+                    $isshow[] = $v;
+                }
             }
-//            $this->ajaxReturn([$linkurl,$orders]);
+//            $this->ajaxReturn([$linkurl,$orders,$isshow]);
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数2']);// 缺少关键参数
             // 执行更新操作
             $par['update_time'] = time();
@@ -118,6 +127,7 @@ class RecomController extends BaseController
                         $add['recom_id'] = $par['ids'];
                         $add['link_url'] = $linkurl[$k];
                         $add['orders'] = $orders[$k];
+                        $add['isshow'] = $isshow[$k];
 //                        $add['type'] = 2;
                         M('recomrfile')->add($add);
                     }
@@ -144,8 +154,10 @@ class RecomController extends BaseController
             $res = M('recomrfile')->where(['file_id'=>$v['file_id']])->find();
             $filedata[$k]['link_url'] = $res['link_url'];
             $filedata[$k]['orders'] = $res['orders'];
+            $filedata[$k]['isshow'] = $res['isshow'];
         }
         $this->filedata = $filedata;
+//        var_dump($filedata);
         $this->fileids = implode(',',$fileids);
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
         $this->info = $info;// 分配数据到模板

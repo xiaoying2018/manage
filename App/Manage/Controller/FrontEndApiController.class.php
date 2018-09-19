@@ -979,7 +979,7 @@ class FrontEndApiController extends Controller
     public function getrecom(){
         $id = I('get.recom_id');
         if (!$id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-        $recomdata = M('recomrfile')->where(['recom_id'=>$id])->order('orders')->select();
+        $recomdata = M('recomrfile')->where(['recom_id'=>$id,'isshow'=>1])->order('orders')->select();
         if(!empty($recomdata)){
             foreach ($recomdata as $k=>$v){
                 $recomdata[$k]['file_path'] = M('file')->where(['file_id'=>$v['file_id']])->find()['file_path'];
