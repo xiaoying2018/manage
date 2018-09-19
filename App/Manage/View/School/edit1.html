@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>-->
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.config.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.all.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>-->
+    <style>
+        .layui-form-item{
+            margin: 16px auto;
+        }
+
+        .layui-form-radio>i{
+            margin-right: 8px;
+            font-size: 18px;
+            /*color: #e6e4e4;*/
+        }
+
+        .layui-input-block{
+            margin-right: 16px;
+        }
+
+        /*.layui-textarea{*/
+        /*width: 50%;*/
+        /*}*/
+        .layui-form-selected dl{
+            height: 400%;
+        }
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            box-sizing: border-box;
+        }
+
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+<div class="x-body">
+    <form id="form" class="layui-form">
+        <input type="hidden" id="ids" value="{$id}">
+        <input type="hidden" id="fileids" value="{$fileids}" name="fileids">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>学校介绍</li>
+                <!--<li>师资与课程</li>-->
+                <!--<li>商品管理</li>-->
+                <!--<li>订单管理</li>-->
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <!--内容1-->
+                    <div class="layui-form-item">
+                        <label for="name_cn" class="layui-form-label"><span class="m-warning">*</span>学校中文名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="name_cn" name="name_cn" required="required" lay-verify="required" value="{$info.name_cn}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="name_jp" class="layui-form-label">学校日文名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="name_jp" name="name_jp" required="" lay-verify="" value="{$info.name_jp}"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span>所属地区</label>
+                        <div class="layui-input-block">
+                            <div class="layui-inline">
+                                <select lay-filter="nowcid1" id="nowcid1" required="required" lay-verify="required" >
+                                    <option value="">全部地区</option>
+                                    <volist name="cdata" id="v">
+                                        <option value="{$v.id}"  <?php if($v['id']==$paid['pid']) echo selected; ?> >{$v.name}</option>
+                                    </volist>
+                                </select>
+                            </div>
+
+                            <div class="layui-inline">
+                                <select name="nowcid2" id="nowcid2" required="required" lay-verify="">
+                                    <option value="">全部地区</option>
+                                    <volist name="xiandata" id="v">
+                                        <option value="{$v.id}"  <?php if($v['id']==$info['nowcid']) echo selected; ?> >{$v.name}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span> 封面上传</label>
+
+                        <div class="layui-input-block">
+                            <div class="layui-upload-drag" id="uploadone">
+                                <i class="layui-icon"></i>
+                                <p>点击上传</p>
+                                <img src="" alt="" id="faceimg" style="height: 90%;width: 90%">
+                                <input type="hidden" id="logo_long" name="logo_long" value="{$info.logo_long}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span>图库</label>
+                        <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                            <div class="layui-upload-list">
+                                <table class="layui-table">
+                                    <thead>
+                                    <tr><th>文件名</th>
+                                        <th>大小</th>
+                                        <th>状态</th>
+                                        <th>预览</th>
+                                        <th>操作</th>
+                                    </tr></thead>
+                                    <volist name="filedata" id="vo">
+                                        <tr>
+                                            <td>{$vo.name}</td>
+                                            <td><?php echo ceil($vo['size']/1024) ?>kb</td>
+                                            <td><span style="color: #5FB878;">上传成功</span></td>
+                                            <td><img src="/Uploads/{$vo.file_path}" alt="" style="height: 5%"></td>
+                                            <td><button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="{$vo.file_id}">删除</button></td>
+                                        </tr>
+                                    </volist>
+                                    <!--<volist name=""><>-->
+                                    <tbody id="demoList"></tbody>
+                                </table>
+                            </div>
+                            <script>
+                                $("body").on("click", ".file-delete", function () {
+                                    $(this).parent().parent().remove()
+                                    $.ajax({
+                                        url: "/delfile?file_id=" + $(this).attr("data_fildid"),
+                                        methods: "get",
+                                        success: function (res) {
+                                            console.log(arr_);
+                                        }
+                                    })
+                                })
+                            </script>
+                            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="cost_fee" class="layui-form-label"><span class="m-warning">*</span>学费</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="cost_fee" name="cost_fee" required="required"  value="{$info.cost_fee}" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="cost_fee" class="layui-form-label">热门排行</label>
+                        <div class="layui-input-block">
+                            <select name="hotorder" required="" lay-verify="" style="height: 600%" >
+                                <option value="">请选择</option>
+                                <option value="0中介" <?php if($info['hotorder']=='0中介') echo selected; ?> >0中介</option>
+                                <option value="规模较大"  <?php if($info['hotorder']=='规模较大') echo selected; ?> >规模较大</option>
+                                <option value="学费较低" <?php if($info['hotorder']=='学费较低') echo selected; ?> >学费较低</option>
+                                <option value="提供住宿" <?php if($info['hotorder']=='提供住宿') echo selected; ?> >提供住宿</option>
+                                <option value="短期留学" <?php if($info['hotorder']=='短期留学') echo selected; ?> >短期留学</option>
+                                <option value="可交半年学费" <?php if($info['hotorder']=='可交半年学费') echo selected; ?> >可交半年学费</option>
+                                <option value="有提升指导" <?php if($info['hotorder']=='有提升指导') echo selected; ?> >有提升指导</option>
+                                <option value="有美术指导" <?php if($info['hotorder']=='有美术指导') echo selected; ?> >有美术指导</option>
+                                <option value="国际化" <?php if($info['hotorder']=='国际化') echo selected; ?> >国际化</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span>学校性质</label>
+                        <div class="layui-input-block">
+                            <select name="xingzhiid" required="required" lay-verify="required" >
+                                <option value="">请选择</option>
+                                <option value="50" <?php if($info['xingzhiid']==50) echo selected; ?> >国立</option>
+                                <option value="51" <?php if($info['xingzhiid']==51) echo selected; ?> >公立</option>
+                                <option value="52" <?php if($info['xingzhiid']==52) echo selected; ?> >私立</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">入学时间</label>
+                        <div class="layui-input-block">
+                            <select name="enroll_time" required="" lay-verify="">
+                                <option value="1" <?php if($info['enroll_time']==1) echo selected; ?> >1月</option>
+                                <option value="4" <?php if($info['enroll_time']==4) echo selected; ?> >4月</option>
+                                <option value="7" <?php if($info['enroll_time']==7) echo selected; ?> >7月</option>
+                                <option value="10" <?php if($info['enroll_time']==10) echo selected; ?> >10月</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label for="contact" class="layui-form-label">学校电话</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="contact" name="contact" required="" value="{$info.contact}" lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="competition" class="layui-form-label">录取比例 %</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="competition" name="competition" required=""  value="{$info.competition}" lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!--<div class="layui-form-item">-->
+                        <!--<label for="address_cn" class="layui-form-label">学校中文地址</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" id="address_cn" name="address_cn" required="" lay-verify=""   value="{$info.address_cn}" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-form-item">
+                        <label for="address" class="layui-form-label">学校地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="address" name="address" required="" lay-verify=""  value="{$info.address}"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="layui-form-label">学校简介</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+                            <!--<textarea id='description' name="description"  value=""  style='height:300px;width: 90%'>{$info.description} </textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<script type="text/javascript">-->
+                        <!--var ue = UE.getEditor('description');-->
+                    <!--</script>-->
+
+                </div>
+
+                <!--2-->
+                <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                        <label for="schoolhistory" class="layui-form-label">学校历史</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_en" name="request_en" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='schoolhistory' name="schoolhistory"  style='height:100px;width: 70%' class="layui-textarea">{$info.schoolhistory}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="schoolspecial" class="layui-form-label">学校特色</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_lang" name="request_lang" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='schoolspecial' name="schoolspecial"  style='height:100px;width: 70%' class="layui-textarea">{$info.schoolspecial}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="schoolmanage" class="layui-form-label">学校管理</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_doclist" name="request_doclist" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='schoolmanage' name="schoolmanage"  style='height:200px;width: 70%' class="layui-textarea">{$info.schoolmanage}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="schoolgoods" class="layui-form-label">学校设施</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_doclist" name="request_doclist" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='schoolgoods' name="schoolgoods"  style='height:200px;width: 70%' class="layui-textarea">{$info.schoolgoods}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="schoollive" class="layui-form-label">学校住宿</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_doclist" name="request_doclist" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='schoollive' name="schoollive"  style='height:200px;width: 70%' class="layui-textarea">{$info.schoollive}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!--3-->
+                <!--<div class="layui-tab-item">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="layui-form-label">师资与课程</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+                            <!--<textarea id='teachercourse' name="teachercourse"  style='height:300px;width: 90%'>{$info.teachercourse}</textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<script type="text/javascript">-->
+                        <!--var ue = UE.getEditor('teachercourse');-->
+                    <!--</script>-->
+                <!--</div>-->
+                <!--<div class="layui-tab-item">内容4</div>-->
+                <!--<div class="layui-tab-item">内容5</div>-->
+            </div>
+            <input type="hidden" name="category_school" value="日本语言学校">
+
+        </div>
+
+
+        <div class="layui-form-item">
+
+            <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+            <div class="layui-form-item">
+                <label class="layui-form-label"> </label>
+                <div class="layui-input-inline">
+                    <button  class="layui-btn w-auto" lay-filter="*" lay-submit="">添加</button>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <script>
+        var arr_ = $('#fileids').val()
+        layui.use(['form','layer','element','upload'], function(){
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                upload = layui.upload;
+
+            form.on('select(nowcid1)', function(data){
+                //地区联动
+                console.log(data.value)
+                $.ajax({
+                    url:"/getarea",
+                    data:{id:data.value},
+                    dataType:'JSON',
+                    type:'POST',
+                    success:function(data){
+                        $('nowcid2').children().empty()
+                        var _html = ''
+                        $('#nowcid2').append(' <option value="">全部城市</option>');
+                        if(data.status){
+                            $.each(data.data,function (i,v) {
+                                console.log(v.name)
+                                _html += '<option value="'+v.id+'">'+v.name+'</option>';
+
+                            })
+                            console.log(_html)
+                            $('#nowcid2').html(_html)
+                            form.render('select');
+                        }else{
+                            $('#nowcid2').html('<option value="">全部城市</option>')
+                            form.render('select');
+                        }
+                    }
+                });
+            });
+
+            //拖拽上传
+            upload.render({
+                elem: '#uploadone'
+                ,url: '/uploadone'
+                ,done: function(res){
+                    if (res.status){
+                        layer.msg('上传成功');
+                        $('#uploadfile').val(res.data);
+                        $('#mini_img').val(res.data);
+                        $('#faceimg').attr('src',res.data);
+                    }else{
+                        layer.alert("Error : "+ res.msg, {icon: 2});
+                    }
+                }
+            });
+
+            //拖拽上传
+            upload.render({
+                elem: '#uploadone2'
+                ,url: '/uploadkoubei'
+                ,done: function(res){
+                    if (res.status){
+                        layer.msg('上传成功');
+                        $('#uploadfile2').val(res.data.img);
+                    }else{
+                        layer.alert("Error : "+ res.msg, {icon: 2});
+                    }
+                }
+            });
+
+            // 自定义验证规则
+            form.verify({
+                nikename: function(value){
+                    if(value.length < 5){
+                        return '姓名的长度不可小于5个字符';
+                    }
+                }
+            });
+
+            // 监听提交
+            form.on('submit(*)', function(data){
+//            alert(1)
+                // 格式化状态字段的值
+                if (data.field.status == 'on'){data.field.status = 1;}else{data.field.status = 0;}
+                data.field.ids = $('#ids').val()
+                if($('#nowcid2').val()!=''){
+                    data.field.nowcid = $('#nowcid2').val()
+                }else{
+                    data.field.nowcid = $('#nowcid1').val()
+                }
+                // JS 提交表单
+                $.ajax({
+                    url:"/school/edit1",
+                    data:data.field,
+                    dataType:'JSON',
+                    type:'POST',
+                    success:function(data){
+                        console.log(data)
+                        if( data.status == true )
+                        {
+//                        window.location.reload()
+                            layer.alert("Success !", {icon: 6},function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                // 关闭当前frame
+                                parent.layer.close(index);
+                                // TODO 如果需要的话,进行表格重载
+                            });
+
+                        } else {
+                            layer.alert("Error : "+ data.msg, {icon: 2});
+                        }
+                    }
+                });
+
+                return false;
+            });
+            //多文件列表示例
+            var demoListView = $('#demoList')
+                ,uploadListIns = upload.render({
+                elem: '#testList'
+                ,url: '/uploadall/'
+                ,accept: 'file'
+                ,multiple: true
+                ,auto: false
+                ,bindAction: '#testListAction'
+                ,choose: function(obj){
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function(index, file, result){
+                        var tr = $(['<tr id="upload-'+ index +'">'
+                            ,'<td>'+ file.name +'</td>'
+                            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                            ,'<td>等待上传</td>'
+                            ,'<td></td>'
+                            ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                            ,'</td>'
+                            ,'</tr>'].join(''));
+
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function(){
+                            obj.upload(index, file);
+                        });
+
+                        //删除
+                        tr.find('.demo-delete').on('click', function(){
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+
+                        demoListView.append(tr);
+                    });
+                }
+                ,done: function(res, index, upload){
+                    if(res){ //上传成功
+                        arr_ += ','+res.file_id
+                        console.log(arr_)
+                        $('#fileids').val(arr_)
+                        var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
+                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res+'">删除</button>'); //清空操作
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                }
+                ,error: function(index, upload){
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+            //treedata 多下拉
+//        $.ajax({
+//            url: "/news/allcate",
+//            type: "get",
+//            success: function(res) {
+//                if (res.data) {
+//                    layui.config({
+//                        base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+//                    }).extend({ //设定模块别名
+//                        mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
+//                        ,
+//                        mod1: 'treeSelect' //相对于上述 base 目录的子目录
+//                    });
+//
+//                    console.log("xxx", res);
+//                    layui.use(['treeselect'], function() {
+//                        treeselect = layui.treeselect;
+//                        treeselect.render({
+//                            elem: "#treeselecttest",
+//                            data: res.data
+//                        });
+//                    });
+//                }
+//            }
+//        })
+        });
+    </script>
+</body>
+
+</html>

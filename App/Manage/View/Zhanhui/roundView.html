@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>-->
+    <style>
+        .layui-form-item {
+            margin: 16px 0 0 60px;
+        }
+
+        /**treeselect*/
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            box-sizing: border-box;
+        }
+
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+
+        .round_item {
+            margin: 10px 0 0 30px;
+        }
+
+        .round_item p {
+            margin-top: 6px;
+        }
+
+        .round-look p,font{
+            cursor: pointer;
+            -moz-user-select:none; /*火狐*/
+            -webkit-user-select:none; /*webkit浏览器*/
+            -ms-user-select:none; /*IE10*/
+            -khtml-user-select:none; /*早期浏览器*/
+            user-select:none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="x-body">
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li>添加场次</li>
+            <li class="layui-this">查看场次</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!-- 添加 -->
+            <div class="layui-tab-item">
+                <form id="form" class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">展会时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" name="time" required="" lay-verify="required"
+                                   id="time" placeholder="请选择展会时间">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="addr" class="layui-form-label"><span class="m-warning">*</span> 展会地点</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="addr" name="addr" required="" lay-verify="required"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label for="link" class="layui-form-label">精彩回顾</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="link" name="link" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">请务必根据链接属性输入http://或https://协议名称</div>
+                    </div>
+                    <br><br>
+                    <div class="text-center">
+                        <input type="hidden" name="zhanhui_id" id="zhanhui_id" value="{$city_id}">
+                        <button class="layui-btn" lay-filter="*" lay-submit="">添加</button>
+                    </div>
+                </form>
+            </div>
+            <!-- 查看 -->
+            <div class="layui-tab-item layui-show">
+                <ul class="layui-timeline round-look" style="margin: 16px 0 0 75px;">
+                    <volist name="current_city_round" id="round">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis click_del" roundid="{$round.id}" title="点击删除"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title">
+
+                                    <font class="show_change_time">{$round.time}</font>
+                                    <input type="text" id="" class="layui-input change_time" value="{$round.time}" old="{$round.time}">
+
+                                    <div class="round_item">
+
+                                        <p class="show_change_addr">地址: {$round.addr}</p>
+                                        <input type="text" class="layui-input change_addr" value="{$round.addr}" old="{$round.addr}">
+
+                                        <if condition="$round['status'] == 1">
+                                            <p class="change_status" roundstatus="1">状态: <font class="status_true">显示</font></p>
+                                            <else/>
+                                            <p class="change_status" roundstatus="0">状态: <font class="status_false">隐藏</font></p>
+                                        </if>
+
+                                        <p class="show_change_link">回顾: {$round.link}</p>
+                                        <input type="text" class="layui-input change_link" value="{$round.link}" old="{$round.link}">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                        <!--{$round.id}:::{$round.like}:{$round.status}<br/>-->
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    layui.use(['form', 'layer', 'laydate', 'element'], function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            element = layui.element;
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#time'
+            , type: 'datetime'
+        });
+
+        // 自定义验证规则
+        form.verify({});
+
+        // 监听提交
+        form.on('submit(*)', function (data) {
+            // JS 提交表单
+            $.ajax({
+                url: "/round/create",
+                data: data.field,
+                dataType: 'JSON',
+                type: 'POST',
+                success: function (data) {
+                    if (data.status == true) {
+                        layer.alert("添加成功 !", {icon: 6}, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            // 关闭当前frame
+                            parent.layer.close(index);
+                            // TODO 如果需要的话,进行表格重载
+                        });
+                    } else {
+                        layer.alert("添加失败 : " + data.msg, {icon: 2});
+                    }
+                }
+            });
+
+            return false;
+        });
+        // 删除事件
+        $('.click_del').click(function () {
+
+            // 获取当前选中数据的ids
+            var del_id = $(this).attr('roundid');
+
+            var __this = $(this);// 暂存当前点击元素
+
+            // 确认框
+            layer.confirm("确认要删除吗，删除后不能恢复!", { title: "提示:",icon: 0 }, function (index) {
+                layer.close(index);
+
+                // 发起请求
+                $.ajax({
+                    type:"POST",
+                    url:"/round/delete",
+                    dataType:'JSON',
+                    data:{
+                        id:del_id,
+                    },
+                    success:function (res) {
+                        if (res.status == 1) {
+                            layer.alert('删除成功!');
+                            __this.parent('li').hide();// 页面伪删除效果
+                        }else{
+                            layer.alert(res.msg);
+                        }
+                    }
+                });
+            });
+
+        });
+
+        // 需要隐藏的文本框
+        $('.change_addr').hide();
+        $('.change_time').hide();
+        $('.change_link').hide();
+
+        // 点击展会地址
+        $('.show_change_addr').click(function () {
+            $(this).next().show().focus();
+            $(this).hide();
+        });
+        // 展会地址修改框失焦
+        $('.change_addr').blur(function () {
+            var _this_addr = $(this);
+
+            var send_data = {};
+
+            _this_addr.prev().show();
+            _this_addr.hide();
+
+            if (_this_addr.val() == _this_addr.attr('old')){
+                return false;
+            }
+
+            send_data.addr = _this_addr.val();
+
+            // 获取当前选中数据的id
+            var del_id = _this_addr.closest(".layui-timeline-content").prev().attr("roundid");
+            send_data.id = del_id;
+
+            // 发起请求
+            $.ajax({
+                type:"POST",
+                url:"/round/edit",
+                dataType:'JSON',
+                data:send_data,
+                success:function (res) {
+                    if (res.status) {
+                        window.location.reload();
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        })
+        // 点击展会时间
+        $('.show_change_time').click(function () {
+            $(this).next().show().focus();
+            $(this).hide();
+        });
+        // 展会时间修改框失焦
+        $('.change_time').blur(function () {
+            var _this_time = $(this);
+            var send_data = {};
+
+            _this_time.prev().show();
+            _this_time.hide();
+
+            if (_this_time.val() == _this_time.attr('old')){
+                return false;
+            }
+
+            send_data.time = _this_time.val();
+
+            // 获取当前选中数据的id
+            var del_id = _this_time.closest(".layui-timeline-content").prev().attr("roundid");
+            send_data.id = del_id;
+
+            // 发起请求
+            $.ajax({
+                type:"POST",
+                url:"/round/edit",
+                dataType:'JSON',
+                data:send_data,
+                success:function (res) {
+                    if (res.status) {
+                        window.location.reload();
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+        // 点击回顾
+        $('.show_change_link').click(function () {
+            $(this).next().show().focus();
+            $(this).hide();
+        });
+        // 回顾修改框失焦
+        $('.change_link').blur(function () {
+            var _this_link = $(this);
+            var send_data = {};
+
+            _this_link.prev().show();
+            _this_link.hide();
+
+            if (_this_link.val() == _this_link.attr('old')){
+                return false;
+            }
+
+            send_data.link = _this_link.val();
+
+            // 获取当前选中数据的id
+            var del_id = _this_link.closest(".layui-timeline-content").prev().attr("roundid");
+            send_data.id = del_id;
+
+            // 发起请求
+            $.ajax({
+                type:"POST",
+                url:"/round/edit",
+                dataType:'JSON',
+                data:send_data,
+                success:function (res) {
+                    if (res.status) {
+                        window.location.reload();
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+        // 修改状态
+        $('.change_status').click(function () {
+
+            var _this_status = $(this);
+            var send_data = {};
+
+            send_data.target_status = _this_status.attr('roundstatus');
+
+            // 获取当前选中数据的id
+            var del_id = _this_status.closest(".layui-timeline-content").prev().attr("roundid");
+            send_data.id = del_id;
+
+            // 发起请求
+            $.ajax({
+                type:"POST",
+                url:"/round/changestatus",
+                dataType:'JSON',
+                data:send_data,
+                success:function (res) {
+                    if (res.status == 1) {
+                        console.log(_this_status)
+                        console.log(send_data.target_status)
+                        if (send_data.target_status == 1)
+                        {
+                            _this_status.attr('roundstatus','0');
+                            _this_status.html("状态: <font class='status_false'>隐藏</font>");
+                        }else{
+                            _this_status.attr('roundstatus','1');
+                            _this_status.html("状态: <font class='status_true'>显示</font>");
+                        }
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+
+        })
+    });
+</script>
+</body>
+
+</html>

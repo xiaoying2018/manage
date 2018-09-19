@@ -1,0 +1,7 @@
+.idea/
+Runtime/*
+!App/Runtime/index.html
+Uploads/*
+!Upload/index.html
+App/Common/Conf/config.php
+vendor/*
