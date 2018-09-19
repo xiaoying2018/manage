@@ -95,6 +95,85 @@
         'crontab/reset/sharestatus' => 'Manage/XiaoyingApi/resetShareStatus',// 定时更新分享状态 wait
         'crontab/update/studentcallnum' => 'Manage/XiaoyingApi/addStudentCallNum',// 定时更新学员call值 每天加5个 wait
         'xy/call/sendsms' => 'Manage/XiaoyingApi/sendsms',// 发送短信验证码 wait
+
+             ##资讯前端接口
+             'article/catesearch'=>'Manage/FrontEndApi/catesearch',  //分类列表
+             'article/contentssearch'=>'Manage/FrontEndApi/contentssearch',  //内容列表
+             'article/detailsearch'=>'Manage/FrontEndApi/detailsearch',  //内容详情
+             'vote'=>'Manage/FrontEndApi/vote',  //点赞
+             'reads'=>'Manage/FrontEndApi/reads',  //阅读量
+             ##地区联动
+             'getarea'=>'Manage/FrontEndApi/getarea',
+             ##日本院校库前台接口
+             'getlangschool'=>'Manage/FrontEndApi/schoolsearch1',   //语言学校列表
+             'getjapschool'=>'Manage/FrontEndApi/schoolsearch2',   //日本学校列表
+             'getschooldetail'=>'Manage/FrontEndApi/schooldetail',   //日本语言学校和日本大学学校详情
+             'clicks'=>'Manage/FrontEndApi/clicks',  //增加浏览次数
+             'school/xueli'=>'Manage/FrontEndApi/getxueli', //专业学历列表
+             'school/cate'=>'Manage/FrontEndApi/getcate', //  专业分类
+             'school/schoolprogram'=>'Manage/FrontEndApi/getschoolprogram', //获取学校的专业
+             ##韩国
+             'getkoreaschool'=>'Manage/FrontEndApi/schoolsearch3',//学校列表
+             'getkoreadetail'=>'Manage/FrontEndApi/koreaschooldetail',//学校详情
+             ##新加坡
+             'getsgpschool'=>'Manage/FrontEndApi/schoolsearch4',//学校列表
+             'getsgpdetail'=>'Manage/FrontEndApi/sgpschooldetail',//学校详情
+             'sgpmajordetail'=>'Manage/FrontEndApi/sgpmajordetail',//学校专业
+             ##推荐位图片前台获取
+             'getrecom'=>'Manage/FrontEndApi/getrecom',
+
+             // 提供给其他站点的数据接口 ixy = i.xiaoying.net
+             'ixy/koubei/get' => 'Manage/Ixiaoying/koubei',// 口碑
+             'ixy/koubei/upstar' => 'Manage/Ixiaoying/upstar',// 口碑点赞
+
+             //标签管理
+             'tags/index' => 'Manage/Tags/index',  //分类列表
+             'tags/create'=>'Manage/Tags/add', //新增分类
+             'tags/delete'=>'Manage/Tags/delete', //删除
+
+             //日本学校管理
+             'school/getone'=>'Manage/School/getone',  //列表
+             'school/index'=>'Manage/School/index',  //列表
+             'school/search'=>'Manage/School/search',
+             ##语言学校
+             'school/addlschool'=>'Manage/School/add1',    //新增语言学校
+             'school/delete1'=>'Manage/School/delete1',
+             'school/edit1'=>'Manage/School/edit1',     //语言学校修改
+             ##日本大学
+             'school/addcschool'=>'Manage/School/add2',    //新增语言学校
+             'school/edit2'=>'Manage/School/edit2',     //语言学校修改
+
+             ##韩国学校
+             'koreaschool/search'=>'Manage/Koreaschool/search',
+             'koreaschool/add'=>'Manage/Koreaschool/add',    //新增韩国学校
+             'koreaschool/edit'=>'Manage/Koreaschool/edit',  //修改韩国学校
+             'koreaschool/delete'=>'Manage/Koreaschool/delete',  //修改韩国学校
+
+             'uploadall'=>'Manage/FrontEndApi/uploadall',//院校多图片上传接口
+             'delfile'=>'Manage/File/delfile',        //删除图片
+             ##新加坡学校
+             'sgpschool/search'=>'Manage/Sgpschool/search',
+             'sgpschool/add'=>'Manage/Sgpschool/add',    //新增新加坡学校
+             'sgpschool/edit'=>'Manage/Sgpschool/edit',  //修改新加坡学校
+             'sgpschool/delete'=>'Manage/Sgpschool/delete',  //修改新加坡学校
+
+             //文章资讯
+             'articlecate/search'=>'Manage/Articlecate/search',
+             'articlecate/addcate'=>'Manage/Articlecate/addcate', //新增分类
+             'articlecate/editcate'=>'Manage/Articlecate/editcate',      //分类修改
+             'articlecate/deletecate'=>'Manage/Articlecate/deletecate', //删除分类
+             'articlecate/getallcate' =>'Manage/Articlecate/getallcate',   //所有分类
+
+             'article/search'=>'Manage/Article/search', //列表接口
+             'article/create'=>'Manage/Article/add',   //新增
+             'article/edit'=>'Manage/Article/edit',   //修改
+             'article/delete'=>'Manage/Article/delete',  //删除
+
+             //推荐位图片管理
+             'recom/index'=>'Manage/Recom/index',   //首页
+             'recom/search'=>'Manage/Recom/search', //列表接口
+             'recom/create'=>'Manage/Recom/add',   //新增
+             'recom/edit'=>'Manage/Recom/edit',   //修改
     ),
 	);
 
