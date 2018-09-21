@@ -195,6 +195,7 @@
              'Liuxuereq/catesearch'=>'Manage/Liuxuereq/catesearch', //分类列表接口
              'Liuxuereq/catecreate'=>'Manage/Liuxuereq/cateadd',   //分类新增
              'Liuxuereq/cateedit'=>'Manage/Liuxuereq/cateedit',   //分类修改
+             'Liuxuereq/catedelete'=>'Manage/Liuxuereq/catedelete',   //分类修改
              'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
     ),
 	);
