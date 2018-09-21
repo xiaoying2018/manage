@@ -778,6 +778,18 @@ class FrontEndApiController extends Controller
         }
 
     }
+
+    public function getprogramdetail(){
+        $programid = I('get.id');
+        if (!$programid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        $programdata = M('program')->where(['id'=>$programid])->find();
+        if(!empty($programdata)){
+            $programdata['schooldata'] = M('school')->where(['id'=>$programdata['comid']])->find();
+            $this->ajaxreturn(['status'=>true,'data'=>$programdata]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[]]);
+        }
+    }
     //语言学校和日本大学学校详情
     public function schooldetail(){
         $schoolid = I('get.id');

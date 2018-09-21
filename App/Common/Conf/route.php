@@ -112,6 +112,7 @@
              'school/xueli'=>'Manage/FrontEndApi/getxueli', //专业学历列表
              'school/cate'=>'Manage/FrontEndApi/getcate', //  专业分类
              'school/schoolprogram'=>'Manage/FrontEndApi/getschoolprogram', //获取学校的专业
+             'school/programdetail'=>'Manage/FrontEndApi/getprogramdetail', //获取专业详情
              ##韩国
              'getkoreaschool'=>'Manage/FrontEndApi/schoolsearch3',//学校列表
              'getkoreadetail'=>'Manage/FrontEndApi/koreaschooldetail',//学校详情
