@@ -122,6 +122,9 @@
              'sgpmajordetail'=>'Manage/FrontEndApi/sgpmajordetail',//学校专业
              ##推荐位图片前台获取
              'getrecom'=>'Manage/FrontEndApi/getrecom',
+             ##国家跳转链接
+             'getcountrylink'=>'Manage/FrontEndApi/getcountrylink',
+
 
              // 提供给其他站点的数据接口 ixy = i.xiaoying.net
              'ixy/koubei/get' => 'Manage/Ixiaoying/koubei',// 口碑
@@ -175,6 +178,24 @@
              'recom/search'=>'Manage/Recom/search', //列表接口
              'recom/create'=>'Manage/Recom/add',   //新增
              'recom/edit'=>'Manage/Recom/edit',   //修改
+
+             //国家管理
+             'country/index'=>'Manage/Country/index', //首页
+             'country/search'=>'Manage/Country/search', //列表接口
+             'country/create'=>'Manage/Country/add',   //新增
+             'country/edit'=>'Manage/Country/edit',   //修改
+
+             //留学申请
+             'Liuxuereq/index'=>'Manage/Liuxuereq/index', //首页
+             'Liuxuereq/search'=>'Manage/Liuxuereq/search', //列表接口
+             'Liuxuereq/create'=>'Manage/Liuxuereq/add',   //新增
+             'Liuxuereq/edit'=>'Manage/Liuxuereq/edit',   //修改
+             ##分类
+             'Liuxuereq/cateindex'=>'Manage/Liuxuereq/cateindex', //分类首页
+             'Liuxuereq/catesearch'=>'Manage/Liuxuereq/catesearch', //分类列表接口
+             'Liuxuereq/catecreate'=>'Manage/Liuxuereq/cateadd',   //分类新增
+             'Liuxuereq/cateedit'=>'Manage/Liuxuereq/cateedit',   //分类修改
+             'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
     ),
 	);
 

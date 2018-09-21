@@ -836,7 +836,10 @@ class FrontEndApiController extends Controller
         $offset = I('get.limit')?I('get.limit'):15;
         $where = [];
         if(!empty($params['schoolname'])){//学校名称
-            $where['name_cn'] = $params['schoolname'];
+            $where['name_cn'] = ['like' ,['%' . $params['schoolname'] . '%']];
+        }
+        if(!empty($params['address'])){//学校名称
+            $where['address'] = ['like' ,['%' . $params['address'] . '%']];
         }
         $schoolkoreamodel = M('schoolKorea');
         $allcount = $schoolkoreamodel->where($where)->count();
@@ -1001,6 +1004,31 @@ class FrontEndApiController extends Controller
             $this->ajaxreturn(['recomdata'=>$recomdata,'status'=>true]);
         }else{
             $this->ajaxreturn(['status'=>false]);
+        }
+    }
+
+    /**
+     * 国家跳转链接
+     */
+    public function getcountrylink(){
+        $prevurl = $_SERVER['HTTP_REFERER'];
+        $countryid = I('get.id');
+        $title = ['xiaoying','xiao-ying','eggelite'];
+        $reallink = '';
+        $countrylink = array_column(M('countryLink')->where(['country_id'=>$countryid])->select(),'link');
+        foreach ($title as $k=>$v){
+            if(strpos($prevurl,$v)!==false){
+                foreach ($countrylink as $k1=>$v1){
+                    if(strpos($v1,$v)){
+                        $reallink = $v1;
+                    }
+                }
+            }
+        }
+        if($reallink){
+            $this->ajaxreturn(['status'=>true,'data'=>$reallink]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[]]);
         }
     }
 }
