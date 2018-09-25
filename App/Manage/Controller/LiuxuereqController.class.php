@@ -34,44 +34,13 @@ class LiuxuereqController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
+            $par['cate_id'] = $par['pid'];
 //            $this->ajaxReturn($par);
-            $fileids = trim($par['fileids'],',');
-            $linkurl = [];
-            $newfileids = [];
-            $orders = [];
-            $isshow = [];
-            if(!empty($fileids)){
-                $filearr = explode(',',$fileids);
-                foreach ($filearr as $k=>$v){
-                    if(M('file')->where(['file_id'=>$v])->find()){
-                        $newfileids[] = $v;
-                    };
-                }
-                foreach ($par['link_url'] as $k=>$v){
-                    $linkurl[] = $v;
-                }
-                foreach ($par['orders'] as $k=>$v){
-                    $orders[] = $v;
-                }
-                foreach ($par['isshow'] as $k=>$v){
-                    $isshow[] = $v;
-                }
-            }
+
 //            $this->ajaxReturn([$linkurl,$newfileids]);
             $par['create_time'] = time();
             try{
-                $res = M('recom')->add($par);// 新增
-                if($res){
-                    foreach ($newfileids as $k=>$v){
-                        $add['file_id'] = $v;
-                        $add['recom_id'] = $res;
-                        $add['link_url'] = $linkurl[$k];
-                        $add['orders'] = $orders[$k];
-                        $add['isshow'] = $isshow[$k];
-//                        $add['type'] = 2;
-                        M('recomrfile')->add($add);
-                    }
-                }
+                $res = M('liuxue')->add($par);// 新增
             }catch (\Exception $exception){
                 $this->ajaxReturn(['status'=>false,'msg'=>$exception->getMessage()]);// 捕获异常
             }
@@ -93,48 +62,14 @@ class LiuxuereqController extends BaseController
         {
             $par = I('post.');// 参数接收
 //            asort($par['fileids']);
-//            $this->ajaxReturn($par);
-            $fileids = trim($par['fileids'],',');
-            $linkurl = [];
-            $newfileids = [];
-            $orders = [];
-            $isshow = [];
-            if(!empty($fileids)){
-                $filearr = explode(',',$fileids);
-                foreach ($filearr as $k=>$v){
-                    if(M('file')->where(['file_id'=>$v])->find()){
-                        $newfileids[] = $v;
-                    };
-                }
-                sort($newfileids);
-                foreach ($par['link_url'] as $k=>$v){
-                    $linkurl[] = $v;
-                }
-                foreach ($par['orders'] as $k=>$v){
-                    $orders[] = $v;
-                }
-                foreach ($par['isshow'] as $k=>$v){
-                    $isshow[] = $v;
-                }
-            }
-//            $this->ajaxReturn([$linkurl,$orders,$isshow]);
-            if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数2']);// 缺少关键参数
+
+            if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
             // 执行更新操作
             $par['update_time'] = time();
+            $par['cate_id'] = $par['pid'];
+//            $this->ajaxReturn($par);
             try{
-                $delf = M('recomrfile')->where(['recom_id'=>$par['ids']])->delete();
-                $res = M('recom')->where(['id'=>$par['ids']])->save($par);// 更新
-                if($res!==false){
-                    foreach ($newfileids as $k=>$v){
-                        $add['file_id'] = $v;
-                        $add['recom_id'] = $par['ids'];
-                        $add['link_url'] = $linkurl[$k];
-                        $add['orders'] = $orders[$k];
-                        $add['isshow'] = $isshow[$k];
-//                        $add['type'] = 2;
-                        M('recomrfile')->add($add);
-                    }
-                }
+                $res = M('liuxue')->where(['id'=>$par['ids']])->save($par);// 更新
             }catch (\Exception $exception){
                 $this->ajaxReturn(['status'=>false,'msg'=>$exception->getMessage()]);// 捕获异常
             }
@@ -144,26 +79,13 @@ class LiuxuereqController extends BaseController
 
         // 展示修改页面
         $id = ltrim(I('get.id'),',');// 参数接收
-
         if (!$id) exit('缺少关键参数');// 缺少关键参数
-
-        $info = M('recom')->find($id);// 获取要修改的数据
-
-        $fileids = array_column(M('recomrfile')->where(['recom_id'=>$info['id']])->select(),'file_id');
-        if(!empty($fileids)){
-            $filedata = M('file')->where(['file_id'=>['in',$fileids]])->select();
-        }
-        foreach ($filedata as $k=>$v){
-            $res = M('recomrfile')->where(['file_id'=>$v['file_id']])->find();
-            $filedata[$k]['link_url'] = $res['link_url'];
-            $filedata[$k]['orders'] = $res['orders'];
-            $filedata[$k]['isshow'] = $res['isshow'];
-        }
-        $this->filedata = $filedata;
-//        var_dump($filedata);
-        $this->fileids = implode(',',$fileids);
+        $info = M('liuxue')->find($id);// 获取要修改的数据
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
+        $countrydata = M('country')->select();
+        $this->countrydata = $countrydata;
         $this->info = $info;// 分配数据到模板
+        $this->id = $id;
         $this->display();// 展示模板
     }
 
@@ -175,11 +97,9 @@ class LiuxuereqController extends BaseController
         $ids = explode(',',ltrim(I('post.ids'),','));// 参数接收
 //        $this->ajaxReturn($ids);
         if (!$ids) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
-        $smodel = new SchoolkoreaModel();
+        $smodel = M('liuxue');
 
         try{
-            $schoolids = array_column($smodel->where(['id'=>['IN',$ids]])->select(),'school_id');
-            M('schoolrfile')->where(['school_id'=>['in',$schoolids],'type'=>2])->delete();
             $res = $smodel->where(['id'=>['IN',$ids]])->delete();// 删除
 
         }catch (\Exception $exception){
@@ -198,18 +118,21 @@ class LiuxuereqController extends BaseController
     public function search(){
         if (IS_AJAX)
         {
-            $schoolmodel = M('recom');
+            $liuxuemodel = M('liuxue');
             $page = I('get.page');
             $offset = I('get.limit');
-            $contentdatas = $schoolmodel->select();
+            $contentdatas = $liuxuemodel->select();
             $where = [];
             if(!empty($searchname = I('get.search_key'))){
                 $where['name_cn'] = ['like',['%' . $searchname . '%']];
             }
 
-            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            $schlooldata = $liuxuemodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
             foreach ($schlooldata as $k=>$v){
-                $schlooldata[$k]['update'] = date('Y-m-d H:i:s',$v['update_time']);
+                $schlooldata[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
+                $schlooldata[$k]['update_time'] = $v['update_time']!=''?date('Y-m-d H:i:s',$v['update_time']):'';
+                $schlooldata[$k]['countryname'] = M('country')->where(['id'=>$v['country_id']])->find()['name'];
+                $schlooldata[$k]['catename'] = M('liuxueCate')->where(['id'=>$v['cate_id']])->find()['name'];
             }
             $tag = [];
             $data['data'] = $schlooldata;

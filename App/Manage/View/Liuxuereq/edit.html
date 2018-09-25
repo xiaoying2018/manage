@@ -60,12 +60,7 @@
         .layui-form-selected .layui-tree {
             display: block;
         }
-        .layui-form-radio{
-            margin-right: 2px !important;
-        }
-        .layui-unselect{
-            margin-right: 2px !important;
-        }
+
     </style>
 </head>
 
@@ -82,8 +77,8 @@
 
 <div class="x-body">
     <form id="form" class="layui-form">
-        <input type="hidden" name="ids" value="{$info.id}">
-        <input type="hidden" id="fileids" name="fileids" value="{$fileids}">
+        <input type="hidden" id="pids" value="{$info.cate_id}">
+        <input type="hidden" id="ids" value="{$info.id}" name="ids">
         <div class="layui-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">基本信息</li>
@@ -93,64 +88,115 @@
                 <!--<li>订单管理</li>-->
             </ul>
             <div class="layui-tab-content">
+
+
+                <hr>
                 <div class="layui-tab-item layui-show">
                     <!--内容1-->
                     <div class="layui-form-item">
-                        <label for="location" class="layui-form-label"><span class="m-warning">*</span>展示位置</label>
+                        <label for="title" class="layui-form-label"><span class="m-warning">*</span>标题</label>
                         <div class="layui-input-block">
-                            <input type="text" id="location" name="location" value="{$info.location}" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="title" name="title" required="required" lay-verify="required" value="{$info.title}" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label"><span class="m-warning">*</span>图库</label>
+                        <label for="desc" class="layui-form-label"><span class="m-warning">*</span>描述</label>
                         <div class="layui-input-block">
-                            <div class="layui-upload">
-                                <button type="button" class="layui-btn layui-btn-normal" id="test1">选择图片</button>
-                                <div class="layui-upload-list">
-                                    <table class="layui-table">
-                                        <thead>
-                                        <tr><th>文件名</th>
-                                            <th>大小</th>
-                                            <th>状态</th>
-                                            <th>预览</th>
-                                            <th>链接网址</th>
-                                            <th>排序</th>
-                                            <th>是否显示</th>
-                                            <th>操作</th>
-                                        </tr></thead>
-                                        <volist name="filedata" id="vo">
-                                            <tr>
-                                                <td>{$vo.name}</td>
-                                                <td><?php echo ceil($vo['size']/1024) ?>kb</td>
-                                                <td><span style="color: #5FB878;">上传成功</span></td>
-                                                <td><img src="/Uploads/{$vo.file_path}" alt="" style="height: 5%"></td>
-                                                <td><input type="text" name="link_url[]"  required="required" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.link_url}"></td>
-                                                <td style="width: 15%"><input type="text" name="orders[]"  required="required" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.orders}"></td>
-                                                <!--<td></td>-->
-                                                <td><input type="radio" name="isshow[{$vo.file_id}]" value="1"  <?php if($vo['isshow']==1)echo checked; ?> >是<input type="radio" name="isshow[{$vo.file_id}]" value="0"  <?php if($vo['isshow']==0)echo checked; ?> >否</td>
-                                                <td><button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="{$vo.file_id}">删除</button></td>
-                                            </tr>
-                                        </volist>
-                                        <!--<volist name=""><>-->
-                                        <tbody id="demoList"></tbody>
-                                    </table>
-                                </div>
-                                <!--<button type="button" class="layui-btn" id="testListAction">开始上传</button>-->
+                            <!--<input type="text" id="request_en" name="request_en" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='desc' name="desc"  style='height:100px;width: 70%' class="layui-textarea" required="required" lay-verify="required" >{$info.desc}</textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span>所属国家</label>
+                        <div class="layui-input-block">
+                            <select name="country_id" required="required" lay-verify="required" >
+                                <option value="">请选择</option>
+                                <volist name="countrydata" id="vo">
+                                    <option value="{$vo.id}" <?php if($vo['id']==$info['country_id'])echo 'selected'; ?> >{$vo.name}</option>
+                                </volist>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-tab-content">
+                        <div class="layui-form-item">
+                            <label for="treeselecttest" class="layui-form-label"><span class="m-warning">*</span> 选择父分类</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="treeselecttest" lay-filter="demo" name="pid" placeholder="分类" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
-                    <hr>
+
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span> 封面图</label>
+                        <div class="layui-input-block">
+                            <div class="layui-upload-drag" id="uploadone">
+                                <i class="layui-icon"></i>
+                                <p>点击上传</p>
+                                <img src="" alt="" id="faceimg" style="height: 90%;width: 90%">
+                                <input type="hidden" id="headimg" name="headimg" value="{$info.headimg}">
+                            </div>
+                        </div>
+                    </div>
 
 
-                    <hr>
+                    <div class="form-group">
+                        <label class="layui-form-label">服务介绍</label>
+                        <div class="layui-input-block">
+                            <!--<script id="container" name="content" type="text/plain" style='height:500px'></script>-->
+                            <textarea id='detail' name="detail"  style='height:300px;width: 90%'>{$info.detail|htmlspecialchars_decode}</textarea>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        var ue = UE.getEditor('detail');
+                    </script>
 
                 </div>
 
+                <!--2-->
+                <!--<div class="layui-tab-item">-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label for="request_apply" class="layui-form-label">申请要求</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<input type="text" id="request_en" name="request_en" required="" lay-verify="" autocomplete="off" class="layui-input">&ndash;&gt;-->
+                            <!--<textarea id='request_apply' name="request_apply"  style='height:100px;width: 70%' class="layui-textarea"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label for="request_doclist" class="layui-form-label">材料清单</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<input type="text" id="request_lang" name="request_lang" required="" lay-verify="" autocomplete="off" class="layui-input">&ndash;&gt;-->
+                            <!--<textarea id='request_doclist' name="request_doclist"  style='height:100px;width: 70%' class="layui-textarea"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-form-item">-->
+                        <!--<label for="requret_fee" class="layui-form-label">费用</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<input type="text" id="request_doclist" name="request_doclist" required="" lay-verify="" autocomplete="off" class="layui-input">&ndash;&gt;-->
+                            <!--<textarea id='requret_fee' name="requret_fee"  style='height:200px;width: 70%' class="layui-textarea"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <script type="text/javascript">
+                    //                    var ue = UE.getEditor('request_en');
+                    //                    var ue = UE.getEditor('request_lang');
+                    //                    var ue = UE.getEditor('request_doclist');
+                </script>
 
-                <!--<input type="hidden" id="arr" value="" name="fileids">-->
-                <!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
-                <!--&lt;!&ndash;var ue = UE.getEditor('teachercourse');&ndash;&gt;-->
-                <!--&lt;!&ndash;</script>&ndash;&gt;-->
+                <!--3-->
+                <!--<div class="layui-tab-item">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="layui-form-label">学生</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+                            <!--<textarea id='student' name="student"  style='height:300px;width: 90%' class="layui-textarea"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<input type="hidden" id="arr" value="" name="fileids">-->
+                    <!--&lt;!&ndash;<script type="text/javascript">&ndash;&gt;-->
+                    <!--&lt;!&ndash;var ue = UE.getEditor('teachercourse');&ndash;&gt;-->
+                    <!--&lt;!&ndash;</script>&ndash;&gt;-->
                 <!--</div>-->
                 <!--<div class="layui-tab-item">内容4</div>-->
                 <!--<div class="layui-tab-item">内容5</div>-->
@@ -174,7 +220,7 @@
     </form>
 
     <script>
-        var arr_ = $('#fileids').val()
+        var arr_ = ''
         layui.use(['form','layer','element','upload'], function(){
             $ = layui.jquery;
             var form = layui.form,
@@ -216,7 +262,7 @@
                     if (res.status){
                         layer.msg('上传成功');
                         $('#uploadfile').val(res.data);
-                        $('#logo_long').val(res.data);
+                        $('#headimg').val(res.data);
 //                    $('#logo_long').attr('src',res.data);
                     }else{
                         layer.alert("Error : "+ res.msg, {icon: 2});
@@ -251,9 +297,17 @@
             form.on('submit(*)', function(data){
 //            alert(1)
                 // 格式化状态字段的值
+                if (data.field.status == 'on'){data.field.status = 1;}else{data.field.status = 0;}
+//            alert($('#nowcid2').val())
+                if($('#nowcid2').val()!=''){
+                    data.field.nowcid = $('#nowcid2').val()
+                }else{
+                    data.field.nowcid = $('#nowcid1').val()
+                }
+//            return false
                 // JS 提交表单
                 $.ajax({
-                    url:"/recom/edit",
+                    url:"/Liuxuereq/edit",
                     data:data.field,
                     dataType:'JSON',
                     type:'POST',
@@ -296,7 +350,6 @@
                             ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
                             ,'<td>等待上传</td>'
                             ,'<td></td>'
-                            ,'<td> <input type="text" id="link_url" name="link_url['+index+']" required="required" lay-verify="required" autocomplete="off" class="layui-input"></td>'
                             ,'<td>'
                             ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
                             ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
@@ -323,13 +376,13 @@
                         console.log(res)
                         arr_ += res.file_id + ','
                         console.log(arr_)
-                        $('#fileids').val(arr_)
+                        $('#arr').val(arr_)
                         var tr = demoListView.find('tr#upload-'+ index)
                             ,tds = tr.children();
 //                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
                         tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                         tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
-                        tds.eq(5).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
+                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
 //                    tds.eq(4).html('');
                         return delete this.files[index]; //删除文件队列已经上传成功的文件
                     }
@@ -352,90 +405,32 @@
                 }
             });
             //treedata 多下拉
-//        $.ajax({
-//            url: "/news/allcate",
-//            type: "get",
-//            success: function(res) {
-//                if (res.data) {
-//                    layui.config({
-//                        base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
-//                    }).extend({ //设定模块别名
-//                        mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
-//                        ,
-//                        mod1: 'treeSelect' //相对于上述 base 目录的子目录
-//                    });
-//
-//                    console.log("xxx", res);
-//                    layui.use(['treeselect'], function() {
-//                        treeselect = layui.treeselect;
-//                        treeselect.render({
-//                            elem: "#treeselecttest",
-//                            data: res.data
-//                        });
-//                    });
-//                }
-//            }
-//        })
-            //普通图片上传
-            var uploadInst = upload.render({
-                elem: '#test1'
-                ,url: '/uploadall'
-                ,before: function(obj){
-                    var demoListView = $('#demoList')
-                    obj.preview(function(index, file, result){
-                        var tr = $(['<tr id="upload-'+ index +'">'
-                            ,'<td>'+ file.name +'</td>'
-                            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
-                            ,'<td>等待上传</td>'
-                            ,'<td></td>'
-                            ,'<td> <input type="text" id="link_url" name="link_url['+index+']" required="required" lay-verify="required" autocomplete="off" class="layui-input"></td>'
-                            ,'<td style="width: 15%"> <input type="text" id="orders" name="orders['+index+']" required="required" lay-verify="required" autocomplete="off" class="layui-input"></td>'
-                            ,'<td>'
-                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
-                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
-                            ,'</td>'
-                            ,'</tr>'].join(''));
-
-                        //单个重传
-                        tr.find('.demo-reload').on('click', function(){
-                            obj.upload(index, file);
+            $.ajax({
+                url: "/liuxuereq/getallcate?pid="+$('#pids').val(),
+                type: "get",
+                success: function(res) {
+                    if (res.data) {
+                        layui.config({
+                            base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+                        }).extend({ //设定模块别名
+                            mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
+                            ,
+                            mod1: 'treeSelect' //相对于上述 base 目录的子目录
                         });
 
-                        //删除
-                        tr.find('.demo-delete').on('click', function(){
-                            delete files[index]; //删除对应的文件
-                            tr.remove();
-                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        console.log("xxx", res);
+                        layui.use(['treeselect'], function() {
+                            treeselect = layui.treeselect;
+                            treeselect.render({
+                                elem: "#treeselecttest",
+                                data: res.data
+                            });
+                            $("#selecttree_treeselecttest_text").val(res.is_checked.name)
+                            $("#treeselecttest").val(res.is_checked.id)
                         });
-
-                        demoListView.append(tr);
-                    });
+                    }
                 }
-                ,done: function(res,index){
-                    console.log(index)
-                    console.log(res)
-                    arr_ +=  ',' + res.file_id
-                    console.log(arr_)
-                    $('#fileids').val(arr_)
-                    var tr = demoListView.find('tr#upload-'+ index)
-                        ,tds = tr.children();
-//                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
-                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                    tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
-                    tds.eq(6).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
-//                    tds.eq(4).html('');
-                    //上传成功
-                }
-                ,error: function(){
-                    //演示失败状态，并实现重传
-                    var demoText = $('#demoText');
-                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                    demoText.find('.demo-reload').on('click', function(){
-                        uploadInst.upload();
-                    });
-                }
-            });
-
+            })
         });
         $("body").on("click", ".file-delete", function () {
             $(this).parent().parent().remove()

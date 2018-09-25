@@ -60,7 +60,6 @@
         .layui-form-selected .layui-tree {
             display: block;
         }
-
     </style>
 </head>
 
@@ -77,27 +76,114 @@
 
 <div class="x-body">
     <form id="form" class="layui-form">
+        <input type="hidden" id="ids" value="{$id}">
+        <input type="hidden" id="fileids" value="{$fileids}" name="fileids">
         <div class="layui-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">基本信息</li>
+                <!--<li>学校介绍</li>-->
+                <!--<li>师资与课程</li>-->
                 <!--<li>商品管理</li>-->
                 <!--<li>订单管理</li>-->
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-form-item">
-                    <label for="treeselecttest" class="layui-form-label"><span class="m-warning">*</span> 选择父分类</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="treeselecttest" lay-filter="demo" name="pid" placeholder="分类" autocomplete="off" class="layui-input">
+                <div class="layui-tab-item layui-show">
+                    <!--内容1-->
+                    <div class="layui-form-item">
+                        <label for="title" class="layui-form-label"><span class="m-warning">*</span>标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="title" name="title" required="required" lay-verify="required" value="{$info.title}" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="name" class="layui-form-label"><span class="m-warning">*</span>分类名</label>
-                <div class="layui-input-block">
-                    <input type="text" id="name" name="name" required="required" lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
+                    <div class="layui-form-item">
+                        <label for="desc" class="layui-form-label"><span class="m-warning">*</span>描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="desc" name="desc" required="required" lay-verify="required"  value="{$info.desc}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span> 封面图</label>
+                        <div class="layui-input-block">
+                            <div class="layui-upload-drag" id="uploadone">
+                                <i class="layui-icon"></i>
+                                <p>点击上传</p>
+                                <img src="{$info.headimg}" alt="" id="faceimg" style="height: 90%;width: 90%">
+                                <input type="hidden" id="headimg" name="headimg" value="{$info.headimg}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label"><span class="m-warning">*</span>图库</label>
+                        <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                            <div class="layui-upload-list">
+                                <table class="layui-table">
+                                    <thead>
+                                    <tr><th>文件名</th>
+                                        <th>大小</th>
+                                        <th>状态</th>
+                                        <th>预览</th>
+                                        <th>操作</th>
+                                    </tr></thead>
+                                    <volist name="filedata" id="vo">
+                                        <tr>
+                                            <td>{$vo.name}</td>
+                                            <td><?php echo ceil($vo['size']/1024) ?>kb</td>
+                                            <td><span style="color: #5FB878;">上传成功</span></td>
+                                            <td><img src="/Uploads/{$vo.file_path}" alt="" style="height: 5%"></td>
+                                            <td><button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="{$vo.file_id}">删除</button></td>
+                                        </tr>
+                                    </volist>
+                                    <!--<volist name=""><>-->
+                                    <tbody id="demoList"></tbody>
+                                </table>
+                            </div>
+                            <script>
+                                $("body").on("click", ".file-delete", function () {
+                                    $(this).parent().parent().remove()
+                                    $.ajax({
+                                        url: "/delfile?file_id=" + $(this).attr("data_fildid"),
+                                        methods: "get",
+                                        success: function (res) {
+                                            console.log(arr_);
+                                        }
+                                    })
+                                })
+                            </script>
+                            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="xmdes" class="layui-form-label">项目简介</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_en" name="request_en" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='xmdes' name="xmdes"  style='height:160px;width: 70%' class="layui-textarea">{$info.xmdes}</textarea>
+                        </div>
+                    </div>
 
+                    <div class="layui-form-item">
+                        <label for="xmbright" class="layui-form-label">项目亮点</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" id="request_en" name="request_en" required="" lay-verify="" autocomplete="off" class="layui-input">-->
+                            <textarea id='xmbright' name="xmbright"  style='height:160px;width: 70%' class="layui-textarea">{$info.xmbright}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="layui-form-label">简介</label>
+                        <div class="layui-input-block">
+                            <!--<script id="container" name="content" type="text/plain" style='height:500px'></script>-->
+                            <textarea id='detail' name="detail"  style='height:300px;width: 90%'>{$info.detail|htmlspecialchars_decode}</textarea>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        var ue = UE.getEditor('detail');
+                    </script>
+
+                </div>
         </div>
 
 
@@ -116,12 +202,13 @@
     </form>
 
     <script>
-        var arr_ = ''
+        var arr_ = $('#fileids').val()
         layui.use(['form','layer','element','upload'], function(){
             $ = layui.jquery;
             var form = layui.form,
                 layer = layui.layer,
                 upload = layui.upload;
+
             form.on('select(nowcid1)', function(data){
                 //地区联动
                 console.log(data.value)
@@ -131,9 +218,9 @@
                     dataType:'JSON',
                     type:'POST',
                     success:function(data){
-
+                        $('nowcid2').children().empty()
                         var _html = ''
-                        $('#nowcid2').html(' <option value="">全部城市</option>');
+                        $('#nowcid2').append(' <option value="">全部城市</option>');
                         if(data.status){
                             $.each(data.data,function (i,v) {
                                 console.log(v.name)
@@ -141,7 +228,7 @@
 
                             })
                             console.log(_html)
-                            $('#nowcid2').append(_html)
+                            $('#nowcid2').html(_html)
                             form.render('select');
                         }else{
                             $('#nowcid2').html('<option value="">全部城市</option>')
@@ -150,6 +237,7 @@
                     }
                 });
             });
+
             //拖拽上传
             upload.render({
                 elem: '#uploadone'
@@ -158,8 +246,8 @@
                     if (res.status){
                         layer.msg('上传成功');
                         $('#uploadfile').val(res.data);
-                        $('#logo_long').val(res.data);
-//                    $('#logo_long').attr('src',res.data);
+                        $('#headimg').val(res.data);
+                        $('#faceimg').attr('src',res.data);
                     }else{
                         layer.alert("Error : "+ res.msg, {icon: 2});
                     }
@@ -194,16 +282,15 @@
 //            alert(1)
                 // 格式化状态字段的值
                 if (data.field.status == 'on'){data.field.status = 1;}else{data.field.status = 0;}
-//            alert($('#nowcid2').val())
+                data.field.ids = $('#ids').val()
                 if($('#nowcid2').val()!=''){
                     data.field.nowcid = $('#nowcid2').val()
                 }else{
                     data.field.nowcid = $('#nowcid1').val()
                 }
-//            return false
                 // JS 提交表单
                 $.ajax({
-                    url:"/Liuxuereq/catecreate",
+                    url:"/Background/edit",
                     data:data.field,
                     dataType:'JSON',
                     type:'POST',
@@ -269,17 +356,14 @@
                 }
                 ,done: function(res, index, upload){
                     if(res){ //上传成功
-                        console.log(res)
-                        arr_ += res.file_id + ','
+                        arr_ += ','+res.file_id
                         console.log(arr_)
-                        $('#arr').val(arr_)
+                        $('#fileids').val(arr_)
                         var tr = demoListView.find('tr#upload-'+ index)
                             ,tds = tr.children();
-//                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
                         tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                         tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
-                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
-//                    tds.eq(4).html('');
+                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res+'">删除</button>'); //清空操作
                         return delete this.files[index]; //删除文件队列已经上传成功的文件
                     }
                     this.error(index, upload);
@@ -291,52 +375,32 @@
                     tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
                 }
             });
-
-            //绑定原始文件域
-            upload.render({
-                elem: '#test20'
-                ,url: '/uploadone/'
-                ,done: function(res){
-                    console.log(res)
-                }
-            });
-                //treedata 多下拉
-            $.ajax({
-                url: "/liuxuereq/getallcate",
-                type: "get",
-                success: function(res) {
-                    if (res.data) {
-                        layui.config({
-                            base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
-                        }).extend({ //设定模块别名
-                            mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
-                            ,
-                            mod1: 'treeSelect' //相对于上述 base 目录的子目录
-                        });
-
-                        console.log("xxx", res);
-                        layui.use(['treeselect'], function() {
-                            treeselect = layui.treeselect;
-                            treeselect.render({
-                                elem: "#treeselecttest",
-                                data: res.data
-                            });
-                        });
-                    }
-                }
-            })
+            //treedata 多下拉
+//        $.ajax({
+//            url: "/news/allcate",
+//            type: "get",
+//            success: function(res) {
+//                if (res.data) {
+//                    layui.config({
+//                        base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+//                    }).extend({ //设定模块别名
+//                        mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
+//                        ,
+//                        mod1: 'treeSelect' //相对于上述 base 目录的子目录
+//                    });
+//
+//                    console.log("xxx", res);
+//                    layui.use(['treeselect'], function() {
+//                        treeselect = layui.treeselect;
+//                        treeselect.render({
+//                            elem: "#treeselecttest",
+//                            data: res.data
+//                        });
+//                    });
+//                }
+//            }
+//        })
         });
-        $("body").on("click", ".file-delete", function () {
-            $(this).parent().parent().remove()
-            $.ajax({
-                url: "/delfile?file_id=" + $(this).attr("data_fildid"),
-                methods: "get",
-                success: function (res) {
-                    console.log(arr_);
-                }
-            })
-        })
-        //    }
     </script>
 </body>
 

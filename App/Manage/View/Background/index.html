@@ -15,8 +15,7 @@
             <div class="layui-col-md9">
 
                 <div class="layui-inline" style="line-height: 32px;">
-                    <button class="layui-btn layui-btn-sm" onclick="showBoxs('新增','/liuxuereq/create',50,60)"><i class="layui-icon">&#xe608;</i> 新增</button>
-                    <!--<button class="layui-btn layui-btn-sm" onclick="showBoxs('新增日本大学','/school/addcschool',50,60)"><i class="layui-icon">&#xe608;</i> 新增日本大学</button>-->
+                    <button class="layui-btn layui-btn-sm" onclick="showBoxs('新增','/Background/create',50,60)"><i class="layui-icon">&#xe608;</i> 新增</button>
                     <!--<button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe608;</i> <a href="/contents/create">新增分类</a></button>-->
                 </div>
                 <script>
@@ -56,26 +55,14 @@
                 </div>
             </div>
             <!-- 搜索 -->
-            <!--<div class="layui-col-md3" style="text-align: right;">-->
-                <!--<div id="table_search" class="">-->
-                    <!--<div class="layui-inline">-->
-                        <!--<input class="layui-input search-input" placeholder="请输入学校名" name="name" id="search_key" autocomplete="off">-->
-                    <!--</div>-->
-                    <!--<button class="layui-btn layui-btn-sm" data-type="reload">搜索</button>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--&lt;!&ndash; 搜索 &ndash;&gt;-->
-            <!--<div class="layui-col-md7" style="text-align: right;">-->
-                <!--<a href="/call" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe613;</i> 名师列表</a>-->
-                <!--<a href="/call/student" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe66f;</i> 学员列表</a>-->
-                <!--<a href="/call/log" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe60a;</i> 打Call记录</a>-->
-                <!--<div id="table_search" class="" style="display: inline-block;">-->
-                    <!--<div class="layui-inline">-->
-                        <!--<input class="layui-input search-input" placeholder="请输入老师姓名" name="name" id="search_key" autocomplete="off">-->
-                    <!--</div>-->
-                    <!--<button class="layui-btn layui-btn-sm" data-type="reload">搜索</button>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="layui-col-md3" style="text-align: right;">
+                <div id="table_search" class="">
+                    <div class="layui-inline">
+                        <input class="layui-input search-input" placeholder="请输入标题" name="name" id="search_key" autocomplete="off">
+                    </div>
+                    <button class="layui-btn layui-btn-sm" data-type="reload">搜索</button>
+                </div>
+            </div>
         </div>
     </blockquote>
 
@@ -93,23 +80,21 @@
                 table.render({
                     elem: '#lists',// DOM ID
                     // height: 315,// 高度
-                    url: '/Liuxuereq/search',// 数据接口
+                    url: '/Background/search',// 数据接口
                     page: true,// 开启分页
                     cols: [[ // 表头 (列显示)
                         {type:'checkbox',fixed: 'left'},
                         // {field: 'id', title: 'ID', sort: true},
-                        {field: 'id', title: 'id'},
+//                        {field: 'id', title: '学校id'},
                         {field: 'title', title: '标题'},
-                        {field: 'desc', title: '简介'},
-                        {field: 'countryname', title: '所属国家'},
-                        {field: 'catename', title: '所属分类'},
-//                        {field: 'mobile', title: '电话'},
-//                        {field: 'rank_local', title: '本国排名'},
-//                        {field: 'rank_world', title: '世界排名'},
+                        {field: 'desc', title: '描述'},
+//                        {field: 'xingzhi_name', title: '学校性质'},
+//                        {field: 'contact', title: '学校电话'},
+//                        {field: 'competition', title: '录取比例'},
+//                        {field: 'hits', title: '浏览量'},
 //                        {field: 'address', title: '地址'},
 //                        {field: 'phone', title: '招生联系人'},
 //                        {field: 'email', title: '邮箱'},
-//                        {field: 'update_user', title: '更新者'},
                         {field: 'create_time', title: '创建时间'},
                         {field: 'update_time', title: '更新时间'},
 //                        {field: 'status', title: '状态', sort: true,fixed: 'right',templet: '#status'}
@@ -178,7 +163,7 @@
                 $('#edit').click(function () {
                     // 获取当前选中数据的ids
                     var edit_id = $('#check_ids').val();
-                    showBoxs('编辑','/Liuxuereq/edit?id='+edit_id,50,70);
+                    showBoxs('编辑','/Background/edit?id='+edit_id,50,70);
                 });
                 // 删除事件
                 $('#del').click(function () {
@@ -189,11 +174,10 @@
 
                         // 获取当前选中数据的ids
                         var del_ids = $('#check_ids').val();
-//                        alert(del_ids)
                         // 发起请求
                         $.ajax({
                             type:"POST",
-                            url:"/Liuxuereq/delete",
+                            url:"/Background/delete",
                             dataType:'JSON',
                             data:{
                                 ids:del_ids,
@@ -287,7 +271,5 @@
         <font class="status_false">图片未上传</font>
         {{#  } }}
     </script>
-
-
 
 </block>

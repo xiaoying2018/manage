@@ -853,11 +853,10 @@ class FrontEndApiController extends Controller
         $sdata = M('schoolKorea')->where(['school_id' => $schoolid])->find();
         $fileids = array_column(M('schoolrfile')->where(['school_id'=>$schoolid])->select(),'file_id');
         if(!empty($fileids && !empty($sdata))){
-            $sdata['allpic'] = array_map(function ($v){
+            $sdata['despic'] = array_map(function ($v){
                 return '/Uploads/' . $v;
             },array_column(M('file')->where(['file_id'=>['in',$fileids]])->select(),'file_path'));
         }
-
         if (!empty($sdata)) {
             $this->ajaxreturn(['status' => true, 'data' => $sdata]);
         } else {
@@ -1027,6 +1026,44 @@ class FrontEndApiController extends Controller
         }
         if($reallink){
             $this->ajaxreturn(['status'=>true,'data'=>$reallink]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[]]);
+        }
+    }
+
+    /**
+     * 留学申请列表
+     */
+    public function getliuxuelist(){
+        $country_id = I('get.country_id');
+        if (!$country_id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        $returndata = [];
+        $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->select();
+        $cateids = array_unique(array_column($liuxuedata,'cate_id'));
+        foreach ($cateids as $k=>$v){
+            foreach ($liuxuedata as $k1=>$v1){
+                if($v1['cate_id']==$v){
+                    $returndata[$v]['catename'] = M('liuxueCate')->where(['id'=>$v])->find()['name'];
+                    $returndata[$v]['data'][] = $v1;
+                }
+            }
+        }
+        if(!empty($returndata)){
+            $this->ajaxreturn(['status'=>true,'data'=>$returndata]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[]]);
+        }
+
+    }
+    /**
+     * 留学服务详情
+     */
+    public function getliuxuedetail(){
+        $liuxueid = I('get.id');
+        if (!$liuxueid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        $liuxuedetaildata = M('liuxue')->where(['id'=>$liuxueid])->find();
+        if(!empty($liuxuedetaildata)){
+            $this->ajaxreturn(['status'=>true,'data'=>$liuxuedetaildata]);
         }else{
             $this->ajaxreturn(['status'=>false,'data'=>[]]);
         }

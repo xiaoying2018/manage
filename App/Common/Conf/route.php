@@ -124,6 +124,10 @@
              'getrecom'=>'Manage/FrontEndApi/getrecom',
              ##国家跳转链接
              'getcountrylink'=>'Manage/FrontEndApi/getcountrylink',
+             ##留学申请
+             'getliuxuelist'=>'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
+             'getliuxuecatelist'=>'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
+             'getliuxuedetail'=>'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情
 
 
              // 提供给其他站点的数据接口 ixy = i.xiaoying.net
@@ -190,7 +194,14 @@
              'Liuxuereq/search'=>'Manage/Liuxuereq/search', //列表接口
              'Liuxuereq/create'=>'Manage/Liuxuereq/add',   //新增
              'Liuxuereq/edit'=>'Manage/Liuxuereq/edit',   //修改
-             ##分类
+             'Liuxuereq/delete'=>'Manage/Liuxuereq/delete',   //删除
+             //背景提升
+             'Background/index'=>'Manage/Background/index', //首页
+             'Background/search'=>'Manage/Background/search', //列表接口
+             'Background/create'=>'Manage/Background/add',   //新增
+             'Background/edit'=>'Manage/Background/edit',   //修改
+             'Background/delete'=>'Manage/Background/delete',   //删除
+             ##留学申请分类
              'Liuxuereq/cateindex'=>'Manage/Liuxuereq/cateindex', //分类首页
              'Liuxuereq/catesearch'=>'Manage/Liuxuereq/catesearch', //分类列表接口
              'Liuxuereq/catecreate'=>'Manage/Liuxuereq/cateadd',   //分类新增
