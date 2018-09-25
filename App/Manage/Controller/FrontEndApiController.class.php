@@ -832,8 +832,8 @@ class FrontEndApiController extends Controller
     //韩国学校列表
     public function schoolsearch3(){
         $params = I();
-        $page = I('get.page')?I('get.page'):1;
-        $offset = I('get.limit')?I('get.limit'):15;
+        $page = I('post.page')?I('post.page'):1;
+        $offset = I('post.limit')?I('post.limit'):15;
         $where = [];
         if(!empty($params['schoolname'])){//学校名称
             $where['name_cn'] = ['like' ,['%' . $params['schoolname'] . '%']];
@@ -917,7 +917,7 @@ class FrontEndApiController extends Controller
         if (!empty($sdata)) {
             $this->ajaxreturn(['status' => true, 'data' => $sdata]);
         } else {
-            $this->ajaxreturn(['status' => false, 'msg' => '暂无数据']);
+            $this->ajaxreturn(['status' => false, 'msg' => '暂无数据','data'=>[]]);
         }
     }
     ////新加坡学校专业介绍
