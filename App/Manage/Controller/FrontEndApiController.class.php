@@ -466,26 +466,13 @@ class FrontEndApiController extends Controller
     public function catesearch()
     {
         if (IS_AJAX) {
-            $catemodel = new NewscateModel();
-            $page = I('get.page');
-            $offset = I('get.limit');
-            $start = ($page - 1) * $offset;
-            $end = ($page - 1) * $offset + $offset;
-            $catedatas = $catemodel->select();
-            $catedata = $this->tree($catedatas, 0, 0);
-            foreach ($catedata as $k => $v) {
-                $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['level']) . $v['catename'];
-                if ($k < $start || $k > $end - 1) {
-                    unset($catedata[$k]);
-                }
+            $cateid = I('get.cateid');
+            if(empty($cateid)){
+                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0])->select();
+            }else{
+                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid])->select();
             }
-//            $catedata = $catemodel->limit(($page - 1) * $offset, $offset)->select();
-            $data['data'] = $catedata;
-            $data['alldata'] = $catedatas;
-            $data['code'] = 0;
-            $data['msg'] = '';
-            $data['count'] = count($catedatas);
-            $this->ajaxReturn($data);
+            $this->ajaxReturn($catedata);
         }
     }
 
