@@ -507,7 +507,7 @@ class FrontEndApiController extends Controller
             }
             //分类搜索
             if($cates = I('get.cateid')!=''){
-                $where['newscate'] = $cates;
+                $where['categoryid'] = $cates;
             }
 
             $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
