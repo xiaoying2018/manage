@@ -482,8 +482,8 @@ class FrontEndApiController extends Controller
 //        if (IS_AJAX)
 //        {
             $contentmodel = M('article');
-            $page = I('get.page');
-            $offset = I('get.limit');
+            $page = I('get.page')?I('get.page'):1;
+            $offset = I('get.limit')?I('get.limit'):10;
             if(empty($page) || empty($offset) || $offset >100){
                 $this->ajaxreturn(['status'=>false,'msg'=>'参数有误！']);
             }
