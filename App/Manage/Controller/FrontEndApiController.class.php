@@ -613,15 +613,15 @@ class FrontEndApiController extends Controller
     {
         $cid = I('get.id');
         if (!$cid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-        $last = S('lasttime');
-        $now = time();
-        if($last){
-            $c = intval($now-$last);
-        }
-        if($c<1){
-            $this->ajaxreturn(['status'=>false,'msg'=>'点赞过于频繁！']);
-        }
-        $last = S('lasttime',time());
+//        $last = S('lasttime');
+//        $now = time();
+//        if($last){
+//            $c = intval($now-$last);
+//        }
+//        if($c<1){
+//            $this->ajaxreturn(['status'=>false,'msg'=>'点赞过于频繁！']);
+//        }
+//        $last = S('lasttime',time());
         $newsmodel = M('article');
         $res = $newsmodel->where(['id' => $cid])->setInc('upsNum');
         if ($res != 0) {
@@ -636,15 +636,15 @@ class FrontEndApiController extends Controller
     {
         $cid = I('post.id');
         if (!$cid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-        $last = S('lasttime');
-        $now = time();
-        if($last){
-            $c = intval($now-$last);
-        }
-        if($c<1){
-            $this->ajaxreturn(['status'=>false,'msg'=>'访问过于频繁！']);
-        }
-        $last = S('lasttime',time());
+//        $last = S('lasttime');
+//        $now = time();
+//        if($last){
+//            $c = intval($now-$last);
+//        }
+//        if($c<1){
+//            $this->ajaxreturn(['status'=>false,'msg'=>'访问过于频繁！']);
+//        }
+//        $last = S('lasttime',time());
         $newsmodel = M('article');
         $res = $newsmodel->where(['id' => $cid])->setInc('hits');
         if ($res != 0) {
