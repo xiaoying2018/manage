@@ -572,18 +572,41 @@ class FrontEndApiController extends Controller
             $this->ajaxreturn(['status' => false, 'msg' => '暂无数据']);
         }
     }
+    /**
+     * @return array
+     * 根据标签获取资讯
+     */
+    public function getarticlebytags(){
+        $tags = I('get.tags');
+        if (!$tags) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        $page = I('get.page')?I('get.page'):1;
+        $limit = I('get.limit')?I('get.limit'):10;
+        $newdata = [];
+        $count = M('article')->where(['body'=>['like',['%' . $tags . '%']]])->count();
+        $articledata = M('article')->where(['body'=>['like',['%' . $tags . '%']]])->limit(($page-1)*$limit,$limit)->select();
+        foreach ($articledata as $K=>$v){
+            if(strpos($v['body'],$tags)!==false){
+                $newdata[] = $v;
+            }
+        }
+        if(!empty($newdata)){
+            $this->ajaxreturn(['status'=>true,'data'=>$newdata,'count'=>$count]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[],'count'=>0]);
+        }
+    }
 
     //不同环境下获取真实的IP
     private function get_ip()
     {
         //判断服务器是否允许$_SERVER
         if (isset($_SERVER)) {
-            if (isset($_SERVER[HTTP_X_FORWARDED_FOR])) {
-                $realip = $_SERVER[HTTP_X_FORWARDED_FOR];
-            } elseif (isset($_SERVER[HTTP_CLIENT_IP])) {
-                $realip = $_SERVER[HTTP_CLIENT_IP];
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $realip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $realip = $_SERVER['HTTP_CLIENT_IP'];
             } else {
-                $realip = $_SERVER[REMOTE_ADDR];
+                $realip = $_SERVER['REMOTE_ADDR'];
             }
         } else {
             //不允许就使用getenv获取
@@ -756,6 +779,8 @@ class FrontEndApiController extends Controller
         $schoolid = I('get.id');
         $programtype = I('get.type');
         $programcate = I('get.cate');
+        $page = I('get.page')?I('get.page'):1;
+        $offset = I('get.limit')?I('get.limit'):15;
         $where = [];
 
         if(!empty($programtype)){
@@ -972,21 +997,6 @@ class FrontEndApiController extends Controller
         }
     }
 
-//    public function delfile(){
-////        echo 1;die;
-//        if(IS_AJAX){
-//            $id = I('file_id');
-//            if (!$id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-//            $del = M('file')->where(['file_id'=>$id])->delete();
-//            if($del){
-//                $this->ajaxreturn(['file_id'=>$id,'status'=>true]);
-//            }else{
-//                $this->ajaxreturn(['status'=>false]);
-//            }
-//        }
-//
-//    }
-
     /**
      * 获取网站banner图或推荐位图片
      */
@@ -1048,12 +1058,19 @@ class FrontEndApiController extends Controller
                 }
             }
         }
+        $returndata[max($cateids)+1]['catename'] = '背景提升';
+        $bgdatas = M('bgpromote')->select();
+        foreach ($bgdatas as $k=>$v){
+            $bgdatas[$k]['allpic'] = array_map(function($v){
+                return '/Uploads/' . $v;
+            },array_column(M('file')->where(['file_id'=>['in',array_column(M('bgrfile')->where(['bg_id'=>$v['id']])->select(),'file_id')]])->select(),'file_path'));
+        }
+        $returndata[max($cateids)+1]['data'] = $bgdatas;
         if(!empty($returndata)){
             $this->ajaxreturn(['status'=>true,'data'=>$returndata]);
         }else{
             $this->ajaxreturn(['status'=>false,'data'=>[]]);
         }
-
     }
     /**
      * 留学服务详情

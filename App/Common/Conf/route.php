@@ -100,6 +100,7 @@
              'article/catesearch'=>'Manage/FrontEndApi/catesearch',  //分类列表
              'article/contentssearch'=>'Manage/FrontEndApi/contentssearch',  //内容列表
              'article/detailsearch'=>'Manage/FrontEndApi/detailsearch',  //内容详情
+             'article/getarticlebytags'=>'Manage/FrontEndApi/getarticlebytags',  //根据标签获取资讯
              'vote'=>'Manage/FrontEndApi/vote',  //点赞
              'reads'=>'Manage/FrontEndApi/reads',  //阅读量
              ##地区联动
@@ -128,6 +129,8 @@
              'getliuxuelist'=>'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
              'getliuxuecatelist'=>'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
              'getliuxuedetail'=>'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情
+             ##背景提升
+
 
 
              // 提供给其他站点的数据接口 ixy = i.xiaoying.net
