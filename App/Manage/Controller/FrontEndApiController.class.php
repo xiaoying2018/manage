@@ -465,7 +465,7 @@ class FrontEndApiController extends Controller
     //分类列表
     public function catesearch()
     {
-        if (IS_AJAX) {
+//        if (IS_AJAX) {
             $cateid = I('get.cateid');
             if(empty($cateid)){
                 $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0])->select();
@@ -473,7 +473,7 @@ class FrontEndApiController extends Controller
                 $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid])->select();
             }
             $this->ajaxReturn($catedata);
-        }
+//        }
     }
 
     //资讯内容列表
