@@ -466,6 +466,7 @@ class FrontEndApiController extends Controller
     public function catesearch()
     {
 //        if (IS_AJAX) {
+        header('Access-Control-Allow-Origin:*');
             $cateid = I('get.cateid');
             if(empty($cateid)){
                 $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0])->select();
@@ -481,6 +482,7 @@ class FrontEndApiController extends Controller
     {
 //        if (IS_AJAX)
 //        {
+        header('Access-Control-Allow-Origin:*');
             $contentmodel = M('article');
             $page = I('get.page')?I('get.page'):1;
             $offset = I('get.limit')?I('get.limit'):10;
@@ -539,6 +541,7 @@ class FrontEndApiController extends Controller
     //资讯详情
     public function detailsearch()
     {
+        header('Access-Control-Allow-Origin:*');
         $contentid = I('get.id');
         if (!$contentid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $newsmodel = M('article');
@@ -566,6 +569,7 @@ class FrontEndApiController extends Controller
      * 根据标签获取资讯
      */
     public function getarticlebytags(){
+        header('Access-Control-Allow-Origin:*');
         $tags = I('get.tags');
         if (!$tags) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $page = I('get.page')?I('get.page'):1;
@@ -613,6 +617,7 @@ class FrontEndApiController extends Controller
     //资讯点赞
     public function vote()
     {
+        header('Access-Control-Allow-Origin:*');
         $cid = I('get.id');
         if (!$cid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
 //        $last = S('lasttime');
@@ -636,6 +641,7 @@ class FrontEndApiController extends Controller
     //资讯阅读量
     public function reads()
     {
+        header('Access-Control-Allow-Origin:*');
         $cid = I('post.id');
         if (!$cid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
 //        $last = S('lasttime');
@@ -659,6 +665,7 @@ class FrontEndApiController extends Controller
     //根据地区获取县
     public function getarea()
     {
+        header('Access-Control-Allow-Origin:*');
         $aid = I('post.id');
         if(empty($aid)){
             $aid=2;
@@ -674,6 +681,7 @@ class FrontEndApiController extends Controller
     //语言学校列表
     public function schoolsearch1()
     {
+        header('Access-Control-Allow-Origin:*');
         if (IS_AJAX) {
             $schoolmodel = new SchoolModel();
             $params = I();
@@ -714,7 +722,7 @@ class FrontEndApiController extends Controller
     //日本大学列表
     public function schoolsearch2(){
 //        if (IS_POST) {
-
+        header('Access-Control-Allow-Origin:*');
         $schoolmodel = new SchoolModel();
         $params = I();
         $page = I('get.page')?I('get.page'):1;
@@ -755,16 +763,19 @@ class FrontEndApiController extends Controller
 //        }
     }
     public function getxueli(){
+        header('Access-Control-Allow-Origin:*');
         $xuelidata = M('programType')->select();
         $this->ajaxreturn($xuelidata);
     }
 
     public function getcate(){
+        header('Access-Control-Allow-Origin:*');
         $catedata = M('programCate')->select();
         $this->ajaxreturn($catedata);
     }
 
     public function getschoolprogram(){
+        header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         $programtype = I('get.type');
         $programcate = I('get.cate');
@@ -794,6 +805,7 @@ class FrontEndApiController extends Controller
     }
 
     public function getprogramdetail(){
+        header('Access-Control-Allow-Origin:*');
         $programid = I('get.id');
         if (!$programid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $programdata = M('program')->where(['id'=>$programid])->find();
@@ -806,6 +818,7 @@ class FrontEndApiController extends Controller
     }
     //语言学校和日本大学学校详情
     public function schooldetail(){
+        header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $schoolmodel = new SchoolModel();
@@ -824,17 +837,18 @@ class FrontEndApiController extends Controller
         }
     }
     public function clicks(){
+        header('Access-Control-Allow-Origin:*');
         $cid = I('get.id');
         if (!$cid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-        $last = S('lasttime');
-        $now = time();
-        if($last){
-            $c = intval($now-$last);
-        }
-        if($c<5){
-            $this->ajaxreturn(['status'=>false,'msg'=>'访问过于频繁！']);
-        }
-        $last = S('lasttime',time());
+//        $last = S('lasttime');
+//        $now = time();
+//        if($last){
+//            $c = intval($now-$last);
+//        }
+//        if($c<5){
+//            $this->ajaxreturn(['status'=>false,'msg'=>'访问过于频繁！']);
+//        }
+//        $last = S('lasttime',time());
         $newsmodel = new SchoolModel();
         $res = $newsmodel->where(['id' => $cid])->setInc('hits');
         if ($res != 0) {
@@ -845,6 +859,7 @@ class FrontEndApiController extends Controller
     }
     //韩国学校列表
     public function schoolsearch3(){
+        header('Access-Control-Allow-Origin:*');
         $params = I();
         $page = I('post.page')?I('post.page'):1;
         $offset = I('post.limit')?I('post.limit'):15;
@@ -862,6 +877,7 @@ class FrontEndApiController extends Controller
     }
     //韩国学校详情
     public function koreaschooldetail(){
+        header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $sdata = M('schoolKorea')->where(['school_id' => $schoolid])->find();
@@ -879,6 +895,7 @@ class FrontEndApiController extends Controller
     }
     //新加坡学校列表
     public function schoolsearch4(){
+        header('Access-Control-Allow-Origin:*');
         $params = I();
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):15;
@@ -919,6 +936,7 @@ class FrontEndApiController extends Controller
     }
     //新加坡学校详情介绍
     public function sgpschooldetail(){
+        header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $sdata = M('schoolSingapore')->where(['id' => $schoolid])->find();
@@ -936,6 +954,7 @@ class FrontEndApiController extends Controller
     }
     ////新加坡学校专业介绍
     public function sgpmajordetail(){
+        header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         $params = I();
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
@@ -990,6 +1009,7 @@ class FrontEndApiController extends Controller
      * 获取网站banner图或推荐位图片
      */
     public function getrecom(){
+        header('Access-Control-Allow-Origin:*');
         $id = I('get.recom_id');
         if (!$id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $recomdata = M('recomrfile')->where(['recom_id'=>$id,'isshow'=>1])->order('orders')->select();
@@ -1009,6 +1029,7 @@ class FrontEndApiController extends Controller
      * 国家跳转链接
      */
     public function getcountrylink(){
+        header('Access-Control-Allow-Origin:*');
         $prevurl = $_SERVER['HTTP_REFERER'];
         $countryid = I('get.id');
         $title = ['xiaoying','xiao-ying','eggelite'];
@@ -1034,6 +1055,7 @@ class FrontEndApiController extends Controller
      * 留学申请列表
      */
     public function getliuxuelist(){
+        header('Access-Control-Allow-Origin:*');
         $country_id = I('get.country_id');
         if (!$country_id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $returndata = [];
@@ -1065,6 +1087,7 @@ class FrontEndApiController extends Controller
      * 留学服务详情
      */
     public function getliuxuedetail(){
+        header('Access-Control-Allow-Origin:*');
         $liuxueid = I('get.id');
         if (!$liuxueid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $liuxuedetaildata = M('liuxue')->where(['id'=>$liuxueid])->find();
