@@ -488,7 +488,12 @@ class FrontEndApiController extends Controller
                 $this->ajaxreturn(['status'=>false,'msg'=>'参数有误！']);
             }
             $stags = I('get.tagsearch');
-            $contentdatas = $contentmodel->select();
+            //分类搜索
+            $cates = I('get.cateid');
+            if($cates !=''){
+                $where['categoryId'] = $cates;
+            }
+            $contentdatas = $contentmodel->where($where)->select();
             $tagsmodel = new TagsModel();
             $tagsdata = $tagsmodel->select();
             //标签搜索
@@ -505,11 +510,8 @@ class FrontEndApiController extends Controller
                 }
                 $cid = [];
             }
-            //分类搜索
-            if($cates = I('get.cateid')!=''){
-                $where['categoryid'] = $cates;
-            }
 
+//$this->ajaxreturn($where);
             $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
             $tag = [];
             foreach ($contentdata as $k=>$v){
