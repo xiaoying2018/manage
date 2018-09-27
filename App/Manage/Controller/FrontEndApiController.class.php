@@ -717,6 +717,9 @@ class FrontEndApiController extends Controller
             }
             $allcount = $schoolmodel->where($where)->count();
             $alldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            foreach ($alldata as $k=>$v){
+                $alldata[$k]['competition'] = $v['competition'] *100;
+            }
             $data['data'] = $alldata;
             $data['code'] = 0;
             $data['msg'] = '';
