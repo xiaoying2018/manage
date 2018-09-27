@@ -126,6 +126,7 @@
              ##国家跳转链接
              'getcountrylink'=>'Manage/FrontEndApi/getcountrylink',
              ##留学申请
+             'getcountry'=>'Manage/FrontEndApi/getcountry',  //获取所有国家
              'getliuxuelist'=>'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
              'getliuxuecatelist'=>'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
              'getliuxuedetail'=>'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情

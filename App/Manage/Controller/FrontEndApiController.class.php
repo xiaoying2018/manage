@@ -1081,6 +1081,15 @@ class FrontEndApiController extends Controller
     }
 
     /**
+     *获取留学申请国家
+     */
+    public function getcountry(){
+        header('Access-Control-Allow-Origin:*');
+        $countrydata = M('country')->select();
+        $this->ajaxreturn(['status'=>true,'data'=>$countrydata]);
+    }
+
+    /**
      * 留学申请列表
      */
     public function getliuxuelist(){
@@ -1106,6 +1115,8 @@ class FrontEndApiController extends Controller
             },array_column(M('file')->where(['file_id'=>['in',array_column(M('bgrfile')->where(['bg_id'=>$v['id']])->select(),'file_id')]])->select(),'file_path'));
         }
         $returndata[max($cateids)+1]['data'] = $bgdatas;
+//        echo '<pre>';
+//        var_dump($returndata);die;
         if(!empty($returndata)){
             $this->ajaxreturn(['status'=>true,'data'=>$returndata]);
         }else{
