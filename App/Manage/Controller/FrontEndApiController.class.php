@@ -835,9 +835,8 @@ class FrontEndApiController extends Controller
         $programid = I('get.id');
         if (!$programid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $programdata = M('program')->where(['id'=>$programid])->find();
-//        $casedata = M('mxcrm.mx_casedata')->limit(1,2)->select();
-//        echo '<pre>';
-//        var_dump($casedata);die;
+        $casedata = M('mxcrm.mx_casedata')->where(['comid'=>$programid])->limit(0,10)->select();
+        $programdata['casedata'] = $casedata;
         if(!empty($programdata)){
             $programdata['schooldata'] = M('school')->where(['id'=>$programdata['comid']])->find();
             $this->ajaxreturn(['status'=>true,'data'=>$programdata]);
