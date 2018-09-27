@@ -271,25 +271,25 @@ class SchoolController extends BaseController
      * 列表分类接口
      */
     public function search(){
-        if (IS_AJAX)
-        {
-            $schoolmodel = new SchoolModel();
-            $page = I('get.page');
-            $offset = I('get.limit');
-            $contentdatas = $schoolmodel->select();
-            $where = [];
-            if(!empty($searchname = I('get.search_key'))){
-                $where['name_cn'] = ['like',['%' . $searchname . '%']];
-            }
 
-            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
-            $tag = [];
-            $data['data'] = $schlooldata;
-            $data['code'] = 0;
-            $data['msg']='';
-            $data['count'] = count($contentdatas);
-            $this->ajaxReturn($data);
+        $schoolmodel = new SchoolModel();
+        $page = I('get.page');
+        $offset = I('get.limit');
+
+        $where = [];
+        if(!empty($searchname = I('get.search_key'))){
+            $where['name_cn'] = ['like',['%' . $searchname . '%']];
         }
+
+        $count = $schoolmodel->where($where)->count();
+
+        $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        $tag = [];
+        $data['data'] = $schlooldata;
+        $data['code'] = 0;
+        $data['msg']='';
+        $data['count'] = $count;
+        $this->ajaxReturn($data);
     }
 
 

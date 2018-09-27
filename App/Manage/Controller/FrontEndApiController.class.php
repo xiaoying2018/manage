@@ -1066,11 +1066,12 @@ class FrontEndApiController extends Controller
      */
     public function getcountrylink(){
         header('Access-Control-Allow-Origin:*');
-        $prevurl = $_SERVER['HTTP_REFERER'];
+        $prevurl = $_SERVER['SERVER_NAME'];
+        
         $countryid = I('get.id');
         $title = ['xiaoying','xiao-ying','eggelite'];
         $reallink = '';
-        $countrylink = array_column(M('countryLink')->where(['country_id'=>$countryid])->select(),'link');
+        $countrylink = array_column(M('countryLink')->where(['country_id'=>1])->select(),'link');
         foreach ($title as $k=>$v){
             if(strpos($prevurl,$v)!==false){
                 foreach ($countrylink as $k1=>$v1){
@@ -1080,6 +1081,7 @@ class FrontEndApiController extends Controller
                 }
             }
         }
+        
         if($reallink){
             $this->ajaxreturn(['status'=>true,'data'=>$reallink]);
         }else{
