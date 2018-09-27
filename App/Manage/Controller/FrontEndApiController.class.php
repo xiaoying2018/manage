@@ -682,7 +682,7 @@ class FrontEndApiController extends Controller
     public function schoolsearch1()
     {
         header('Access-Control-Allow-Origin:*');
-        if (IS_AJAX) {
+//        if (IS_AJAX) {
             $schoolmodel = new SchoolModel();
             $params = I();
             $page = I('get.page')?I('get.page'):1;
@@ -704,7 +704,13 @@ class FrontEndApiController extends Controller
                 $where['enroll_time'] = $params['enroll_time'];
             }
             if (!empty($params['nowcid'])) {//地区
-                $where['nowcid'] = $params['nowcid'];
+                $nowchild = array_column(M('city')->where(['pid'=>$params['nowcid']])->select(),'id');
+                if(!empty($nowchild)){
+                    $where['nowcid'] = ['in',$nowchild];
+                }else{
+                    $where['nowcid'] = ['in',$params['nowcid']];
+                }
+
             }
             if (!empty($params['schoolname'])) {//学校名称
                 $where['name_cn'] = ['like', ['%' . $params['schoolname'] . '%']];
@@ -716,7 +722,7 @@ class FrontEndApiController extends Controller
             $data['msg'] = '';
             $data['count'] = $allcount;
             $this->ajaxReturn($data);
-        }
+//        }
     }
 
     //日本大学列表
