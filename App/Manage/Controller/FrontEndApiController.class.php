@@ -522,7 +522,7 @@ class FrontEndApiController extends Controller
                 $contentdata[$k]['thumb'] = substr($v['thumb'],1);
                 $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
                 $contentdata[$k]['create_time'] = date('Y-m-d H:i:s',$v['publishedtime']);
-                $contentdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,100,'utf-8');
+                $contentdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,400,'utf-8');
 //                $contentdata[$k]['catename'] = M('newscate')->where(['id'=>$v['newscate']])->find()['catename'];
                 foreach($tagsdata as $k1=>$v1){
                     if(strpos($v['body'],$v1['tagname'])){
