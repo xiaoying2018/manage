@@ -489,6 +489,7 @@ class FrontEndApiController extends Controller
             if(empty($page) || empty($offset) || $offset >100){
                 $this->ajaxreturn(['status'=>false,'msg'=>'参数有误！']);
             }
+
             $stags = I('get.tagsearch');
             //分类搜索
             $cates = I('get.cateid');
@@ -513,14 +514,15 @@ class FrontEndApiController extends Controller
                 $cid = [];
             }
 
-//$this->ajaxreturn($where);
             $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
+
             $tag = [];
             foreach ($contentdata as $k=>$v){
 //                var_dump($v);
                 $contentdata[$k]['thumb'] = substr($v['thumb'],1);
                 $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
                 $contentdata[$k]['create_time'] = date('Y-m-d H:i:s',$v['publishedtime']);
+                $contentdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,100,'utf-8');
 //                $contentdata[$k]['catename'] = M('newscate')->where(['id'=>$v['newscate']])->find()['catename'];
                 foreach($tagsdata as $k1=>$v1){
                     if(strpos($v['body'],$v1['tagname'])){
@@ -833,6 +835,9 @@ class FrontEndApiController extends Controller
         $programid = I('get.id');
         if (!$programid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $programdata = M('program')->where(['id'=>$programid])->find();
+//        $casedata = M('mxcrm.mx_casedata')->limit(1,2)->select();
+//        echo '<pre>';
+//        var_dump($casedata);die;
         if(!empty($programdata)){
             $programdata['schooldata'] = M('school')->where(['id'=>$programdata['comid']])->find();
             $this->ajaxreturn(['status'=>true,'data'=>$programdata]);
