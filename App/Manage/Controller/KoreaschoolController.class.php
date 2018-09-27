@@ -38,7 +38,7 @@ class KoreaschoolController extends BaseController
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
             }
-
+            $par['logo_long'] = substr($par['logo_long'],1);
 //$this->ajaxReturn($par);
             $a = M('schoolSingapore')->max('school_id');
             $b = M('schoolKorea')->max('school_id');

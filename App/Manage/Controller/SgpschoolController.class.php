@@ -39,8 +39,7 @@ class SgpschoolController extends BaseController
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
             }
-
-//$this->ajaxReturn($par);
+            $par['logo_long'] = substr($par['logo_long'],1);
             $a = M('schoolSingapore')->max('school_id');
             $b = M('schoolKorea')->max('school_id');
             if($a<10000 && $b<10000){
