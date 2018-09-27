@@ -139,7 +139,7 @@
                                 <i class="layui-icon"></i>
                                 <p>点击上传</p>
                                 <img src="" alt="" id="faceimg" style="height: 90%;width: 90%">
-                                <input type="hidden" id="logo_long" name="logo_long" value="{$info.logo_long}">
+                                <input type="hidden" id="logo_sqr" name="logo_sqr" value="{$info.logo_sqr}">
                             </div>
                         </div>
                     </div>
@@ -508,7 +508,7 @@
                     if (res.status){
                         layer.msg('上传成功');
                         $('#uploadfile').val(res.data);
-                        $('#logo_long').val(res.data);
+                        $('#logo_sqr').val(res.data);
 //                    $('#logo_long').attr('src',res.data);
                     }else{
                         layer.alert("Error : "+ res.msg, {icon: 2});
