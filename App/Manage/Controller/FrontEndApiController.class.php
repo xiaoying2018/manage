@@ -760,7 +760,12 @@ class FrontEndApiController extends Controller
             }
         }
         if (!empty($params['nowcid'])) {//地区
-            $where['nowcid'] = $params['nowcid'];
+            $nowchild = array_column(M('city')->where(['pid'=>$params['nowcid']])->select(),'id');
+            if(!empty($nowchild)){
+                $where['nowcid'] = ['in',$nowchild];
+            }else{
+                $where['nowcid'] = ['in',$params['nowcid']];
+            }
         }
         if (!empty($params['schoolname'])) {//学校名称
             $where['name_cn'] = ['like', ['%' . $params['schoolname'] . '%']];
