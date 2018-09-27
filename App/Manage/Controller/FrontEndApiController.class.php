@@ -858,6 +858,11 @@ class FrontEndApiController extends Controller
             },array_column(M('file')->where(['file_id'=>['in',$fileids]])->select(),'file_path'));
         }
 
+            if($sdata['competition']<1){
+                $sdata['competition'] = $sdata['competition'] *100;
+            }
+
+
         if (!empty($sdata)) {
             $this->ajaxreturn(['status' => true, 'data' => $sdata]);
         } else {

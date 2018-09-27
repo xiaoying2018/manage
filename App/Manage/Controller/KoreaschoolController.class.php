@@ -75,6 +75,7 @@ class KoreaschoolController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
+            $par['logo_long'] = substr($par['logo_long'],1);
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
