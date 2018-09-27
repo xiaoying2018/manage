@@ -134,7 +134,7 @@ class ArticleController extends BaseController
                 $where['newscate'] = $cates;
             }
 
-            $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('publishedTime desc')->select();
+            $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
             $tag = [];
             foreach ($contentdata as $k=>$v){
 //                var_dump($v);
