@@ -551,7 +551,7 @@ class FrontEndApiController extends Controller
         $tagsdata = $tagsmodel->select();
         $newsdata = $newsmodel->where(['id' => $contentid])->find();
         if (!empty($newsdata)) {
-            $newsdata['newscate'] = M('articleCate')->where(['id' => $newsdata['newscate']])->find()['catename'];
+            $newsdata['newscate'] = M('articleCategory')->where(['id' => $newsdata['newscate']])->find()['catename'];
             $newsdata['create_time'] = date('Y-m-d H:i:s', $newsdata['create_time']);
             $newsdata['create_user'] = M('user')->where(['id' => $newsdata['create_user']])->find()['name'];
             $tag = [];
