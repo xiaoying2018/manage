@@ -987,6 +987,9 @@ class FrontEndApiController extends Controller
         $params = I();
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $majorwhere = [];
+        if(!empty($params['name_cn'])){//
+            $majorwhere['name_cn'] = $params['name_cn'];
+        }
         if(!empty($params['xueli'])){//学历
             $majorwhere['xueli'] = $params['xueli'];
         }
