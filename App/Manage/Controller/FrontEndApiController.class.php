@@ -718,7 +718,10 @@ class FrontEndApiController extends Controller
             $allcount = $schoolmodel->where($where)->count();
             $alldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
             foreach ($alldata as $k=>$v){
-                $alldata[$k]['competition'] = $v['competition'] *100;
+                if($v['competition']<1){
+                    $alldata[$k]['competition'] = $v['competition'] *100;
+                }
+
             }
             $data['data'] = $alldata;
             $data['code'] = 0;
@@ -762,8 +765,15 @@ class FrontEndApiController extends Controller
         if (!empty($params['schoolname'])) {//学校名称
             $where['name_cn'] = ['like', ['%' . $params['schoolname'] . '%']];
         }
+        $where['country'] = 2;
         $allcount = $schoolmodel->where($where)->count();
         $alldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        foreach ($alldata as $k=>$v){
+            if($v['competition']<1){
+                $alldata[$k]['competition'] = $v['competition'] *100;
+            }
+
+        }
         $data['data'] = $alldata;
         $data['code'] = 0;
         $data['msg'] = '';
