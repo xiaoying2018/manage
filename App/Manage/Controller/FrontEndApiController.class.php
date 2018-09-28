@@ -856,12 +856,13 @@ class FrontEndApiController extends Controller
             $sdata['allpic'] = array_map(function ($v){
                 return '/Uploads/' . $v;
             },array_column(M('file')->where(['file_id'=>['in',$fileids]])->select(),'file_path'));
+        }else{
+            $sdata['allpic'] = '';
         }
 
             if($sdata['competition']<1){
                 $sdata['competition'] = $sdata['competition'] *100;
             }
-
 
         if (!empty($sdata)) {
             $this->ajaxreturn(['status' => true, 'data' => $sdata]);
