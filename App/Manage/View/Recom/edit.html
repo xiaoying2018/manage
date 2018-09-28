@@ -390,6 +390,7 @@
                             ,'<td></td>'
                             ,'<td> <input type="text" id="link_url" name="link_url['+index+']" required="required" lay-verify="required" autocomplete="off" class="layui-input"></td>'
                             ,'<td style="width: 15%"> <input type="text" id="orders" name="orders['+index+']" required="required" lay-verify="required" autocomplete="off" class="layui-input"></td>'
+                            ,'<td><input type="radio" style="display: inline" name="isshow['+index+']" value="1"  checked>是<input type="radio" style="display: inline"  name="isshow['+index+']" value="0">否</td>'
                             ,'<td>'
                             ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
                             ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
@@ -422,7 +423,7 @@
 //                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                     tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
-                    tds.eq(6).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
+                    tds.eq(7).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
 //                    tds.eq(4).html('');
                     //上传成功
                 }
