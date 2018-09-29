@@ -805,11 +805,11 @@ class FrontEndApiController extends Controller
         $schoolid = I('get.id');
         $programtype = I('get.type');
         $programcate = I('get.cate');
-        $name = urldecode(I('get.name'));
+        $name = urldecode(I('get.name'))?urldecode(I('get.name')):'null';
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):15;
         $where = [];
-
+//var_dump($name);die;
         if(!empty($programtype)){
             $where['eid'] = $programtype;
         }
@@ -817,7 +817,7 @@ class FrontEndApiController extends Controller
             $where['cid'] = $programcate;
         }
         if(!empty($name)){
-            $where['name'] = ['like',['%' . $name . '%']];
+            $where['name_cn'] = ['like',['%' . $name . '%']];
         }
         if(!empty($schoolid)){
             $schoolname = M('school')->where(['id'=>$schoolid])->find()['name_cn'];
