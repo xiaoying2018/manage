@@ -980,10 +980,10 @@ class FrontEndApiController extends Controller
         header('Access-Control-Allow-Origin:*');
         $schoolid = I('get.id');
         if (!$schoolid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
-        $sdata = M('schoolSingapore')->where(['id' => $schoolid])->find();
+        $sdata = M('schoolSingapore')->where(['school_id' => $schoolid])->find();
         $fileids = array_column(M('schoolrfile')->where(['school_id'=>$schoolid])->select(),'file_id');
         if(!empty($fileids && !empty($sdata))){
-            $sdata['allpic'] = array_map(function ($v){
+            $sdata['despic'] = array_map(function ($v){
                 return '/Uploads/' . $v;
             },array_column(M('file')->where(['file_id'=>['in',$fileids]])->select(),'file_path'));
         }
