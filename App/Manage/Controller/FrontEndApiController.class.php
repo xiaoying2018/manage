@@ -826,10 +826,11 @@ class FrontEndApiController extends Controller
             $this->ajaxreturn(['status'=>false,'msg'=>'参数不完整！']);
         }
         $programdata = M('program')->where($where)->select();
+        $count = M('program')->where($where)->count();
 //        echo '<pre>';
 //        var_dump($programdata);die;
         if(!empty($programdata)){
-            $this->ajaxreturn(['status'=>true,'data'=>$programdata]);
+            $this->ajaxreturn(['status'=>true,'data'=>$programdata,'count'=>$count]);
         }else{
             $this->ajaxreturn(['status'=>false,'msg'=>'暂无数据！']);
         }
