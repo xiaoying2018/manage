@@ -805,6 +805,7 @@ class FrontEndApiController extends Controller
         $schoolid = I('get.id');
         $programtype = I('get.type');
         $programcate = I('get.cate');
+        $name = I('get.name');
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):15;
         $where = [];
@@ -815,6 +816,9 @@ class FrontEndApiController extends Controller
         if(!empty($programcate)){
             $where['cid'] = $programcate;
         }
+        if(!empty($name)){
+            $where['name'] = ['like',['%' . $name . '%']];
+        }
         if(!empty($schoolid)){
             $schoolname = M('school')->where(['id'=>$schoolid])->find()['name_cn'];
             $where['university'] = $schoolname;
@@ -822,6 +826,8 @@ class FrontEndApiController extends Controller
             $this->ajaxreturn(['status'=>false,'msg'=>'参数不完整！']);
         }
         $programdata = M('program')->where($where)->select();
+//        echo '<pre>';
+//        var_dump($programdata);die;
         if(!empty($programdata)){
             $this->ajaxreturn(['status'=>true,'data'=>$programdata]);
         }else{
