@@ -805,7 +805,7 @@ class FrontEndApiController extends Controller
         $schoolid = I('get.id');
         $programtype = I('get.type');
         $programcate = I('get.cate');
-        $name = urldecode(I('get.name'))?urldecode(I('get.name')):'null';
+        $name = urldecode(I('get.name'))?urldecode(I('get.name')):'';
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):15;
         $where = [];
