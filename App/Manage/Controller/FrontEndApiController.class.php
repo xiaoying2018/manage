@@ -1157,11 +1157,15 @@ class FrontEndApiController extends Controller
     }
 
     public function changeweb(){
-        $schooldata = M('school')->select();
-        foreach ($schooldata as $k=>$v){
-            if(strpos($v['website'],'http')===false && $v['website']!=''){
-                $v['website'] = 'http://' . $v['website'];
-                M('school')->where(['id'=>$v['id']])->save($v);
+        $schooldata = M('school')->count();
+//        echo $schooldata;die;
+        $count = ceil($schooldata/100);
+        for($i=0;$i<=66;$i++){
+            foreach (M('school')->limit($i*100,100)->select() as $k=>$v){
+                if(strpos($v['website'],'http')===false && $v['website']!=''){
+                    $v['website'] = 'http://' . $v['website'];
+                    M('school')->where(['id'=>$v['id']])->save($v);
+                }
             }
         }
     }
