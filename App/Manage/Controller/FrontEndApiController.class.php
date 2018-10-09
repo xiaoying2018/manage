@@ -1077,9 +1077,10 @@ class FrontEndApiController extends Controller
         $prevurl = $_SERVER['SERVER_NAME'];
         
         $countryid = I('get.id');
+        if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $title = ['xiaoying','xiao-ying','eggelite'];
         $reallink = '';
-        $countrylink = array_column(M('countryLink')->where(['country_id'=>1])->select(),'link');
+        $countrylink = array_column(M('countryLink')->where(['country_id'=>$countryid])->select(),'link');
         foreach ($title as $k=>$v){
             if(strpos($prevurl,$v)!==false){
                 foreach ($countrylink as $k1=>$v1){
