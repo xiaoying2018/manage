@@ -130,6 +130,8 @@
              'getliuxuelist'=>'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
              'getliuxuecatelist'=>'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
              'getliuxuedetail'=>'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情
+
+             'changeweb'=>'Manage/FrontEndApi/changeweb',  //website
              ##背景提升
 
 

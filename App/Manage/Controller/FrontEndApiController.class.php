@@ -1155,4 +1155,14 @@ class FrontEndApiController extends Controller
             $this->ajaxreturn(['status'=>false,'data'=>[]]);
         }
     }
+
+    public function changeweb(){
+        $schooldata = M('school')->select();
+        foreach ($schooldata as $k=>$v){
+            if(strpos($v['website'],'http')===false && $v['website']!=''){
+                $v['website'] = 'http://' . $v['website'];
+                M('school')->where(['id'=>$v['id']])->save($v);
+            }
+        }
+    }
 }
