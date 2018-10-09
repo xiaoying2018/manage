@@ -133,7 +133,10 @@ class ArticleController extends BaseController
             if($cates = I('get.cateid')!=''){
                 $where['newscate'] = $cates;
             }
-
+            $where = [];
+            if(!empty($searchname = I('get.search_key'))){
+                $where['title'] = ['like',['%' . $searchname . '%']];
+            }
             $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
             $tag = [];
             foreach ($contentdata as $k=>$v){

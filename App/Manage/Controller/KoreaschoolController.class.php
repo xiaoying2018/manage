@@ -84,7 +84,7 @@ class KoreaschoolController extends BaseController
             // 执行更新操作
             try{
                 $delf = M('schoolrfile')->where(['school_id'=>$par['ids']])->delete();
-                $res = (new SchoolkoreaModel())->where(['school_id'=>$par['ids'],'type'=>2])->save($par);// 更新
+                $res = (new SchoolkoreaModel())->where(['school_id'=>$par['ids']])->save($par);// 更新
                 if($res!==false){
                     foreach ($filearr as $k=>$v){
                         $add['file_id'] = $v;

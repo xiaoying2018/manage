@@ -53,6 +53,15 @@
                     <a id="del" href="javascript:;">删除</a>
                 </div>
             </div>
+            <!-- 搜索 -->
+            <div class="layui-col-md7" style="text-align: right;">
+                <div id="table_search" class="">
+                    <div class="layui-inline">
+                        <input class="layui-input search-input" placeholder="请输入资讯标题" name="name" id="search_key" autocomplete="off">
+                    </div>
+                    <button class="layui-btn layui-btn-sm" data-type="reload">搜索</button>
+                </div>
+            </div>
             <!--&lt;!&ndash; 搜索 &ndash;&gt;-->
             <!--<div class="layui-col-md7" style="text-align: right;">-->
                 <!--<a href="/call" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe613;</i> 名师列表</a>-->
@@ -87,10 +96,10 @@
                     cols: [[ // 表头 (列显示)
                         {type:'checkbox',fixed: 'left'},
                         // {field: 'id', title: 'ID', sort: true},
-                        {field: 'id', title: '资讯id'},
+                        {field: 'id', title: '资讯id',templet: '#idd'},
                         {field: 'title', title: '资讯标题'},
                         {field: 'categoryname', title: '所属分类'},
-                        {field: 'thumb', title: '封面图片',templet: '#faceimg'},
+//                        {field: 'thumb', title: '封面图片',templet: '#faceimg'},
 //                        {field: 'source', title: '来源'},
                         {field: 'upsnum', title: '点赞次数'},
                         {field: 'hits', title: '浏览量'},
@@ -235,6 +244,15 @@
 
         });
     </script>
+    <script type="text/html" id="idd">
+        {{#  if(d.sticky == 1){ }}
+        <font class="">{{d.id}}</font>
+        <span style="color: red;margin-left: 5px">置顶</span>
+        {{#  } else { }}
+        <font class="">{{d.id}}</font>
+        {{#  } }}
+    </script>
+
 
     <!-- 状态模板 -->
     <script type="text/html" id="status">
