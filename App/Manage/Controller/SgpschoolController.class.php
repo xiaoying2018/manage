@@ -76,7 +76,9 @@ class SgpschoolController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
-            $par['logo_long'] = substr($par['logo_long'],1);
+            if(substr($par['logo_long'],0,1)=='.'){
+                $par['logo_long'] = substr($par['logo_long'],1);
+            }
 //            $this->ajaxReturn($par);
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){

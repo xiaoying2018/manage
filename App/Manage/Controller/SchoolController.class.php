@@ -80,6 +80,7 @@ class SchoolController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
+
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
@@ -97,7 +98,7 @@ class SchoolController extends BaseController
             $par['status'] = 1;
             try{
                 $res = (new SchoolModel())->add($par);// 新增
-                if($res && !empty($par['leixingid'])){
+                if($res){
                     $schooltype = M('schoolType')->add(['school_id'=>$res,'type_id'=>$par['leixingid']]);
                     foreach ($filearr as $k=>$v){
                         $add['file_id'] = $v;
@@ -155,27 +156,23 @@ class SchoolController extends BaseController
         if (!$id) exit('缺少关键参数');// 缺少关键参数
 
         $info = (new SchoolModel())->find($id);// 获取要修改的数据
-
+        $info['logo_sqr'] = substr($info['logo_sqr'],1);
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
-//        var_dump($info);
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
         $fileids = array_column(M('schoolrfile')->where(['school_id'=>$info['id'],'type'=>1])->select(),'file_id');
         if(!empty($fileids)){
             $filedata = M('file')->where(['file_id'=>['in',$fileids]])->select();
         }
-//        var_dump($filedata);
         $this->fileids = implode(',',$fileids);
         $this->filedata = $filedata;
         $cdata = M('city')->where(['pid'=>2])->select();
         $paid = M('city')->where(['id'=>$info['nowcid']])->find();
         $xiandata = M('city')->where(['pid'=>$paid['pid']])->select();
-//        var_dump($xiandata);
         $this->xiandata = $xiandata;
         if($paid['pid']!=2 || $paid['pid']!=0){
             $this->paid = $paid;
         }
-//$this->assign('dd',M('tt')->where(['id'=>26])->find());
         $this->assign('cdata',$cdata);
         $this->display();// 展示模板
     }
@@ -221,7 +218,9 @@ class SchoolController extends BaseController
 
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
 //        var_dump($info);
+        $info['logo_sqr'] = substr($info['logo_sqr'],1);
         $this->info = $info;// 分配数据到模板
+
         $this->id = $id;
         $fileids = array_column(M('schoolrfile')->where(['school_id'=>$info['id'],'type'=>1])->select(),'file_id');
         if(!empty($fileids)){

@@ -413,7 +413,7 @@ class FrontEndApiController extends Controller
         } else {// 上传成功
             // 拼接文件路径
             $save_file = $upload->rootPath . $info['file']['savepath'] . $info['file']['savename'];
-            $this->ajaxReturn(['status' => true, 'data' => $save_file]);// 返回文件保存路径
+            $this->ajaxReturn(['status' => true, 'data' => $save_file,'truepath'=>substr($save_file,1)]);// 返回文件保存路径
         }
     }
 
@@ -1151,6 +1151,21 @@ class FrontEndApiController extends Controller
         $liuxuedetaildata = M('liuxue')->where(['id'=>$liuxueid])->find();
         if(!empty($liuxuedetaildata)){
             $this->ajaxreturn(['status'=>true,'data'=>$liuxuedetaildata]);
+        }else{
+            $this->ajaxreturn(['status'=>false,'data'=>[]]);
+        }
+    }
+
+    /**
+     * 背景提升详情
+     */
+    public function getbackdetail(){
+        header('Access-Control-Allow-Origin:*');
+        $id = I('get.id');
+        if (!$id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        $backdetail = M('bgpromote')->where(['id'=>$id])->find();
+        if(!empty($backdetail)){
+            $this->ajaxreturn(['status'=>true,'data'=>$backdetail]);
         }else{
             $this->ajaxreturn(['status'=>false,'data'=>[]]);
         }

@@ -133,6 +133,7 @@
 
              'changeweb'=>'Manage/FrontEndApi/changeweb',  //website
              ##背景提升
+             'backdetail'=>'Manage/FrontEndApi/getbackdetail',
 
 
 

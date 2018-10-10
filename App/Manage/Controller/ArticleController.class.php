@@ -97,6 +97,7 @@ class ArticleController extends BaseController
 //            $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
 //        }
 //        $this->assign('catedata',$catedata);
+        $info['thumb'] = substr($info['thumb'],1);
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
         $this->display();// 展示模板

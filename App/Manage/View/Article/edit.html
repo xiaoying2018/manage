@@ -144,9 +144,9 @@
                     <div class="layui-upload-drag" id="uploadone">
                         <i class="layui-icon"></i>
                         <p>点击上传</p>
-                        <img src="" alt="" id="faceimg" style="height: 90%;width: 90%">
                         <input type="hidden" id="uploadfile" name="thumb" value="{$info.thumb}">
                     </div>
+                    <img src="{$info.thumb}" alt="" id="faceimg"  style="height: 13%;width: 13%;margin-top: -5%">
                 </div>
             </div>
             <hr>
@@ -193,7 +193,7 @@
                     layer.msg('上传成功');
                     $('#uploadfile').val(res.data);
 //                    $('#mini_img').val(res.data);
-                    $('#uploadfile').attr('src',res.data);
+                    $('#faceimg').attr('src',res.truepath);
                 }else{
                     layer.alert("Error : "+ res.msg, {icon: 2});
                 }
