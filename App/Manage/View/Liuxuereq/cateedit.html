@@ -99,6 +99,17 @@
                     <input type="text" id="name" name="name" value="{$info.name}" required="required" lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label for="" class="layui-form-label"><span class="m-warning">*</span>分类图片</label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="uploadone">
+                        <i class="layui-icon"></i>
+                        <p>点击上传</p>
+                        <input type="hidden" id="headimg" name="headimg" value="">
+                    </div>
+                    <img src="{$info.headimg}" alt="" id="faceimg"  style="height: 13%;width: 13%;margin-top: -5%">
+                </div>
+            </div>
 
         </div>
 
@@ -160,8 +171,8 @@
                     if (res.status){
                         layer.msg('上传成功');
                         $('#uploadfile').val(res.data);
-                        $('#logo_long').val(res.data);
-//                    $('#logo_long').attr('src',res.data);
+                        $('#headimg').val(res.data);
+                    $('#faceimg').attr('src',res.truepath);
                     }else{
                         layer.alert("Error : "+ res.msg, {icon: 2});
                     }

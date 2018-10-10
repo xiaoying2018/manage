@@ -84,6 +84,7 @@ class LiuxuereqController extends BaseController
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
         $countrydata = M('country')->select();
         $this->countrydata = $countrydata;
+        $info['headimg'] = substr($info['headimg'],1);
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
         $this->display();// 展示模板
@@ -222,6 +223,7 @@ class LiuxuereqController extends BaseController
         $info = M('liuxueCate')->find($id);// 获取要修改的数据
 
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
+        $info['headimg'] = substr($info['headimg'],1);
         $this->id = $id;
         $this->info = $info;// 分配数据到模板
         $this->display();// 展示模板

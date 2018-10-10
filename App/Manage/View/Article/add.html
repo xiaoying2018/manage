@@ -66,7 +66,23 @@
 <body>
 <div class="x-body">
     <form id="form" class="layui-form">
-
+        <div class="layui-form-item">
+            <label for="" class="layui-form-label"><span class="m-warning">*</span>所属国家</label>
+            <div class="layui-input-block">
+                <select name="countryid" lay-filter="nowcid1" id="nowcid1" required="required" lay-verify="required" style="height: 600%" >
+                    <option value="">请选择</option>
+                    <volist name="country" id="vo">
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    </volist>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="treeselecttest" class="layui-form-label"><span class="m-warning">*</span> 选择父分类</label>
+            <div class="layui-input-block">
+                <input type="text"  required="required" lay-verify="required"  id="treeselecttest" lay-filter="demo" name="categoryId" placeholder="分类" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div class="layui-form-item">
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label"><span class="m-warning">*</span> 标题</label>
@@ -83,12 +99,7 @@
                         <!--</volist>-->
                 <!--</select>-->
             <!--</div>-->
-            <div class="layui-form-item">
-                <label for="treeselecttest" class="layui-form-label"><span class="m-warning">*</span> 选择父分类</label>
-                <div class="layui-input-block">
-                    <input type="text" id="treeselecttest" lay-filter="demo" name="categoryId" placeholder="分类" autocomplete="off" class="layui-input">
-                </div>
-            </div>
+
 
             <div class="layui-form-item">
                 <label for="source" class="layui-form-label"> 来源名称</label>
@@ -254,6 +265,37 @@
         var form = layui.form,
             layer = layui.layer,
             upload = layui.upload;
+
+        form.on('select(nowcid1)', function(data){
+            //地区联动
+
+            var cid = data.value
+            console.log(cid)
+            $.ajax({
+                url: "/articlecate/getallcate?id="+cid,
+                type: "get",
+                success: function(res) {
+                    if (res.data) {
+                        layui.config({
+                            base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+                        }).extend({ //设定模块别名
+                            mymod: 'treeSelect' //如果 mymod.js 是在根目录，也可以不用设定别名
+                            ,
+                            mod1: 'treeSelect' //相对于上述 base 目录的子目录
+                        });
+
+                        console.log("xxx", res);
+                        layui.use(['treeselect'], function() {
+                            treeselect = layui.treeselect;
+                            treeselect.render({
+                                elem: "#treeselecttest",
+                                data: res.data
+                            });
+                        });
+                    }
+                }
+            })
+        });
 
         //拖拽上传
         upload.render({

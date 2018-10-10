@@ -100,6 +100,7 @@ class BackgroundController extends BaseController
 
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
 //        var_dump($info);
+        $info['headimg'] = substr($info['headimg'],1);
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
         $fileids = array_column(M('bgrfile')->where(['bg_id'=>$info['id']])->select(),'file_id');

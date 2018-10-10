@@ -88,6 +88,7 @@ class CountryController extends BaseController
         $countrylink = M('countryLink')->where(['country_id'=>$id])->select();
         $this->countrylink = $countrylink;
         $this->id = $id;
+        $info['headimg'] = substr($info['headimg'],1);
         $this->info = $info;// 分配数据到模板
         $this->display();// 展示模板
     }

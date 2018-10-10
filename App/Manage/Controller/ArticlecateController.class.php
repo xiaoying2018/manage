@@ -44,7 +44,8 @@ class ArticlecateController extends BaseController
 
             $this->ajaxReturn(['status'=>true,'msg'=>'新增成功!']);// 更新成功
         }
-
+        $country = M('country')->select();
+        $this->country = $country;
         $this->display();
     }
     /**
@@ -54,9 +55,10 @@ class ArticlecateController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
-
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
-
+            if($par['ids'] == $par['pid']){
+                $this->ajaxReturn(['status'=>false,'msg'=>'无法选择当前分类']);// 捕获异常
+            }
 
             // 执行更新操作
             try{
@@ -88,7 +90,7 @@ class ArticlecateController extends BaseController
             }
 //            $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
         }
-
+        $this->country = M('country')->select();
         $this->assign('catedata',$catedata);
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
@@ -134,13 +136,15 @@ class ArticlecateController extends BaseController
             $catemodel = M('articleCategory');
             $res = [];
             $pid = I('get.pid');
+            $cid = I('get.id');
             if(!empty($pid)){
                 $newsmodel =  M('articleCategory');
-                $pdata = $newsmodel->where(['id'=>$pid])->find();
+                $pdata = $newsmodel->where(['id'=>$pid,'countryid'=>$cid])->find();
                 $pdata['name'] = $pdata['name'];
                 $res['is_checked'] = $pdata;
             }
-            $catedata = $catemodel->select();
+            $catedata = $catemodel->where(['countryid'=>$cid])->select();
+//            $this->ajaxreturn($catedata);
             foreach ($catedata as $k=>$v){
                 $catedata[$k]['name'] = $v['name'];
             }

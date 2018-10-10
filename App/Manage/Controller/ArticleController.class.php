@@ -36,7 +36,6 @@ class ArticleController extends BaseController
         {
             $par = I('post.');// 参数接收
 
-
 //            if (!$par['pid'] || $par['pid'] !=0) $this->ajaxReturn(['status'=>false,'msg'=>'父分类不能为空']);// 参数过滤
 //            if (!$par['catename']) $this->ajaxReturn(['status'=>false,'msg'=>'分类名不能为空']);// 参数过滤
             // TODO 数据验证
@@ -60,6 +59,7 @@ class ArticleController extends BaseController
             $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
         }
 //        var_dump($catedata);
+        $this->country = M('country')->select();
         $this->assign('catedata',$catedata);
         $this->display();
     }
