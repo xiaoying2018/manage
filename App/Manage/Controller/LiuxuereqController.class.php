@@ -239,6 +239,10 @@ class LiuxuereqController extends BaseController
         if (!$ids) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
 
         try{
+            $pcid = M('liuxueCate')->where(['pid'=>['in',$ids]])->select();
+            if(!empty($pcid)){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该分类下有子分类，无法删除！']);
+            }
             $res = M('liuxueCate')->where(['id'=>['IN',$ids]])->delete();// 删除
         }catch (\Exception $exception){
             $this->ajaxReturn(['status'=>false,'msg'=>$exception->getMessage()]);// 捕获异常
@@ -256,7 +260,7 @@ class LiuxuereqController extends BaseController
                 $offset = I('get.limit');
                 $start = ($page-1)*$offset;
                 $end = ($page-1)*$offset+$offset;
-                $catedatas = $catemodel->select();
+                $catedatas = $catemodel->order('orders')->select();
                 $catedata = $this->tree($catedatas,0,0);
 //            $this->ajaxReturn($catedata);
                 foreach ($catedata as $k=>$v){

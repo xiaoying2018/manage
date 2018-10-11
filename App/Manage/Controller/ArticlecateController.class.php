@@ -213,6 +213,10 @@ class ArticlecateController extends BaseController
         if($articledata){
             $this->ajaxReturn(['status'=>false,'msg'=>'该分类下有数据，无法删除！']);//
         }
+        $pcid = M('articleCategory')->where(['pid'=>['in',$ids]])->select();
+        if(!empty($pcid)){
+            $this->ajaxReturn(['status'=>false,'msg'=>'该分类下有子分类，无法删除！']);
+        }
         try{
             $res = M('articleCategory')->where(['id'=>['IN',$ids]])->delete();// 删除
         }catch (\Exception $exception){

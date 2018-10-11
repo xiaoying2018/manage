@@ -1121,6 +1121,8 @@ class FrontEndApiController extends Controller
         $returndata = [];
         $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->select();
         $cateids = array_unique(array_column($liuxuedata,'cate_id'));
+        $catedata = M('liuxueCate')->where(['id'=>['in',$cateids]])->order('orders')->select();
+        $cateids = array_column($catedata,'id');
         foreach ($cateids as $k=>$v){
             foreach ($liuxuedata as $k1=>$v1){
                 if($v1['cate_id']==$v){
@@ -1137,8 +1139,6 @@ class FrontEndApiController extends Controller
             },array_column(M('file')->where(['file_id'=>['in',array_column(M('bgrfile')->where(['bg_id'=>$v['id']])->select(),'file_id')]])->select(),'file_path'));
         }
         $returndata[max($cateids)+1]['data'] = $bgdatas;
-//        echo '<pre>';
-//        var_dump($returndata);die;
         if(!empty($returndata)){
             $this->ajaxreturn(['status'=>true,'data'=>$returndata]);
         }else{
