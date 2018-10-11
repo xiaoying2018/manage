@@ -149,7 +149,7 @@ class ArticleController extends BaseController
                 $contentdata[$k]['thumb'] = substr($v['thumb'],1);
                 $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
                 $contentdata[$k]['create_time'] = date('Y-m-d H:i:s',$v['publishedtime']);
-//                $contentdata[$k]['catename'] = M('newscate')->where(['id'=>$v['newscate']])->find()['catename'];
+                $contentdata[$k]['countryname'] = M('country')->where(['id'=>$v['countryid']])->find()['name'];
                 foreach($tagsdata as $k1=>$v1){
                     if(strpos($v['content'],$v1['tagname'])){
                         $tag[] = $v1['tagname'];

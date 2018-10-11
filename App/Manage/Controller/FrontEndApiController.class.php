@@ -487,7 +487,9 @@ class FrontEndApiController extends Controller
             $page = I('get.page')?I('get.page'):1;
             $offset = I('get.limit')?I('get.limit'):10;
             $countryid = I('get.countryid');
-            if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+            if (!$countryid){
+                $countryid = 1;
+            };
             $where = [];
             $where['countryid'] = $countryid;
             if(empty($page) || empty($offset) || $offset >100){
