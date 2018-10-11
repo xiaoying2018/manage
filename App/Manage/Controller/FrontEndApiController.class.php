@@ -526,7 +526,7 @@ class FrontEndApiController extends Controller
             foreach ($contentdata as $k=>$v){
 //                var_dump($v);
                 if(substr($v['thumb'],0,1)=='.'){
-                    $info['thumb'] = substr($v['thumb'],1);
+                    $contentdata[$k]['thumb'] = substr($v['thumb'],1);
                 }
 //                $contentdata[$k]['thumb'] = substr($v['thumb'],1);
                 $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
