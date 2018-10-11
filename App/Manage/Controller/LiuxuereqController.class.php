@@ -225,7 +225,9 @@ class LiuxuereqController extends BaseController
         $info = M('liuxueCate')->find($id);// 获取要修改的数据
 
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
-        $info['headimg'] = substr($info['headimg'],1);
+        if(substr($info['headimg'],0,1)=='.'){
+            $info['headimgs'] = substr($info['headimg'],1);
+        }
         $this->id = $id;
         $this->info = $info;// 分配数据到模板
         $this->display();// 展示模板
