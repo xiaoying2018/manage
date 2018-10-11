@@ -63,7 +63,7 @@ class CountryController extends BaseController
         {
             $par = I('post.');// 参数接收
 
-//            $this->ajaxreturn(array_filter($par['link']));
+//            $this->ajaxreturn($par);
 
             try{
                 $delf = M('countryLink')->where(['country_id'=>$par['ids']])->delete();
@@ -88,7 +88,9 @@ class CountryController extends BaseController
         $countrylink = M('countryLink')->where(['country_id'=>$id])->select();
         $this->countrylink = $countrylink;
         $this->id = $id;
-        $info['headimg'] = substr($info['headimg'],1);
+        if(substr($info['headimg'],0,1)=='.'){
+            $info['headimgs'] = substr($info['headimg'],1);
+        }
         $this->info = $info;// 分配数据到模板
         $this->display();// 展示模板
     }

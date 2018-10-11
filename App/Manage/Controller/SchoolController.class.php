@@ -156,7 +156,9 @@ class SchoolController extends BaseController
         if (!$id) exit('缺少关键参数');// 缺少关键参数
 
         $info = (new SchoolModel())->find($id);// 获取要修改的数据
-        $info['logo_sqr'] = substr($info['logo_sqr'],1);
+        if(substr($info['logo_sqr'],0,1)=='.'){
+            $info['logo_sqrs'] = substr($info['logo_sqr'],1);
+        }
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
@@ -218,7 +220,9 @@ class SchoolController extends BaseController
 
         if (!$info)  exit('数据不存在,当前数据可能已被删除');// 数据不存在
 //        var_dump($info);
-        $info['logo_sqr'] = substr($info['logo_sqr'],1);
+        if(substr($info['logo_sqr'],0,1)=='.'){
+            $info['logo_sqrs'] = substr($info['logo_sqr'],1);
+        }
         $this->info = $info;// 分配数据到模板
 
         $this->id = $id;

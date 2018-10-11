@@ -70,7 +70,8 @@ class ArticleController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
-
+//            $this->ajaxreturn($par);
+            $par['categoryId'] = $par['newscate'];
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
             $par['updatedTime'] = time();
             // 执行更新操作
@@ -97,7 +98,10 @@ class ArticleController extends BaseController
 //            $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
 //        }
 //        $this->assign('catedata',$catedata);
-        $info['thumb'] = substr($info['thumb'],1);
+        if(substr($info['thumb'],0,1)=='.'){
+            $info['thumbs'] = substr($info['thumb'],1);
+        }
+        $this->country = M('country')->select();
         $this->info = $info;// 分配数据到模板
         $this->id = $id;
         $this->display();// 展示模板

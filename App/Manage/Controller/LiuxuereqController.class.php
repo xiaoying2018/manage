@@ -128,7 +128,7 @@ class LiuxuereqController extends BaseController
                 $where['name_cn'] = ['like',['%' . $searchname . '%']];
             }
 
-            $schlooldata = $liuxuemodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            $schlooldata = $liuxuemodel->where($where)->limit(($page - 1) * $offset, $offset)->order('create_time desc')->select();
             foreach ($schlooldata as $k=>$v){
                 $schlooldata[$k]['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
                 $schlooldata[$k]['update_time'] = $v['update_time']!=''?date('Y-m-d H:i:s',$v['update_time']):'';

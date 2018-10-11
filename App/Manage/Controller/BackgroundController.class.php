@@ -151,7 +151,7 @@ class BackgroundController extends BaseController
                 $where['title'] = ['like',['%' . $searchname . '%']];
             }
 
-            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('create_time desc')->select();
             foreach ($schlooldata as $k=>$v){
                 $schlooldata[$k]['create_time'] = $v['create_time']!=''?date('Y-m-d H:i:s',$v['create_time']):'';
                 $schlooldata[$k]['update_time'] = $v['update_time']!=''?date('Y-m-d H:i:s',$v['update_time']):'';
