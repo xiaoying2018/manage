@@ -469,7 +469,7 @@ class FrontEndApiController extends Controller
         header('Access-Control-Allow-Origin:*');
             $cateid = I('get.cateid');
             $countryid = I('get.countryid');
-        if (!$cateid || !$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
             if(empty($cateid)){
                 $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0,'countryid'=>$countryid])->select();
             }else{
