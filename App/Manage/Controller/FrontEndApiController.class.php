@@ -1134,7 +1134,7 @@ class FrontEndApiController extends Controller
             foreach ($liuxuedata as $k1=>$v1){
                 if($v1['cate_id']==$v){
                     $returndata[$k]['catename'] = M('liuxueCate')->where(['id'=>$v])->find()['name'];
-                    $returndata[$k]['cateimg'] = $cateheadimg[$k];
+                    $returndata[$k]['cateimg'] = substr($cateheadimg[$k],1);
                     $returndata[$k]['data'][] = $v1;
                 }
             }
