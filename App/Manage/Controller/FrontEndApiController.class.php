@@ -468,10 +468,12 @@ class FrontEndApiController extends Controller
 //        if (IS_AJAX) {
         header('Access-Control-Allow-Origin:*');
             $cateid = I('get.cateid');
+            $countryid = I('get.countryid');
+        if (!$cateid || !$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
             if(empty($cateid)){
-                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0])->select();
+                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0,'countryid'=>$countryid])->select();
             }else{
-                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid])->select();
+                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid,'countryid'=>$countryid])->select();
             }
             $this->ajaxReturn($catedata);
 //        }
@@ -1124,7 +1126,7 @@ class FrontEndApiController extends Controller
         $country_id = I('get.country_id');
         if (!$country_id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $returndata = [];
-        $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->select();
+        $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->order('create_time desc')->select();
         $cateids = array_unique(array_column($liuxuedata,'cate_id'));
         $catedata = M('liuxueCate')->where(['id'=>['in',$cateids]])->order('orders')->select();
         $cateids = array_column($catedata,'id');
@@ -1198,35 +1200,5 @@ class FrontEndApiController extends Controller
             }
         }
     }
-
-    private function my_https_request($url,$date=''){
-
-        $ch = curl_init();
-//设置传输地址；
-        curl_setopt($ch, CURLOPT_URL,$url);
-//以文件流的形式返回；
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-//以post方式提交数据；只有需要才用，查看和删除都没有使用post;
-        if($date){//存在数据则代表post请求，不存在则没有；
-            curl_setopt($ch, CURLOPT_POST,1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$date);
-        }
-
-        $request=curl_exec($ch);//得到的可能数组，可能是字符串；后面if进行判断；
-        $tepArr=json_decode($request,true);
-        if(is_array($tepArr)){ //可以转为数组，返回数组；
-            return $tepArr;
-        }else{//不可以返回数组，则原样返回json_decode（）之前的数据；
-            return $request;
-        }
-        curl_close($ch);
-    }
-
-    public function gethf(){
-//        $url = 'http://sqlpad.jpwind.com/api/Ny4rCAyRqIwKO9iX?SchoolSysNo={$i}&callback=jQuery1113023741038445547025_1539250540286&_=1539250540287';
-            $a = $this->my_https_request('http://sqlpad.jpwind.com/api/Ny4rCAyRqIwKO9iX?SchoolSysNo=3040&callback=jQuery1113023741038445547025_1539250540286&_=1539250540287');
-            $b = substr($a,43,-1);
-        var_dump($a);
-    }
-
+    
 }
