@@ -1128,11 +1128,13 @@ class FrontEndApiController extends Controller
         $cateids = array_unique(array_column($liuxuedata,'cate_id'));
         $catedata = M('liuxueCate')->where(['id'=>['in',$cateids]])->order('orders')->select();
         $cateids = array_column($catedata,'id');
+        $cateheadimg = array_column($catedata,'headimg');
 //        var_dump($cateids);die;
         foreach ($cateids as $k=>$v){
             foreach ($liuxuedata as $k1=>$v1){
                 if($v1['cate_id']==$v){
                     $returndata[$k]['catename'] = M('liuxueCate')->where(['id'=>$v])->find()['name'];
+                    $returndata[$k]['cateimg'] = $cateheadimg[$k];
                     $returndata[$k]['data'][] = $v1;
                 }
             }
@@ -1196,4 +1198,35 @@ class FrontEndApiController extends Controller
             }
         }
     }
+
+    private function my_https_request($url,$date=''){
+
+        $ch = curl_init();
+//设置传输地址；
+        curl_setopt($ch, CURLOPT_URL,$url);
+//以文件流的形式返回；
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+//以post方式提交数据；只有需要才用，查看和删除都没有使用post;
+        if($date){//存在数据则代表post请求，不存在则没有；
+            curl_setopt($ch, CURLOPT_POST,1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,$date);
+        }
+
+        $request=curl_exec($ch);//得到的可能数组，可能是字符串；后面if进行判断；
+        $tepArr=json_decode($request,true);
+        if(is_array($tepArr)){ //可以转为数组，返回数组；
+            return $tepArr;
+        }else{//不可以返回数组，则原样返回json_decode（）之前的数据；
+            return $request;
+        }
+        curl_close($ch);
+    }
+
+    public function gethf(){
+//        $url = 'http://sqlpad.jpwind.com/api/Ny4rCAyRqIwKO9iX?SchoolSysNo={$i}&callback=jQuery1113023741038445547025_1539250540286&_=1539250540287';
+            $a = $this->my_https_request('http://sqlpad.jpwind.com/api/Ny4rCAyRqIwKO9iX?SchoolSysNo=3040&callback=jQuery1113023741038445547025_1539250540286&_=1539250540287');
+            $b = substr($a,43,-1);
+        var_dump($a);
+    }
+
 }
