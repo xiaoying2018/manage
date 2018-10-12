@@ -1142,7 +1142,7 @@ class FrontEndApiController extends Controller
             }
         }
         $returndata[max($cateids)+1]['catename'] = '背景提升';
-        $bgdatas = M('bgpromote')->select();
+        $bgdatas = M('bgpromote')->order('create_time desc')->select();
         foreach ($bgdatas as $k=>$v){
             $bgdatas[$k]['allpic'] = array_map(function($v){
                 return '/Uploads/' . $v;
@@ -1200,5 +1200,5 @@ class FrontEndApiController extends Controller
             }
         }
     }
-    
+
 }
