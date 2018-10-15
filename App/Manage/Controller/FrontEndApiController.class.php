@@ -469,7 +469,9 @@ class FrontEndApiController extends Controller
         header('Access-Control-Allow-Origin:*');
             $cateid = I('get.cateid');
             $countryid = I('get.countryid');
-        if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
+        if (!$countryid){
+            $countryid = 1;
+        }
             if(empty($cateid)){
                 $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0,'countryid'=>$countryid])->select();
             }else{
@@ -1086,7 +1088,7 @@ class FrontEndApiController extends Controller
     public function getcountrylink(){
         header('Access-Control-Allow-Origin:*');
         $prevurl = $_SERVER['SERVER_NAME'];
-        
+
         $countryid = I('get.id');
         if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $title = ['xiaoying','xiao-ying','eggelite'];
@@ -1101,7 +1103,7 @@ class FrontEndApiController extends Controller
                 }
             }
         }
-        
+
         if($reallink){
             $this->ajaxreturn(['status'=>true,'data'=>$reallink]);
         }else{
