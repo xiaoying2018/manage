@@ -216,7 +216,7 @@
              'Liuxuereq/catedelete'=>'Manage/Liuxuereq/catedelete',   //分类修改
              'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
 
-             'gethf' =>'Manage/FrontEndApi/a22',
+             'gethf' =>'Manage/FrontEndApi/ddd2',
     ),
 	);
 
