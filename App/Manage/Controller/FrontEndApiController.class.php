@@ -504,7 +504,7 @@ class FrontEndApiController extends Controller
         //分类搜索
         $cates = I('get.cateid');
         $catess = M('articleCategory')->where(['id'=>$cates])->find();
-        if($catess['pid']==0){
+        if($catess['pid']==0 && $cates!=''){
             $cates1 = array_column(M('articleCategory')->where(['pid'=>$cates])->select(),'id');
             $where['categoryId'] = ['in',$cates1];
         }elseif ($cates !=''){
