@@ -106,6 +106,15 @@
                             <img src="{$info.headimgs}" alt="" id="faceimg"  style="height: 13%;width: 13%;margin-top: -5%">
                         </div>
                     </div>
+                    <empty name="countrylink">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">链接</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="link[]"  lay-verify="" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                            <span class="layui-btn addbtn">添加</span>
+                        </div>
+                    </empty>
                     <volist name="countrylink" id="vo">
                         <div class="layui-form-item">
                             <label class="layui-form-label">链接</label>
