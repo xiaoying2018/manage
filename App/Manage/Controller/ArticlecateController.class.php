@@ -113,6 +113,7 @@ class ArticlecateController extends BaseController
 //            $this->ajaxReturn($catedata);
             foreach ($catedata as $k=>$v){
 //                $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
+                $catedata[$k]['country'] = M('country')->where(['id'=>$v['countryid']])->find()['name'];
                 if($v['level']!=0){
                     $catedata[$k]['name'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level'])  . '|__' .  $catedata[$k]['name'];
                 }
