@@ -1283,8 +1283,8 @@ class FrontEndApiController extends Controller
             $where['name'] = array('like',array('%' . $searchname . '%'));
         }
         //地区
-        if(!empty($searchname = I('get.area'))){
-            $where['area'] = array('like',array('%' . $searchname . '%'));
+        if(!empty(I('get.area'))){
+            $where['area'] = array('like',array('%' . I('get.area') . '%'));
         }
         $count = $yuanxiao_model->where($where)->count();
         $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();
