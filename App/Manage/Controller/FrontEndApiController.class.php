@@ -1262,14 +1262,29 @@ class FrontEndApiController extends Controller
         $category = $yuanxiao_model->category;
         $location = $yuanxiao_model->location;
         $region = $yuanxiao_model->region;
-
-        $page = I('get.page');
-        $offset = I('get.limit');
-
         $where = array();
+        $page = I('get.page')?I('get.page'):1;
+        $offset = I('get.limit')?I('get.limit'):10;
+        if(empty(I('get.category')) || I('get.category')==1){
+            $where['category'] = '语言学校';
+        }elseif ( I('get.category')==2){
+            $where['category'] = '专门学校';
+        }elseif ( I('get.category')==3){
+            $where['category'] = '大学';
+        }elseif ( I('get.category')==4){
+            $where['category'] = '高中';
+        }
+
+//        $this->ajaxreturn($where);
+
         $where['status']=1;
-        if(!empty($searchname = I('get.search_key'))){
-            $where['name_cn'] = array('like',array('%' . $searchname . '%'));
+        //校名检索
+        if(!empty($searchname = I('get.name'))){
+            $where['name'] = array('like',array('%' . $searchname . '%'));
+        }
+        //地区
+        if(!empty($searchname = I('get.area'))){
+            $where['area'] = array('like',array('%' . $searchname . '%'));
         }
         $count = $yuanxiao_model->where($where)->count();
         $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();

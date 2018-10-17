@@ -66,7 +66,7 @@ class YuanxiaoController extends BaseController
         $where = array();
         $where['status']=1;
         if(!empty($searchname = I('get.search_key'))){
-            $where['name_cn'] = array('like',array('%' . $searchname . '%'));
+            $where['name'] = array('like',array('%' . $searchname . '%'));
         }
         $count = $yuanxiao_model->where($where)->count();
         $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();

@@ -136,6 +136,9 @@
              'changeweb'=>'Manage/FrontEndApi/changeweb',  //website
              ##背景提升
              'backdetail'=>'Manage/FrontEndApi/getbackdetail',
+             //馒头留学院校库前段接口
+             'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
+             'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情
 
 
 
