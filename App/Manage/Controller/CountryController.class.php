@@ -34,6 +34,13 @@ class CountryController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
+            if($par['link']!=''){
+               foreach ($par['link'] as $k=>$v){
+                   if($v==''){
+                       unset($par['link'][$k]);
+                   }
+               }
+            }
 //            $this->ajaxreturn($par);
             $par['create_time'] = time();
             try{

@@ -218,13 +218,7 @@
              'Liuxuereq/catedelete'=>'Manage/Liuxuereq/catedelete',   //分类修改
              'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
 
-
-             //院校管理
-             'yuanxiao/index'=>'Manage/Yuanxiao/index',//院校列表
-             //前端院校管理
-             'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
-             'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情
-
+             'gethf' =>'Manage/FrontEndApi/ddd2',
     ),
 	);
 

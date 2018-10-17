@@ -508,13 +508,17 @@ class FrontEndApiController extends Controller
     {
 //        if (IS_AJAX) {
         header('Access-Control-Allow-Origin:*');
-            $cateid = I('get.cateid');
-            if(empty($cateid)){
-                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0])->select();
-            }else{
-                $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid])->select();
-            }
-            $this->ajaxReturn($catedata);
+        $cateid = I('get.cateid');
+        $countryid = I('get.countryid');
+        if (!$countryid){
+            $countryid = 1;
+        }
+        if(empty($cateid)){
+            $catedata =  $catemodel = M('articleCategory')->where(['pid'=>0,'countryid'=>$countryid])->select();
+        }else{
+            $catedata =  $catemodel = M('articleCategory')->where(['pid'=>$cateid,'countryid'=>$countryid])->select();
+        }
+        $this->ajaxReturn($catedata);
 //        }
     }
 
@@ -524,69 +528,77 @@ class FrontEndApiController extends Controller
 //        if (IS_AJAX)
 //        {
         header('Access-Control-Allow-Origin:*');
-            $contentmodel = M('article');
-            $page = I('get.page')?I('get.page'):1;
-            $offset = I('get.limit')?I('get.limit'):10;
-            $countryid = I('get.countryid');
-            if (!$countryid){
-                $countryid = 1;
-            };
-            $where = [];
-            $where['countryid'] = $countryid;
-            if(empty($page) || empty($offset) || $offset >100){
-                $this->ajaxreturn(['status'=>false,'msg'=>'参数有误！']);
-            }
+        $contentmodel = M('article');
+        $page = I('get.page')?I('get.page'):1;
+        $offset = I('get.limit')?I('get.limit'):10;
+        $countryid = I('get.countryid');
+        if (!$countryid){
+            $countryid = 1;
+        };
+        $where = [];
+        $where['countryid'] = $countryid;
+        if(empty($page) || empty($offset) || $offset >100){
+            $this->ajaxreturn(['status'=>false,'msg'=>'参数有误！']);
+        }
 
-            $stags = I('get.tagsearch');
-            //分类搜索
-            $cates = I('get.cateid');
-            if($cates !=''){
-                $where['categoryId'] = $cates;
-            }
-            $contentdatas = $contentmodel->where($where)->select();
-            $tagsmodel = new TagsModel();
-            $tagsdata = $tagsmodel->select();
-            //标签搜索
-            $cid = [];
-            if($stags!=''){
-                foreach ($contentdatas as $kk=>$vv){
-                    if(strpos($vv['body'],$stags)){
-                        $cid[] = $vv['id'];
+        $stags = I('get.tagsearch');
+        //分类搜索
+        $cates = I('get.cateid');
+        $catess = M('articleCategory')->where(['id'=>$cates])->find();
+        if($catess['pid']==0 && $cates!=''){
+            $cates1 = array_column(M('articleCategory')->where(['pid'=>$cates])->select(),'id');
+            $where['categoryId'] = ['in',$cates1];
+        }elseif ($cates !=''){
+            $where['categoryId'] = $cates;
+        }
+//        var_dump($where);die;
+//        if($cates !=''){
+//            $where['categoryId'] = $cates;
+//        }
+        $contentdatas = $contentmodel->where($where)->select();
+        $tagsmodel = new TagsModel();
+        $tagsdata = $tagsmodel->select();
+        //标签搜索
+        $cid = [];
+        if($stags!=''){
+            foreach ($contentdatas as $kk=>$vv){
+                if(strpos($vv['body'],$stags)){
+                    $cid[] = $vv['id'];
 //                        continue;
-                    }
                 }
-                if(!empty($cid)){
-                    $where['id'] = ['in',$cid];
-                }
-                $cid = [];
             }
+            if(!empty($cid)){
+                $where['id'] = ['in',$cid];
+            }
+            $cid = [];
+        }
 
-            $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
+        $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('sticky desc,publishedTime desc')->select();
 
-            $tag = [];
-            foreach ($contentdata as $k=>$v){
+        $tag = [];
+        foreach ($contentdata as $k=>$v){
 //                var_dump($v);
-                if(substr($v['thumb'],0,1)=='.'){
-                    $contentdata[$k]['thumb'] = substr($v['thumb'],1);
-                }
-//                $contentdata[$k]['thumb'] = substr($v['thumb'],1);
-                $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
-                $contentdata[$k]['create_time'] = date('Y-m-d H:i:s',$v['publishedtime']);
-                $contentdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,400,'utf-8');
-//                $contentdata[$k]['catename'] = M('newscate')->where(['id'=>$v['newscate']])->find()['catename'];
-                foreach($tagsdata as $k1=>$v1){
-                    if(strpos($v['body'],$v1['tagname'])){
-                        $tag[] = $v1['tagname'];
-                    }
-                }
-                $contentdata[$k]['tags'] = array_unique($tag);
-                $tag=[];
+            if(substr($v['thumb'],0,1)=='.'){
+                $contentdata[$k]['thumb'] = substr($v['thumb'],1);
             }
-            $data['data'] = $contentdata;
-            $data['code'] = 0;
-            $data['msg']='';
-            $data['count'] = count($contentdatas);
-            $this->ajaxReturn($data);
+//                $contentdata[$k]['thumb'] = substr($v['thumb'],1);
+            $contentdata[$k]['categoryname'] = $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
+            $contentdata[$k]['create_time'] = date('Y-m-d H:i:s',$v['publishedtime']);
+            $contentdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,400,'utf-8');
+//                $contentdata[$k]['catename'] = M('newscate')->where(['id'=>$v['newscate']])->find()['catename'];
+            foreach($tagsdata as $k1=>$v1){
+                if(strpos($v['body'],$v1['tagname'])){
+                    $tag[] = $v1['tagname'];
+                }
+            }
+            $contentdata[$k]['tags'] = array_unique($tag);
+            $tag=[];
+        }
+        $data['data'] = $contentdata;
+        $data['code'] = 0;
+        $data['msg']='';
+        $data['count'] = count($contentdatas);
+        $this->ajaxReturn($data);
 //        }
     }
 
@@ -735,51 +747,51 @@ class FrontEndApiController extends Controller
     {
         header('Access-Control-Allow-Origin:*');
 //        if (IS_AJAX) {
-            $schoolmodel = new SchoolModel();
-            $params = I();
-            $page = I('get.page')?I('get.page'):1;
-            $offset = I('get.limit')?I('get.limit'):15;
-            $where = [];
-            $where['category_school'] = ['like',['%' . "语言学校" . '%']];
-            if (!empty($params['hotorder'])) {//热门标签
-                $where['hotorder'] = $params['hotorder'];
+        $schoolmodel = new SchoolModel();
+        $params = I();
+        $page = I('get.page')?I('get.page'):1;
+        $offset = I('get.limit')?I('get.limit'):15;
+        $where = [];
+        $where['category_school'] = ['like',['%' . "语言学校" . '%']];
+        if (!empty($params['hotorder'])) {//热门标签
+            $where['hotorder'] = $params['hotorder'];
+        }
+        if (!empty($params['cost_fee'])) {//学费  1.60w以下 2.60-70  3.70-80  4.80以上
+            switch ($params['cost_fee']) {
+                case 1 :$where['cost_fee'] = ['lt', 60];break;
+                case 2 :$where['cost_fee'] = ['between', [60, 70]];break;
+                case 3 :$where['cost_fee'] = ['between', [70, 80]];break;
+                case 4 :$where['cost_fee'] = ['gt', 80];break;
             }
-            if (!empty($params['cost_fee'])) {//学费  1.60w以下 2.60-70  3.70-80  4.80以上
-                switch ($params['cost_fee']) {
-                    case 1 :$where['cost_fee'] = ['lt', 60];break;
-                    case 2 :$where['cost_fee'] = ['between', [60, 70]];break;
-                    case 3 :$where['cost_fee'] = ['between', [70, 80]];break;
-                    case 4 :$where['cost_fee'] = ['gt', 80];break;
-                }
+        }
+        if (!empty($params['enroll_time'])) {//入学时间
+            $where['enroll_time'] = $params['enroll_time'];
+        }
+        if (!empty($params['nowcid'])) {//地区
+            $nowchild = array_column(M('city')->where(['pid'=>$params['nowcid']])->select(),'id');
+            if(!empty($nowchild)){
+                $where['nowcid'] = ['in',$nowchild];
+            }else{
+                $where['nowcid'] = ['in',$params['nowcid']];
             }
-            if (!empty($params['enroll_time'])) {//入学时间
-                $where['enroll_time'] = $params['enroll_time'];
-            }
-            if (!empty($params['nowcid'])) {//地区
-                $nowchild = array_column(M('city')->where(['pid'=>$params['nowcid']])->select(),'id');
-                if(!empty($nowchild)){
-                    $where['nowcid'] = ['in',$nowchild];
-                }else{
-                    $where['nowcid'] = ['in',$params['nowcid']];
-                }
 
+        }
+        if (!empty($params['schoolname'])) {//学校名称
+            $where['name_cn'] = ['like', ['%' . $params['schoolname'] . '%']];
+        }
+        $allcount = $schoolmodel->where($where)->count();
+        $alldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        foreach ($alldata as $k=>$v){
+            if($v['competition']<1){
+                $alldata[$k]['competition'] = $v['competition'] *100;
             }
-            if (!empty($params['schoolname'])) {//学校名称
-                $where['name_cn'] = ['like', ['%' . $params['schoolname'] . '%']];
-            }
-            $allcount = $schoolmodel->where($where)->count();
-            $alldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
-            foreach ($alldata as $k=>$v){
-                if($v['competition']<1){
-                    $alldata[$k]['competition'] = $v['competition'] *100;
-                }
 
-            }
-            $data['data'] = $alldata;
-            $data['code'] = 0;
-            $data['msg'] = '';
-            $data['count'] = $allcount;
-            $this->ajaxReturn($data);
+        }
+        $data['data'] = $alldata;
+        $data['code'] = 0;
+        $data['msg'] = '';
+        $data['count'] = $allcount;
+        $this->ajaxReturn($data);
 //        }
     }
 
@@ -917,9 +929,9 @@ class FrontEndApiController extends Controller
             $sdata['allpic'] = '';
         }
 
-            if($sdata['competition']<1){
-                $sdata['competition'] = $sdata['competition'] *100;
-            }
+        if($sdata['competition']<1){
+            $sdata['competition'] = $sdata['competition'] *100;
+        }
 
         if (!empty($sdata)) {
             $this->ajaxreturn(['status' => true, 'data' => $sdata]);
@@ -1125,7 +1137,7 @@ class FrontEndApiController extends Controller
     public function getcountrylink(){
         header('Access-Control-Allow-Origin:*');
         $prevurl = $_SERVER['SERVER_NAME'];
-        
+
         $countryid = I('get.id');
         if (!$countryid) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $title = ['xiaoying','xiao-ying','eggelite'];
@@ -1140,7 +1152,7 @@ class FrontEndApiController extends Controller
                 }
             }
         }
-        
+
         if($reallink){
             $this->ajaxreturn(['status'=>true,'data'=>$reallink]);
         }else{
@@ -1165,21 +1177,23 @@ class FrontEndApiController extends Controller
         $country_id = I('get.country_id');
         if (!$country_id) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $returndata = [];
-        $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->select();
+        $liuxuedata = M('liuxue')->where(['country_id'=>$country_id])->order('create_time desc')->select();
         $cateids = array_unique(array_column($liuxuedata,'cate_id'));
         $catedata = M('liuxueCate')->where(['id'=>['in',$cateids]])->order('orders')->select();
         $cateids = array_column($catedata,'id');
+        $cateheadimg = array_column($catedata,'headimg');
 //        var_dump($cateids);die;
         foreach ($cateids as $k=>$v){
             foreach ($liuxuedata as $k1=>$v1){
                 if($v1['cate_id']==$v){
                     $returndata[$k]['catename'] = M('liuxueCate')->where(['id'=>$v])->find()['name'];
+                    $returndata[$k]['cateimg'] = substr($cateheadimg[$k],1);
                     $returndata[$k]['data'][] = $v1;
                 }
             }
         }
         $returndata[max($cateids)+1]['catename'] = '背景提升';
-        $bgdatas = M('bgpromote')->select();
+        $bgdatas = M('bgpromote')->order('create_time desc')->select();
         foreach ($bgdatas as $k=>$v){
             $bgdatas[$k]['allpic'] = array_map(function($v){
                 return '/Uploads/' . $v;

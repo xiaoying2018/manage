@@ -108,11 +108,12 @@ class ArticlecateController extends BaseController
             $offset = I('get.limit');
             $start = ($page-1)*$offset;
             $end = ($page-1)*$offset+$offset;
-            $catedatas = $catemodel->select();
+            $catedatas = $catemodel->order('createdTime desc')->select();
             $catedata = $this->tree($catedatas,0,0);
 //            $this->ajaxReturn($catedata);
             foreach ($catedata as $k=>$v){
 //                $catedata[$k]['catename'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level']) . $v['catename'];
+                $catedata[$k]['country'] = M('country')->where(['id'=>$v['countryid']])->find()['name'];
                 if($v['level']!=0){
                     $catedata[$k]['name'] = str_repeat('&nbsp;&nbsp;&nbsp;',$v['level'])  . '|__' .  $catedata[$k]['name'];
                 }
