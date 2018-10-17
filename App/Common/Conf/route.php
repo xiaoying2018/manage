@@ -80,6 +80,8 @@
 
         // 图片上传接口
         'uploadone' => 'Manage/FrontEndApi/uploadone',// 普通图片上传接口
+        'uploadone_layUI' => 'Manage/FrontEndApi/uploadone_layUI',// 普通图片上传接口
+        'uploadone_yuanxiao' => 'Manage/FrontEndApi/uploadone_yuanxiao',// 普通图片上传接口
         'uploadkoubei' => 'Manage/FrontEndApi/uploadkoubei',// 带压缩小图的图片上传接口
 
         // wait = 已完成,但暂未投入应用的功能
@@ -215,6 +217,14 @@
              'Liuxuereq/cateedit'=>'Manage/Liuxuereq/cateedit',   //分类修改
              'Liuxuereq/catedelete'=>'Manage/Liuxuereq/catedelete',   //分类修改
              'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
+
+
+             //院校管理
+             'yuanxiao/index'=>'Manage/Yuanxiao/index',//院校列表
+             //前端院校管理
+             'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
+             'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情
+
     ),
 	);
 

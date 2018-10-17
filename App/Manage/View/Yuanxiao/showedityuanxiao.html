@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <!--<script src="/Public/jquery.min.js"></script>-->
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.config.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.all.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>-->
+    <style>
+        .layui-form-item{
+            margin: 16px auto;
+        }
+
+        .layui-form-radio>i{
+            margin-right: 8px;
+            font-size: 18px;
+            /*color: #e6e4e4;*/
+        }
+
+        .layui-input-block{
+            margin-right: 16px;
+        }
+
+        /*.layui-textarea{*/
+        /*width: 50%;*/
+        /*}*/
+        /*.layui-form-selected dl{*/
+        /*height: 400%;*/
+        /*}*/
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            box-sizing: border-box;
+        }
+
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+        .x-body .layui-form-label{
+            float: none;
+            width: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+<div class="x-body">
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">学校基本信息</li>
+            <?php if(1==$data['yuanxiao']['has_college']){  ?>
+            <li>专业信息</li>
+            <?php }?>
+
+
+            <!--<li>排名信息</li>-->
+            <li>图片上传</li>
+            <!--<li>师资与课程</li>-->
+            <!--<li>商品管理</li>-->
+            <!--<li>订单管理</li>-->
+        </ul>
+        <div class="layui-tab-content">
+            <input type="hidden" name="yuanxiao_id" id="yuanxiao_id" value="{$data.yuanxiao.id}" >
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-horizontal" id="form1">
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="name" class="layui-form-label"><span class="m-warning">*</span>学校名称(中文):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="name" name="name" required="required" lay-verify="required" value="{$data.yuanxiao.name}" autocomplete="off" class="layui-input">
+                        </div>
+
+                        <div class="layui-col-sm2">
+                            <label for="englishname" class="layui-form-label">学校名称(英文):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="englishname" name="englishname"  lay-verify="" value="{$data.yuanxiao.englishname}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="name_as" class="layui-form-label">学校名称(别名):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="name_as" name="name_as"  lay-verify=""  value="{$data.yuanxiao.name_as}" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+
+                            <label for="has_college" class="layui-form-label">是否包含大学院:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="checkbox" id="has_college" name="has_college" lay-skin="switch" lay-text="是|否" <?php if(1==$data['yuanxiao']['has_college']) echo checked; ?>>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="country" class="layui-form-label"><span class="m-warning">*</span>国家:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="country" id="country"  lay-verify="required" >
+                                <option value="">请选择</option>
+                                <foreach name="data.country" item="vo" key="key">
+                                    <option value="{$key}"   <?php if($key==$data['yuanxiao']['country']) echo selected; ?> >{$vo}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="attribute" class="layui-form-label"><span class="m-warning">*</span>属性:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="attribute" id="attribute"  lay-verify="required"  >
+                                <option value="">请选择</option>
+                                <foreach name="data.property" item="vo" key="key">
+                                    <option value="{$key}"  <?php if($key==$data['yuanxiao']['attribute']) echo selected; ?>>{$vo}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="category" class="layui-form-label"><span class="m-warning">*</span>类型:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="category" id="category"  lay-verify="required"  >
+                                <option value="">请选择</option>
+                                <foreach name="data.category" item="vo" key="key">
+                                    <option value="{$key}"   <?php if($key==$data['yuanxiao']['category']) echo selected; ?>>{$vo}</option>
+                                </foreach>
+                            </select>
+
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="location" class="layui-form-label">位置:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="location" id="location"  lay-verify="" style="height: 600%" >
+                                <option value="">请选择</option>
+                                <foreach name="data.location" item="vo" key="key">
+                                    <option value="{$key}" <?php if($key==$data['yuanxiao']['location']) echo selected; ?> >{$vo}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="area" class="layui-form-label">所在区域:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="region" id="area"  lay-verify="" style="height: 600%" >
+                                <option value="">请选择</option>
+                                <foreach name="data.region" item="vo" key="key">
+                                    <option value="{$key}" <?php if($key==$data['yuanxiao']['area']) echo selected; ?>>{$vo}</option>
+                                </foreach>
+                            </select>
+                        </div>
+
+                        <div class="layui-col-sm2">
+                            <label for="location_detail" class="layui-form-label">详细地址:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="location_detail" name="location_detail"  value="{$data.yuanxiao.location_detail}" lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="tel" class="layui-form-label">电话:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="tel" name="tel"  lay-verify="" autocomplete="off" value="{$data.yuanxiao.tel}" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="fax" class="layui-form-label">传真:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="fax" name="fax"  lay-verify="" value="{$data.yuanxiao.fax}"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="email" class="layui-form-label">邮箱:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="email" name="email"  lay-verify="" value="{$data.yuanxiao.email}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="createtime" class="layui-form-label">成立时间(年):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="createtime" name="createtime" value="{$data.yuanxiao.createtime}"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="weburl" class="layui-form-label">官网:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="weburl" name="weburl" value="{$data.yuanxiao.weburl}"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="zip_code" class="layui-form-label">邮编:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="zip_code" name="zip_code" value="{$data.yuanxiao.zip_code}"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="schoolfee" class="layui-form-label">年学费(日元):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="schoolfee" name="schoolfee" value="{$data.yuanxiao.schoolfee}"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="must_fee" class="layui-form-label">需缴纳学费(日元):</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="must_fee" name="must_fee"  value="{$data.yuanxiao.must_fee}" lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="must_fee_detail" class="layui-form-label">需缴纳学费说明:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="must_fee_detail" value="{$data.yuanxiao.must_fee_detail}" name="must_fee_detail"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="schooltotalstudent" class="layui-form-label">在校人数:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="schooltotalstudent" name="schooltotalstudent" value="{$data.yuanxiao.schooltotalstudent}"  lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="interstudent" class="layui-form-label">国际学校人数:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="interstudent" name="interstudent" value="{$data.yuanxiao.interstudent}"   lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="likenumber" class="layui-form-label">受关注数:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="likenumber" name="likenumber"  value="{$data.yuanxiao.likenumber}" lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="work" class="layui-form-label">打工方便度:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="work" id="work"  lay-verify="" style="height: 600%" >
+                                <option value="">请选择</option>
+                                <option value="1" <?php if(1==$data['yuanxiao']['work']) echo selected; ?>>一颗星</option>
+                                <option value="2"  <?php if(2==$data['yuanxiao']['work']) echo selected; ?>>两颗星</option>
+                                <option value="3"  <?php if(3==$data['yuanxiao']['work']) echo selected; ?>>三颗星</option>
+                                <option value="4"  <?php if(4==$data['yuanxiao']['work']) echo selected; ?>>四颗星</option>
+                                <option value="5"  <?php if(5==$data['yuanxiao']['v']) echo selected; ?>>五颗星</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-row">
+
+                        <div class="layui-col-sm2">
+                            <label for="schooltype" class="layui-form-label">升学指导:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <select name="schooltype" id="schooltype"  lay-verify="" style="height: 600%" >
+                                <option value="">请选择</option>
+                                <option value="1" <?php if(1==$data['yuanxiao']['schooltype']) echo selected; ?>>一颗星</option>
+                                <option value="2"  <?php if(2==$data['yuanxiao']['schooltype']) echo selected; ?>>两颗星</option>
+                                <option value="3"  <?php if(3==$data['yuanxiao']['schooltype']) echo selected; ?>>三颗星</option>
+                                <option value="4"  <?php if(4==$data['yuanxiao']['schooltype']) echo selected; ?>>四颗星</option>
+                                <option value="5"  <?php if(5==$data['yuanxiao']['schooltype']) echo selected; ?>>五颗星</option>
+                            </select>
+                        </div>
+                        <div class="layui-col-sm2">
+                            <label for="rank" class="layui-form-label">国内排名:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="rank" name="Rank" value="{$data.yuanxiao.rank}"   lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-row">
+
+
+                        <div class="layui-col-sm2">
+                            <label for="worldrank" class="layui-form-label">世界排名:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="worldrank" name="worldrank" value="{$data.yuanxiao.worldrank}"   lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+
+                        <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"> </label>
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn w-auto" lay-filter="*" lay-submit="">编辑</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!--2-->
+            <?php if(1==$data['yuanxiao']['has_college']){  ?>
+            <div class="layui-tab-item">
+                <form class="layui-form form-horizontal" id="form2">
+                    <div class="layui-row">
+                    <div class="layui-col-sm2">
+                        <label for="subject_name" class="layui-form-label"><span class="m-warning">*</span>院校专业名称:</label>
+                    </div>
+                    <div class="layui-col-sm4">
+                        <input type="text" id="subject_name" name="subject_name"  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+
+                    <div class="layui-col-sm2">
+                        <label for="subject_category" class="layui-form-label">类别:</label>
+                    </div>
+                    <div class="layui-col-sm4">
+                        <select name="subject_category" id="subject_category"  lay-verify="required" style="height: 600%" >
+                            <option value="">请选择</option>
+                            <foreach name="data.subject_category" item="vo" key="key">
+                                <option value="{$key}">{$vo}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"> </label>
+                        <div class="layui-input-inline">
+                            <button  class="layui-btn " lay-filter="add_zhuanye" lay-submit="">新增院校专业</button>
+                            <div id="zhuanye_tool_bar" class="layui-inline" style="display: none">
+                                <a id="zhuanye_del" href="javascript:;">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="zhuanye_check_ids">
+                </form>
+
+                <div class="layui-row">
+                    <table id="yuanxiao_zhuanye_lists" lay-filter="zhuanye"></table>
+                </div>
+
+            </div>
+            <?php }?>
+            <!--4-->
+            <!--<div class="layui-tab-item">-->
+                <!--<form class="layui-form form-horizontal" id="form3">-->
+                    <!--<div class="layui-row">-->
+                        <!--<div class="layui-col-sm2">-->
+                            <!--<label for="zhuanye_year" class="layui-form-label"><span class="m-warning">*</span>年份:</label>-->
+                        <!--</div>-->
+                        <!--<div class="layui-col-sm4">-->
+                            <!--<input type="text" id="zhuanye_year" name="zhuanye_year" required="required" lay-verify="required" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+
+                        <!--<div class="layui-col-sm2">-->
+                            <!--<label for="country_rank" class="layui-form-label"><span class="m-warning">*</span>全国排名:</label>-->
+                        <!--</div>-->
+                        <!--<div class="layui-col-sm4">-->
+                            <!--<input type="text" id="country_rank" name="country_rank"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-row">-->
+
+                        <!--<div class="layui-col-sm2">-->
+                            <!--<label for="world_rank" class="layui-form-label"><span class="m-warning">*</span>世界排名:</label>-->
+                        <!--</div>-->
+                        <!--<div class="layui-col-sm4">-->
+                            <!--<input type="text" id="world_rank" name="world_rank"  lay-verify="required" autocomplete="off" class="layui-input">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<hr>-->
+                    <!--<div class="layui-form-item">-->
+
+                        <!--&lt;!&ndash; TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div &ndash;&gt;-->
+                        <!--<div class="layui-form-item">-->
+                            <!--<label class="layui-form-label"> </label>-->
+                            <!--<div class="layui-input-inline">-->
+                                <!--<button  class="layui-btn w-auto" lay-filter="*" lay-submit="">添加排名</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</form>-->
+
+            <!--</div>-->
+
+            <!--3-->
+            <div class="layui-tab-item">
+                <form class="layui-form form-horizontal" id="form4">
+                    <div class="layui-row layui-col-space10">
+                        <div class="layui-col-sm2">
+                            <label for="image_path" class="layui-form-label"><span class="m-warning">*</span>图片地址:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="image_path" name="image_path" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+
+                        <div class="layui-col-sm2">
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn" type="button"  id="upload_image">上传图片</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--<div class="layui-row layui-col-space10">-->
+
+                        <!--<div class="layui-col-sm2">-->
+                            <!--<label for="img_category" class="layui-form-label"><span class="m-warning">*</span>图片类型:</label>-->
+                        <!--</div>-->
+                        <!--<div class="layui-col-sm4">-->
+                            <!--<select name="img_category" id="img_category"  lay-verify="required" style="height: 600%" >-->
+                                <!--<option value="">请选择</option>-->
+                                <!--<foreach name="data.img_category" item="vo" key="key">-->
+                                    <!--<option value="{$key}">{$vo}</option>-->
+                                <!--</foreach>-->
+                            <!--</select>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <hr>
+                    <div class="layui-form-item">
+                        <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"> </label>
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn" type="button" lay-filter="upload_image" lay-submit="">添加图片</button>
+                                <div id="tool_bar" class="layui-inline" style="display: none">
+                                    <a id="del" href="javascript:;">删除</a>
+                                </div>
+                            </div>
+                            <!-- 操作工具栏 -->
+
+                        </div>
+
+                    </div>
+                    <!-- 隐藏域 用于暂存要编辑和删除的数据ids -->
+                    <input type="hidden" id="check_ids">
+                </form>
+                <div class="layui-row">
+                    <table id="image_upload_lists" lay-filter="img"></table>
+                </div>
+
+            </div>
+            <script type="text/javascript">
+                //                    var ue = UE.getEditor('request_en');
+                //                    var ue = UE.getEditor('request_lang');
+                //                    var ue = UE.getEditor('request_doclist');
+            </script>
+
+            <!--3-->
+            <!--<div class="layui-tab-item">-->
+            <!--<div class="form-group">-->
+            <!--<label class="layui-form-label">师资与课程</label>-->
+            <!--<div class="layui-input-block">-->
+            <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+            <!--<textarea id='teachercourse' name="teachercourse"  style='height:300px;width: 90%'></textarea>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<script type="text/javascript">-->
+            <!--var ue = UE.getEditor('teachercourse');-->
+            <!--</script>-->
+            <!--</div>-->
+            <!--<div class="layui-tab-item">内容4</div>-->
+            <!--<div class="layui-tab-item">内容5</div>-->
+        </div>
+        <input type="hidden" name="category_school" value="日本语言学校">
+
+    </div>
+
+
+
+
+    <script>
+        function image_preview(obj){
+            layui.use(['layer'], function(){
+             var   layer = layui.layer;
+             var   url ='/Uploads/resources/school/'+$.trim($(obj).attr('data-src'))
+            layer.open({
+                type: 2,
+                area: ['700px', '450px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: url
+            });
+
+            })
+        }
+        $(document).ready(function(){
+            var _more;
+            var arr_ = ''
+            layui.use(['form','layer','element','upload','laydate','table'], function(){
+                $ = layui.jquery;
+                var form = layui.form,
+                    layer = layui.layer,
+                    laydate = layui.laydate,
+                    table=layui.table,
+                    upload = layui.upload;
+                var yuanxiao_id=$('#yuanxiao_id').val();
+                var image_upload_lists=table.render({
+                    elem: '#image_upload_lists',// DOM ID
+                    // height: 315,// 高度
+                    url: '/yuanxiao/upload_image_lists?yuanxiao_id='+yuanxiao_id,// 数据接口
+                    page: true,// 开启分页
+                    cols: [[ // 表头 (列显示)
+                        {type:'checkbox',fixed: 'left'},
+                        // {field: 'id', title: 'ID', sort: true},
+//                        {field: 'id', title: '学校id'},
+                        {field: 'id', title: '编号',templet:function(d){
+                                return d.id;
+                            }},
+                        {field: 'imagepath', title: '文件',templet:'#aaa'},
+                    ]],
+                    id:'image_upload_lists',// 起别名 (方便表格重载)
+                    text: {
+                        none: '暂无相关数据' // 默认：无数据
+                    },
+                    before:function (res) {
+                        _more = res.more;
+                    }
+                });
+
+                table.on('checkbox(img)', function(obj){
+                    //console.log(obj)
+                    // 获取当前选中元素
+                    var checkStatus = table.checkStatus('image_upload_lists')
+                        ,data = checkStatus.data;
+                    console.log(data)
+                    // 如果选中
+                    if(data.length > 0){
+                        // 选中数量不为空,则显示操作工具栏
+                        $('#tool_bar').css("display","inline-block");
+                        $('#edit').show();// 显示编辑按钮
+                        // 选中多个,则隐藏编辑按钮
+                        if(data.length > 1){$('#edit').hide();}
+                        // 声明暂存当前选中元素 ids 的变量
+                        var ids = '';
+                        // 拼接选中的ids
+                        for (var i=0;i<data.length;i++) {ids += ',' + data[i].id;}
+                        // 将当前选中元素的 id 暂存在隐藏域中
+                        $('#check_ids').val(ids);
+                    }else{
+                        $('#check_ids').val('');// 清空暂存的ids
+                        $('#tool_bar').hide();// 隐藏操作工具栏
+                    }
+                });
+
+
+
+                var yuanxiao_zhuanye_lists=table.render({
+                    elem: '#yuanxiao_zhuanye_lists',// DOM ID
+                    // height: 315,// 高度
+                    url: '/yuanxiao/yuanxiao_zhuanye_lists?yuanxiao_id='+yuanxiao_id,// 数据接口
+                    page: true,// 开启分页
+                    cols: [[ // 表头 (列显示)
+                        {type:'checkbox',fixed: 'left'},
+                        // {field: 'id', title: 'ID', sort: true},
+//                        {field: 'id', title: '学校id'},
+                        {field: 'subject_name', title: '专业名称',templet:function(d){
+                              return  d.subject_name;
+                            }},
+                        {field: 'subject_category', title: '专业类别',templet:function(d){
+                                return _more.subject_category[d.subject_category]
+                            }},
+                    ]],
+                    id:'yuanxiao_zhuanye_lists',// 起别名 (方便表格重载)
+                    text: {
+                        none: '暂无相关数据' // 默认：无数据
+                    },
+                    before:function (res) {
+                        _more = res.more;
+                    }
+                });
+
+                table.on('checkbox(zhuanye)', function(obj){
+                    //console.log(obj)
+                    // 获取当前选中元素
+                    var checkStatus = table.checkStatus('yuanxiao_zhuanye_lists')
+                        ,data = checkStatus.data;
+                    console.log(data)
+                    // 如果选中
+                    if(data.length > 0){
+                        // 选中数量不为空,则显示操作工具栏
+                        $('#zhuanye_tool_bar').css("display","inline-block");
+                        // 声明暂存当前选中元素 ids 的变量
+                        var ids = '';
+                        // 拼接选中的ids
+                        for (var i=0;i<data.length;i++) {ids += ',' + data[i].id;}
+                        // 将当前选中元素的 id 暂存在隐藏域中
+                        $('#zhuanye_check_ids').val(ids);
+                    }else{
+                        $('#zhuanye_check_ids').val('');// 清空暂存的ids
+                        $('#zhuanye_tool_bar').hide();// 隐藏操作工具栏
+                    }
+                });
+
+
+
+                //拖拽上传
+                upload.render({
+                    elem: '#uploadone'
+                    ,url: '/uploadone'
+                    ,done: function(res){
+                        if (res.status){
+                            console.log(res.data)
+                            layer.msg('上传成功');
+                            $('#uploadfile').val(res.data);
+                            $('#logo_sqr').val(res.data);
+                            $('#faceimg').attr('src',res.truepath);
+                        }else{
+                            layer.alert("Error : "+ res.msg, {icon: 2});
+                        }
+                    }
+                });
+
+                laydate.render({
+                    elem: '#createtime' //指定元素
+                    ,type: 'year'
+                });
+
+
+                //拖拽上传
+                upload.render({
+                    elem: '#uploadone2'
+                    ,url: '/uploadkoubei'
+                    ,done: function(res){
+                        if (res.status){
+                            layer.msg('上传成功');
+                            $('#uploadfile2').val(res.data.img);
+                        }else{
+                            layer.alert("Error : "+ res.msg, {icon: 2});
+                        }
+                    }
+                });
+
+                // 自定义验证规则
+                form.verify({
+                    nikename: function(value){
+                        if(value.length < 5){
+                            return '姓名的长度不可小于5个字符';
+                        }
+                    }
+                });
+
+                // 监听提交
+                form.on('submit(*)', function(data){
+                    console.log(data.field);
+                    // 格式化状态字段的值
+                    if (data.field.has_college == 'on'){data.field.has_college = 1;}else{data.field.has_college = 0;}
+                    data.field.yuanxiao_id=yuanxiao_id;
+// //            alert($('#nowcid2').val())
+//                 if($('#nowcid2').val()!=''){
+//                     data.field.nowcid = $('#nowcid2').val()
+//                 }else{
+//                     data.field.nowcid = $('#nowcid1').val()
+//                 }
+//            return false
+                    // JS 提交表单
+
+                    $.ajax({
+                        url:"/yuanxiao/updateYuanXiao",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert("Success !", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    // 关闭当前frame
+                                    parent.layer.close(index);
+                                    // TODO 如果需要的话,进行表格重载
+                                    parent.window.location.reload(true);
+                                });
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+                //监听图片上传提交
+                form.on('submit(upload_image)', function(data){
+                    console.log(data.field);
+
+                    // 格式化状态字段的值
+                    var yuanxiao_id=$('#yuanxiao_id').val()
+                    data.field.yuanxiao_id=(yuanxiao_id==='')?0:yuanxiao_id
+//            return false
+                    // JS 提交表单
+                    $.ajax({
+                        url:"/yuanxiao/addYuanXiaoImage",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert('图片添加成功!');
+                                $('#image_path').val('');
+                                image_upload_lists.reload({
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
+                                    }
+                                );
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+                //监听图片上传提交
+                form.on('submit(add_zhuanye)', function(data){
+                    // 格式化状态字段的值
+                    var yuanxiao_id=$('#yuanxiao_id').val()
+                    data.field.yuanxiao_id=(yuanxiao_id==='')?0:yuanxiao_id
+//            return false
+                    // JS 提交表单
+                    $.ajax({
+                        url:"/yuanxiao/addYuanXiaoZhuanye",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert('院校专业添加成功!');
+                                $('#subject_name').val('');
+                                yuanxiao_zhuanye_lists.reload({
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
+                                    }
+                                );
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+
+                // 删除事件
+                $('#del').click(function () {
+
+                    // 确认框
+                    layer.confirm("确认要删除吗，删除后不能恢复!", { title: "提示:",icon: 0 }, function (index) {
+                        layer.close(index);
+
+                        // 获取当前选中数据的ids
+                        var del_ids = $('#check_ids').val();
+                        // 发起请求
+                        $.ajax({
+                            type:"POST",
+                            url:"/yuanxiao/deleteYuanXiaoImage",
+                            dataType:'JSON',
+                            data:{
+                                ids:del_ids,
+                            },
+                            success:function (res) {
+                                if (res.status == 1) {
+                                    layer.alert('删除成功!');
+                                    image_upload_lists.reload({
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        }
+                                    );
+                                }else{
+                                    layer.alert(res.msg);
+                                }
+                            }
+                        });
+                    });
+
+                });
+
+                // 删除zhuanye事件
+                $('#zhuanye_del').click(function () {
+
+                    // 确认框
+                    layer.confirm("确认要删除吗，删除后不能恢复!", { title: "提示:",icon: 0 }, function (index) {
+                        layer.close(index);
+
+                        // 获取当前选中数据的ids
+                        var del_ids = $('#zhuanye_check_ids').val();
+                        // 发起请求
+                        $.ajax({
+                            type:"POST",
+                            url:"/yuanxiao/deleteYuanXiaoZhuanye",
+                            dataType:'JSON',
+                            data:{
+                                ids:del_ids,
+                            },
+                            success:function (res) {
+                                if (res.status == 1) {
+                                    layer.alert('删除成功!');
+                                    yuanxiao_zhuanye_lists.reload({
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        }
+                                    );
+                                }else{
+                                    layer.alert(res.msg);
+                                }
+                            }
+                        });
+                    });
+
+                });
+
+                var uploadInst = upload.render({
+                    elem: '#upload_image' //绑定元素
+                    ,url: '/uploadone_yuanxiao'
+                    ,done: function(res){
+                        if (res.status){
+                            layer.msg('上传成功');
+                            $('#image_path').val(res.truepath);
+                        }else{
+                            layer.alert("Error : "+ res.msg, {icon: 2});
+                        }
+                    }
+                });
+
+            });
+        })
+
+
+
+    </script>
+    <script type="text/html" id="aaa">
+        <button class="layui-btn  layui-btn-sm layui-btn-radius " data-src="{{d.imagepath}}" onclick="image_preview(this)">预览</button>
+    </script>
+</body>
+
+</html>

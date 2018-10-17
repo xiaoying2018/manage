@@ -417,6 +417,47 @@ class FrontEndApiController extends Controller
         }
     }
 
+    public function uploadone_yuanxiao()
+    {
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize = 3145728;// 设置附件上传大小
+        $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath = './Uploads/'; // 设置附件上传根目录
+        $upload->savePath = 'resources/school/'; // 设置附件上传子目录
+        // 上传文件
+        $info = $upload->upload();
+        if (!$info) {// 上传错误提示错误信息
+            $this->ajaxReturn(['status' => false, 'msg' => $upload->getError()]);
+        } else {// 上传成功
+            // 拼接文件路径
+
+            $save_file = $upload->rootPath . $info['file']['savepath'] . $info['file']['savename'];
+            $arr=explode('/',$info['file']['savepath']);
+            $truepath=$arr[2].'/'.$info['file']['savename'];
+
+            $this->ajaxReturn(['status' => true, 'data' => $save_file,'truepath'=>$truepath]);// 返回文件保存路径
+        }
+    }
+
+
+    public function uploadone_layUI()
+    {
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize = 3145728;// 设置附件上传大小
+        $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath = './Uploads/'; // 设置附件上传根目录
+        $upload->savePath = 'img/'; // 设置附件上传子目录
+        // 上传文件
+        $info = $upload->upload();
+        if (!$info) {// 上传错误提示错误信息
+            $this->ajaxReturn(['code' => '10000', 'msg' => $upload->getError()]);
+        } else {// 上传成功
+            // 拼接文件路径
+            $save_file = $upload->rootPath . $info['file']['savepath'] . $info['file']['savename'];
+            $this->ajaxReturn(['code' => 0, 'data' => ['title'=>$save_file,'src'=>substr($save_file,1)]]);// 返回文件保存路径
+        }
+    }
+
     /**
      * 带缩略图的图片上传接口
      */
@@ -1195,5 +1236,48 @@ class FrontEndApiController extends Controller
                 }
             }
         }
+    }
+
+
+    public function getYuanLists()
+    {
+        header('Access-Control-Allow-Origin:*');
+        $yuanxiao_model=D('Yuanxiao');
+        $country = $yuanxiao_model->country;
+        $property = $yuanxiao_model->property;
+        $category = $yuanxiao_model->category;
+        $location = $yuanxiao_model->location;
+        $region = $yuanxiao_model->region;
+
+        $page = I('get.page');
+        $offset = I('get.limit');
+
+        $where = array();
+        $where['status']=1;
+        if(!empty($searchname = I('get.search_key'))){
+            $where['name_cn'] = array('like',array('%' . $searchname . '%'));
+        }
+        $count = $yuanxiao_model->where($where)->count();
+        $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        $data['data'] = $yuanxiao;
+        $data['code'] = 0;
+        $data['msg']='';
+        $data['count'] = $count;
+        $data['more']=compact('country','property','category','location','region');
+        $this->ajaxReturn($data);
+    }
+
+
+    public function getYuanXiao()
+    {
+        header('Access-Control-Allow-Origin:*');
+        $yuanxiao_id=I('yuanxiao_id');
+        $yuanxiao=D('Yuanxiao')->where(['id'=>$yuanxiao_id])->find();
+        $yuanxiao['images']=D('YuanxiaoImage')->where(['schoolsysno'=>$yuanxiao['sysno']])->select();
+        $yuanxiao['zhuanye']=D('YuanxiaoZhuanye')->where(['schoolsysno'=>$yuanxiao['sysno']])->select();
+        $data['data']=$yuanxiao;
+        $data['code'] = 0;
+        $data['msg']='';
+        $this->ajaxReturn($data);
     }
 }

@@ -1017,6 +1017,7 @@ class Model {
         // 检查字段映射
 		$data =	$this->parseFieldsMap($data,0);
 
+
         // 检测提交字段的合法性
         if(isset($this->options['field'])) { // $this->field('field1,field2...')->create()
             $fields =   $this->options['field'];
@@ -1051,6 +1052,7 @@ class Model {
         // 验证完成生成数据对象
         if($this->autoCheckFields) { // 开启字段检测 则过滤非法字段数据
             $fields =   $this->getDbFields();
+
             foreach ($data as $key=>$val){
                 if(!in_array($key,$fields)) {
                     unset($data[$key]);

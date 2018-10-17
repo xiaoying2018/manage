@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <!--<script src="/Public/jquery.min.js"></script>-->
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.config.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.all.js"></script>
+
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=pUz2rNiU7Evm31qj7G39zly7WGZZ9XAN"></script>
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>-->
+    <style>
+        .layui-form-item{
+            margin: 16px auto;
+        }
+
+        .layui-form-radio>i{
+            margin-right: 8px;
+            font-size: 18px;
+            /*color: #e6e4e4;*/
+        }
+
+        .layui-input-block{
+            margin-right: 16px;
+        }
+
+        /*.layui-textarea{*/
+        /*width: 50%;*/
+        /*}*/
+        /*.layui-form-selected dl{*/
+        /*height: 400%;*/
+        /*}*/
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            box-sizing: border-box;
+        }
+
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+        .x-body .layui-form-label{
+            float: none;
+            width: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+<div class="x-body">
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">学校介绍信息</li>
+            <li>招生信息</li>
+            <li>大学院介绍信息</li>
+            <li>地址信息</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-horizontal" id="form1">
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="description" class="layui-form-label">简介:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="description" name="description" style="display: none;">{$data.yuanxiao.description}</textarea>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="content" class="layui-form-label">内容(日文):</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="content" name="content" style="display: none;">{$data.yuanxiao.content}</textarea>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="job_info" class="layui-form-label">就业介绍:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="job_info" name="job_info" style="display: none;" >{$data.yuanxiao.job_info}</textarea>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="contentchina" class="layui-form-label">内容(中文):</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="contentchina" name="contentchina" style="display: none;">{$data.yuanxiao.contentchina}</textarea>
+                        </div>
+
+                    </div>
+
+                    <hr>
+                    <div class="layui-form-item">
+
+                        <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"> </label>
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn w-auto" lay-filter="info" lay-submit="">编辑</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!--2-->
+
+            <div class="layui-tab-item">
+                <form class="layui-form form-horizontal" id="form2">
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="zhaosheng_info" class="layui-form-label">招生信息:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="zhaosheng_info" name="zhaosheng_info" style="display: none;">{$data.yuanxiao.zhaosheng_info}</textarea>
+                        </div>
+                        <hr>
+                        <div class="layui-form-item">
+
+                            <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"> </label>
+                                <div class="layui-input-inline">
+                                    <button  class="layui-btn w-auto" lay-filter="zhaosheng" lay-submit="">立即提交</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="layui-tab-item">
+                <form class="layui-form form-horizontal" id="form3">
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="college_info" class="layui-form-label">大学院介绍信息:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="college_info" name="college_info" style="display: none;">{$data.yuanxiao.college_info}</textarea>
+                        </div>
+                        <hr>
+                        <div class="layui-form-item">
+
+                            <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"> </label>
+                                <div class="layui-input-inline">
+                                    <button  class="layui-btn w-auto" lay-filter="college_info" lay-submit="">立即提交</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="layui-tab-item">
+                <form class="layui-form form-horizontal" id="form4">
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="otheraddress" class="layui-form-label">地址信息:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <textarea id="otheraddress" name="otheraddress" style="display: none;">{$data.yuanxiao.otheraddress}</textarea>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="otheraddress" class="layui-form-label">地图信息:</label>
+                        </div>
+                        <div class="layui-col-sm8">
+                            <div style="height: 500px;" class="smapDv" id="baiduMap" ></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="longitude" class="layui-form-label">经度:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="longitude" name="longitude" required="required" lay-verify="required" value="{$data.yuanxiao.longitude}" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="layui-row">
+                        <div class="layui-col-sm2">
+                            <label for="latitude" class="layui-form-label">纬度:</label>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <input type="text" id="latitude" name="latitude" required="required" lay-verify="required" value="{$data.yuanxiao.latitude}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="layui-form-item">
+
+                        <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"> </label>
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn w-auto" lay-filter="dizhi" lay-submit="">立即提交</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <script type="text/javascript">
+                //                    var ue = UE.getEditor('request_en');
+                //                    var ue = UE.getEditor('request_lang');
+                //                    var ue = UE.getEditor('request_doclist');
+            </script>
+
+            <!--3-->
+            <!--<div class="layui-tab-item">-->
+            <!--<div class="form-group">-->
+            <!--<label class="layui-form-label">师资与课程</label>-->
+            <!--<div class="layui-input-block">-->
+            <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+            <!--<textarea id='teachercourse' name="teachercourse"  style='height:300px;width: 90%'></textarea>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<script type="text/javascript">-->
+            <!--var ue = UE.getEditor('teachercourse');-->
+            <!--</script>-->
+            <!--</div>-->
+            <!--<div class="layui-tab-item">内容4</div>-->
+            <!--<div class="layui-tab-item">内容5</div>-->
+        </div>
+        <input type="hidden" name="yuanxiao_id" id="yuanxiao_id" value="{$data.yuanxiao.id}" >
+    </div>
+
+
+
+
+    <script>
+        function image_preview(obj){
+            layui.use(['layer'], function(){
+                var   layer = layui.layer;
+                var   url =$(obj).attr('data-src')
+                layer.open({
+                    type: 2,
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    content: url
+                });
+
+            })
+        }
+        $(document).ready(function(){
+            var _more;
+            var arr_ = ''
+            layui.use(['form','layer','element','laydate','layedit'], function(){
+                $ = layui.jquery;
+                var form = layui.form,
+                    layer = layui.layer,
+                    laydate = layui.laydate,
+                    table=layui.table,
+                    layedit = layui.layedit,
+                    upload = layui.upload;
+                var yuanxiao_id=$('#yuanxiao_id').val();
+                layedit.set({
+                    uploadImage: {
+                        url: '/uploadone_layUI' //接口url
+                        ,type: 'post' //默认post
+                    }
+                });
+                var description=layedit.build('description');
+                var contentchina=layedit.build('contentchina');
+                var content= layedit.build('content');
+                var job_info= layedit.build('job_info');
+                var zhaosheng_info=layedit.build('zhaosheng_info');
+                var college_info=layedit.build('college_info');
+                var otheraddress=layedit.build('otheraddress');
+                layedit.sync(description)
+                layedit.sync(contentchina)
+                layedit.sync(content)
+                layedit.sync(description)
+                layedit.sync(job_info)
+                layedit.sync(zhaosheng_info)
+                layedit.sync(college_info)
+                layedit.sync(otheraddress)
+                // 自定义验证规则
+                form.verify({
+                    nikename: function(value){
+                        if(value.length < 5){
+                            return '姓名的长度不可小于5个字符';
+                        }
+                    }
+                });
+                // 监听提交
+                form.on('submit(info)', function(data){
+                    console.log(layedit.getContent(description));
+                    data.field.yuanxiao_id=yuanxiao_id;
+                    data.field.description=layedit.getContent(description)
+                    data.field.contentchina=layedit.getContent(contentchina)
+                    data.field.content=layedit.getContent(content)
+                    data.field.job_info=layedit.getContent(job_info)
+                    $.ajax({
+                        url:"/yuanxiao/updateYuanXiao",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert("Success !", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    // 关闭当前frame
+                                    parent.layer.close(index);
+                                    // TODO 如果需要的话,进行表格重载
+                                    parent.window.location.reload(true);
+                                });
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+                form.on('submit(zhaosheng)', function(data){
+                    data.field.yuanxiao_id=yuanxiao_id;
+                    data.field.zhaosheng_info=layedit.getContent(zhaosheng_info)
+                    $.ajax({
+                        url:"/yuanxiao/updateYuanXiao",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert("Success !", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    // 关闭当前frame
+                                    parent.layer.close(index);
+                                    // TODO 如果需要的话,进行表格重载
+                                    parent.window.location.reload(true);
+                                });
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+                form.on('submit(college_info)', function(data){
+                    data.field.yuanxiao_id=yuanxiao_id;
+                    data.field.college_info=layedit.getContent(college_info)
+                    $.ajax({
+                        url:"/yuanxiao/updateYuanXiao",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert("Success !", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    // 关闭当前frame
+                                    parent.layer.close(index);
+                                    // TODO 如果需要的话,进行表格重载
+                                    parent.window.location.reload(true);
+                                });
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+
+                form.on('submit(dizhi)', function(data){
+                    data.field.yuanxiao_id=yuanxiao_id;
+                    data.field.otheraddress=layedit.getContent(otheraddress)
+                    $.ajax({
+                        url:"/yuanxiao/updateYuanXiao",
+                        data:data.field,
+                        dataType:'JSON',
+                        type:'POST',
+                        success:function(data){
+                            console.log(data)
+                            if( data.status == true )
+                            {
+//                        window.location.reload()
+                                layer.alert("Success !", {icon: 6},function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    // 关闭当前frame
+                                    parent.layer.close(index);
+                                    // TODO 如果需要的话,进行表格重载
+                                    parent.window.location.reload(true);
+                                });
+
+                            } else {
+                                layer.alert("Error : "+ data.msg, {icon: 2});
+                            }
+                        }
+                    });
+
+                    return false;
+                });
+            });
+
+
+            // 百度地图API功能
+            var map = new BMap.Map("baiduMap", {});
+            map.enableScrollWheelZoom(true);
+            var point = new BMap.Point('{$data.yuanxiao.longitude}', '{$data.yuanxiao.latitude}');
+            map.centerAndZoom(point, 20);
+
+            //创建logo
+            var pt = new BMap.Point('139.763361', '35.712676');
+            var myIcon = new BMap.Icon("http://www.xiaoying.net/Public/Common/mappoint.png", new BMap.Size(95, 36));
+            var marker2 = new BMap.Marker(pt, { icon: myIcon }); // 创建标注
+            map.addOverlay(marker2);
+
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>

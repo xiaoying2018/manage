@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="icon" href="__PUBLIC__/favicon.ico">
+    <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <!--<script src="/Public/jquery.min.js"></script>-->
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.config.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.all.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
+    <!--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>-->
+    <style>
+        .layui-form-item{
+            margin: 16px auto;
+        }
+
+        .layui-form-radio>i{
+            margin-right: 8px;
+            font-size: 18px;
+            /*color: #e6e4e4;*/
+        }
+
+        .layui-input-block{
+            margin-right: 16px;
+        }
+
+        /*.layui-textarea{*/
+        /*width: 50%;*/
+        /*}*/
+        /*.layui-form-selected dl{*/
+            /*height: 400%;*/
+        /*}*/
+        .layui-form-select .layui-tree {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 42px;
+            padding: 5px 0;
+            z-index: 999;
+            min-width: 100%;
+            border: 1px solid #d2d2d2;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+            box-sizing: border-box;
+        }
+
+        .layui-form-selected .layui-tree {
+            display: block;
+        }
+        .x-body .layui-form-label{
+             float: none;
+             width: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+
+<div class="x-body">
+    
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">学校基本信息</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+
+                    <form class="layui-form form-horizontal" id="form1">
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="Name" class="layui-form-label"><span class="m-warning">*</span>学校名称(中文):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="Name" name="Name" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+
+                            <div class="layui-col-sm2">
+                                <label for="EnglishName" class="layui-form-label">学校名称(英文):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="EnglishName" name="EnglishName"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <!--<div class="layui-row">-->
+                            <!--<div class="layui-col-sm2">-->
+                                <!--<label for="name_as" class="layui-form-label">学校名称(别名):</label>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<input type="text" id="name_as" name="name_as"  lay-verify="" autocomplete="off" class="layui-input">-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm2">-->
+
+                                <!--<label for="has_college" class="layui-form-label">是否包含大学院:</label>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<input type="checkbox" id="has_college" name="has_college" lay-skin="switch" autocomplete="off">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <hr>
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="country" class="layui-form-label"><span class="m-warning">*</span>国家:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="country" id="country"  lay-verify="required" >
+                                    <option value="">请选择</option>
+                                    <foreach name="data.country" item="vo" key="key">
+                                        <option value="{$key}">{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="Attribute" class="layui-form-label"><span class="m-warning">*</span>属性:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="Attribute" id="Attribute"  lay-verify="required"  >
+                                    <option value="">请选择</option>
+                                    <foreach name="data.property" item="vo" key="key">
+                                        <option value="{$key}">{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="category" class="layui-form-label"><span class="m-warning">*</span>类型:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="category" id="category"  lay-verify="required"  >
+                                    <option value="">请选择</option>
+                                    <foreach name="data.category" item="vo" key="key">
+                                        <option value="{$key}">{$vo}</option>
+                                    </foreach>
+                                </select>
+
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="location" class="layui-form-label">位置:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="location" id="location"  lay-verify="" style="height: 600%" >
+                                    <option value="">请选择</option>
+                                    <foreach name="data.location" item="vo" key="key">
+                                        <option value="{$key}">{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="Area" class="layui-form-label">所在区域:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="Area" id="Area"  lay-verify="" style="height: 600%" >
+                                    <option value="">请选择</option>
+                                    <foreach name="data.region" item="vo" key="key">
+                                        <option value="{$key}">{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+                            <div class="layui-col-sm2">
+                                <label for="location_detail" class="layui-form-label">详细地址:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="location_detail" name="location_detail"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="tel" class="layui-form-label">电话:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="tel" name="tel"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="fax" class="layui-form-label">传真:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="fax" name="fax"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="email" class="layui-form-label">邮箱:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="email" name="email"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="build_at" class="layui-form-label">成立时间(年):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="build_at" name="build_at"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="web_site" class="layui-form-label">官网:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="web_site" name="web_site"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="zip_code" class="layui-form-label">邮编:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="zip_code" name="zip_code"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="fee_year" class="layui-form-label">年学费(日元):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="fee_year" name="fee_year"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="must_fee" class="layui-form-label">需缴纳学费(日元):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="must_fee" name="must_fee"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="must_fee_detail" class="layui-form-label">需缴纳学费说明:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="must_fee_detail" name="must_fee_detail"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="at_school_num" class="layui-form-label">在校人数:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="at_school_num" name="at_school_num"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="national_num" class="layui-form-label">国际学校人数:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="national_num" name="national_num"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+
+
+                        <div class="layui-row">
+                            <div class="layui-col-sm2">
+                                <label for="like_num" class="layui-form-label">受关注数:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="like_num" name="like_num"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
+                                <label for="work_convince" class="layui-form-label">打工方便度:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="work_convince" id="work_convince"  lay-verify="" style="height: 600%" >
+                                    <option value="">请选择</option>
+                                    <option value="1">一颗星</option>
+                                    <option value="2">两颗星</option>
+                                    <option value="3">三颗星</option>
+                                    <option value="4">四颗星</option>
+                                    <option value="5">五颗星</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-row">
+
+                            <div class="layui-col-sm2">
+                                <label for="guid_start" class="layui-form-label">升学指导:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <select name="guid_start" id="guid_start"  lay-verify="" style="height: 600%" >
+                                    <option value="">请选择</option>
+                                    <option value="1">一颗星</option>
+                                    <option value="2">两颗星</option>
+                                    <option value="3">三颗星</option>
+                                    <option value="4">四颗星</option>
+                                    <option value="5">五颗星</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="layui-form-item">
+
+                            <!-- TODO 1 如果提交按钮需要提取到外面 删除下面的 layui-form-item div -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"> </label>
+                                <div class="layui-input-inline">
+                                    <button  class="layui-btn w-auto" lay-filter="*" lay-submit="">添加</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+
+                 
+
+                </div>
+
+
+                <script type="text/javascript">
+                    //                    var ue = UE.getEditor('request_en');
+                    //                    var ue = UE.getEditor('request_lang');
+                    //                    var ue = UE.getEditor('request_doclist');
+                </script>
+
+                <!--3-->
+                <!--<div class="layui-tab-item">-->
+                <!--<div class="form-group">-->
+                <!--<label class="layui-form-label">师资与课程</label>-->
+                <!--<div class="layui-input-block">-->
+                <!--&lt;!&ndash;<script id="container" name="content" type="text/plain" style='height:500px'></script>&ndash;&gt;-->
+                <!--<textarea id='teachercourse' name="teachercourse"  style='height:300px;width: 90%'></textarea>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <!--<script type="text/javascript">-->
+                <!--var ue = UE.getEditor('teachercourse');-->
+                <!--</script>-->
+                <!--</div>-->
+                <!--<div class="layui-tab-item">内容4</div>-->
+                <!--<div class="layui-tab-item">内容5</div>-->
+            </div>
+            <input type="hidden" name="category_school" value="日本语言学校">
+
+        </div>
+
+
+
+
+    <script>
+        var arr_ = ''
+        layui.use(['form','layer','element','upload','laydate'], function(){
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate,
+                upload = layui.upload;
+
+            //拖拽上传
+            upload.render({
+                elem: '#uploadone'
+                ,url: '/uploadone'
+                ,done: function(res){
+                    if (res.status){
+                        console.log(res.data)
+                        layer.msg('上传成功');
+                        $('#uploadfile').val(res.data);
+                        $('#logo_sqr').val(res.data);
+                        $('#faceimg').attr('src',res.truepath);
+                    }else{
+                        layer.alert("Error : "+ res.msg, {icon: 2});
+                    }
+                }
+            });
+
+            laydate.render({
+                elem: '#build_at' //指定元素
+                ,type: 'year'
+            });
+
+
+            //拖拽上传
+            upload.render({
+                elem: '#uploadone2'
+                ,url: '/uploadkoubei'
+                ,done: function(res){
+                    if (res.status){
+                        layer.msg('上传成功');
+                        $('#uploadfile2').val(res.data.img);
+                    }else{
+                        layer.alert("Error : "+ res.msg, {icon: 2});
+                    }
+                }
+            });
+
+            // 自定义验证规则
+            form.verify({
+                nikename: function(value){
+                    if(value.length < 5){
+                        return '姓名的长度不可小于5个字符';
+                    }
+                }
+            });
+
+            // 监听提交
+            form.on('submit(*)', function(data){
+                console.log(data.field);
+                // 格式化状态字段的值
+                 if (data.field.has_college == 'on'){data.field.has_college = 1;}else{data.field.has_college = 0;}
+// //            alert($('#nowcid2').val())
+//                 if($('#nowcid2').val()!=''){
+//                     data.field.nowcid = $('#nowcid2').val()
+//                 }else{
+//                     data.field.nowcid = $('#nowcid1').val()
+//                 }
+//            return false
+                // JS 提交表单
+                $.ajax({
+                    url:"/yuanxiao/addYuanXiao",
+                    data:data.field,
+                    dataType:'JSON',
+                    type:'POST',
+                    success:function(data){
+                        console.log(data)
+                        if( data.status == true )
+                        {
+//                        window.location.reload()
+                            layer.alert("Success !", {icon: 6},function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                // 关闭当前frame
+                                parent.layer.close(index);
+                                // TODO 如果需要的话,进行表格重载
+                                parent.window.location.reload(true);
+                            });
+
+                        } else {
+                            layer.alert("Error : "+ data.msg, {icon: 2});
+                        }
+                    }
+                });
+
+                return false;
+            });
+            //多文件列表示例
+            var demoListView = $('#demoList')
+                ,uploadListIns = upload.render({
+                elem: '#testList'
+                ,url: '/uploadall/'
+                ,accept: 'file'
+                ,multiple: true
+                ,auto: false
+                ,bindAction: '#testListAction'
+                ,choose: function(obj){
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function(index, file, result){
+                        var tr = $(['<tr id="upload-'+ index +'">'
+                            ,'<td>'+ file.name +'</td>'
+                            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                            ,'<td>等待上传</td>'
+                            ,'<td></td>'
+                            ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                            ,'</td>'
+                            ,'</tr>'].join(''));
+
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function(){
+                            obj.upload(index, file);
+                        });
+
+                        //删除
+                        tr.find('.demo-delete').on('click', function(){
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+
+                        demoListView.append(tr);
+                    });
+                }
+                ,done: function(res, index, upload){
+                    if(res){ //上传成功
+                        console.log(res)
+                        arr_ += res.file_id + ','
+                        console.log(arr_)
+                        $('#arr').val(arr_)
+                        var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+//                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
+                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
+//                    tds.eq(4).html('');
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                }
+                ,error: function(index, upload){
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
