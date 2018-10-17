@@ -57,9 +57,18 @@
             <!-- 搜索 -->
             <div class="layui-col-md3" style="text-align: right;">
                 <div id="table_search" class="">
+                    <div class="layui-inline" style="width: 40%">
+                        <select name="attribute" id="attribute" lay-verify="required" class="layui-input search-input" >
+                            <option value="">选择学校类型</option>
+                            <option value="国立">国立</option>
+                            <option value="公立">公立</option>
+                            <option value="私立">私立</option>
+                        </select>
+                    </div>
                     <div class="layui-inline">
                         <input class="layui-input search-input" placeholder="请输入学校名" name="name" id="search_key" autocomplete="off">
                     </div>
+
                     <button class="layui-btn layui-btn-sm" data-type="reload">搜索</button>
                 </div>
             </div>
@@ -129,6 +138,7 @@
                 var $ = layui.$,active = {
                     reload: function(){
                         var search_key = $('#search_key');
+                        var attribute = $('#attribute');
                         //执行重载
                         table.reload('lists', {
                             page: {
@@ -136,7 +146,7 @@
                             },
                             where: {
                                 search_key: search_key.val(),// 搜索条件
-
+                                attribute:attribute.val()
                             }
                         });
                     }
