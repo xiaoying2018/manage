@@ -1278,13 +1278,17 @@ class FrontEndApiController extends Controller
 //        $this->ajaxreturn($where);
 
         $where['status']=1;
-        //校名检索
+        //语言学校校名检索
         if(!empty($searchname = I('get.name'))){
             $where['name'] = array('like',array('%' . $searchname . '%'));
         }
-        //地区
+        //语言学校，专门学校,大学的地区检索
         if(!empty(I('get.area'))){
             $where['area'] = array('like',array('%' . I('get.area') . '%'));
+        }
+        //日本大学学校类型检索
+        if(!empty(I('get.attribute'))){
+            $where['attribute'] = array('like',array('%' . I('get.attribute') . '%'));
         }
         $count = $yuanxiao_model->where($where)->count();
         $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();
