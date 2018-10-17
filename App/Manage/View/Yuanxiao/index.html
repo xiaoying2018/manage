@@ -57,12 +57,21 @@
             <!-- 搜索 -->
             <div class="layui-col-md3" style="text-align: right;">
                 <div id="table_search" class="">
+                    <!--<div class="layui-inline" style="width: 40%">-->
+                        <!--<select name="attribute" id="attribute" lay-verify="required" class="layui-input search-input" >-->
+                            <!--<option value="">选择学校属性</option>-->
+                            <!--<option value="国立">国立</option>-->
+                            <!--<option value="公立">公立</option>-->
+                            <!--<option value="私立">私立</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
                     <div class="layui-inline" style="width: 40%">
-                        <select name="attribute" id="attribute" lay-verify="required" class="layui-input search-input" >
+                        <select name="category" id="category" lay-verify="required" class="layui-input search-input" >
                             <option value="">选择学校类型</option>
-                            <option value="国立">国立</option>
-                            <option value="公立">公立</option>
-                            <option value="私立">私立</option>
+                            <option value="语言学校">语言学校</option>
+                            <option value="大学">大学</option>
+                            <option value="专门学校">专门学校</option>
+                            <option value="高中">高中</option>
                         </select>
                     </div>
                     <div class="layui-inline">
@@ -138,7 +147,7 @@
                 var $ = layui.$,active = {
                     reload: function(){
                         var search_key = $('#search_key');
-                        var attribute = $('#attribute');
+                        var category = $('#category');
                         //执行重载
                         table.reload('lists', {
                             page: {
@@ -146,7 +155,7 @@
                             },
                             where: {
                                 search_key: search_key.val(),// 搜索条件
-                                attribute:attribute.val()
+                                category:category.val()
                             }
                         });
                     }

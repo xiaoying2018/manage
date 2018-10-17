@@ -1262,6 +1262,9 @@ class FrontEndApiController extends Controller
         $category = $yuanxiao_model->category;
         $location = $yuanxiao_model->location;
         $region = $yuanxiao_model->region;
+        foreach ($region as $k=>$v){
+            $allregion[] = $v;
+        }
         $where = array();
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):10;
@@ -1296,7 +1299,7 @@ class FrontEndApiController extends Controller
         $data['code'] = 0;
         $data['msg']='';
         $data['count'] = $count;
-        $data['more']=compact('country','property','category','location','region');
+        $data['more']=compact('country','property','category','location','region','allregion');
         $this->ajaxReturn($data);
     }
 
