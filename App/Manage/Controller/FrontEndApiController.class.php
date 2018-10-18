@@ -1308,9 +1308,22 @@ class FrontEndApiController extends Controller
     {
         header('Access-Control-Allow-Origin:*');
         $yuanxiao_id=I('yuanxiao_id');
+        $page = I('get.page')?I('get.page'):1;
+        $offset = I('get.limit')?I('get.limit'):10;
         $yuanxiao=D('Yuanxiao')->where(['id'=>$yuanxiao_id])->find();
         $yuanxiao['images']=D('YuanxiaoImage')->where(['schoolsysno'=>$yuanxiao['sysno']])->select();
-        $yuanxiao['zhuanye']=D('YuanxiaoZhuanye')->where(['schoolsysno'=>$yuanxiao['sysno']])->select();
+        $yuanxiao['zhuanye']=D('YuanxiaoZhuanye')->where(['schoolsysno'=>$yuanxiao['sysno']])->limit(($page-1)*$offset,$offset)->select();
+//        $allzhuanye = D('YuanxiaoZhuanye')->where(['schoolsysno'=>$yuanxiao['sysno']])->select();
+//        $allsubjuect = array_unique(array_column($allzhuanye,'subject_name'));
+//        foreach($allsubjuect as $k=>$v){
+//            foreach ($allzhuanye as $k1=>$v1){
+//                if($v==$v1['subject_name']){
+//                    $major[$v][] = $v1;
+//                }
+//            }
+//        }
+//        $yuanxiao['catemajor'] = $major;
+        $yuanxiao['majorcount'] = D('YuanxiaoZhuanye')->where(['schoolsysno'=>$yuanxiao['sysno']])->count();
         $data['data']=$yuanxiao;
         $data['code'] = 0;
         $data['msg']='';
