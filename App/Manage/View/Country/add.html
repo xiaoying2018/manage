@@ -111,6 +111,7 @@
                             <input type="text" name="link[]"  lay-verify="" placeholder="" autocomplete="off" class="layui-input">
                         </div>
                        <span class="layui-btn addbtn">添加</span>
+                        <span class="layui-btn layui-btn-danger removebtn">移除</span>
                     </div>
                     <script>
                         $(document).on('click','.addbtn',function () {
@@ -119,10 +120,15 @@
                                 "                        <div class=\"layui-input-inline\">\n" +
                                 "                            <input type=\"text\" name=\"link[]\"  lay-verify=\"\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
                                 "                        </div>\n" +
-                                "                       <span class=\"layui-btn addbtn\">添加</span>\n" +
+                                "                       <span class=\"layui-btn addbtn\">添加</span>\n <span class=\"layui-btn layui-btn-danger removebtn\">移除</span>" +
                                 "                    </div>";
                             $(this).parent().append(_htm)
                         })
+                        $(document).on('click','.removebtn',function () {
+                            $(this).parent().remove()
+                        })
+                        })
+
                     </script>
                     <div class="layui-form-item">
                         <label class="layui-form-label">排序</label>
@@ -158,7 +164,6 @@
 
         </div>
     </form>
-
     <script>
         var arr_ = ''
         layui.use(['form','layer','element','upload'], function(){
