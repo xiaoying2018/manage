@@ -1375,4 +1375,14 @@ class FrontEndApiController extends Controller
         $casedata = M('mxcrm.mx_cases')->where(['receive_college'=>I('get.name')])->select();
         $this->ajaxreturn($casedata);
     }
+    //热门资讯
+    public function gethotarticle(){
+        header('Access-Control-Allow-Origin:*');
+        $times = I('get.times')?I('get.times'):5;
+        $hotdata = M('article')->field('id,title,hits,publishedTime')->order('upsnum desc')->limit($times)->select();
+        foreach ($hotdata as $k=>$v){
+            $hotdata[$k]['create'] = date('Y-m',$v['publishedtime']);
+        }
+        $this->ajaxreturn($hotdata);
+    }
 }

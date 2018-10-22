@@ -103,6 +103,8 @@
              'article/contentssearch'=>'Manage/FrontEndApi/contentssearch',  //内容列表
              'article/detailsearch'=>'Manage/FrontEndApi/detailsearch',  //内容详情
              'article/getarticlebytags'=>'Manage/FrontEndApi/getarticlebytags',  //根据标签获取资讯
+             ##热门资讯
+             'article/hotlist'=>'Manage/FrontEndApi/gethotarticle',  //获取热门资讯
              'vote'=>'Manage/FrontEndApi/vote',  //点赞
              'reads'=>'Manage/FrontEndApi/reads',  //阅读量
              'mantouarticle/contentssearch'=>'Manage/FrontEndApi/getarticlelistformantou',  //内容列表
