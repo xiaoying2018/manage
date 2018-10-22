@@ -1342,31 +1342,31 @@ class FrontEndApiController extends Controller
         };
         $where = [];
         $where['countryid'] = $countryid;
-
-
-        $contentdata = $contentmodel->where($where)->limit(($page - 1) * $offset, $offset)->field('id,publishedtime,title,categoryid')->order('sticky desc,publishedTime desc')->select();
-//        echo $contentmodel->getLastSql();die;
-
-        foreach ($contentdata as $k=>$v){
+        $where['pid'] = 0;
+        $catedata = M('articleCategory')->where($where)->select();
+        foreach ($catedata as $k=>$v){
+            $pids[] = M('articleCategory')->where(['pid'=>$v['id']])->limit(1)->find();
+        }
+        foreach ($pids as $k=>$v){
+            $hotdata[] =  $contentmodel->where(['categoryId'=>$v['id'],'countryid'=>3])->limit(1)->find();
+        }
+        foreach ($hotdata as $k=>$v){
             if(substr($v['thumb'],0,1)=='.'){
-                $contentdata[$k]['thumb'] = substr($v['thumb'],1);
+                $hotdata[$k]['thumb'] = substr($v['thumb'],1);
             }
 
             $a = M('articleCategory')->where(['id'=>$v['categoryid']])->find();
 
             if($a['pid']!=0){
-                $contentdata[$k]['categoryname'] = M('articleCategory')->where(['id'=>$a['pid']])->find()['name'];
+                $hotdata[$k]['categoryname'] = M('articleCategory')->where(['id'=>$a['pid']])->find()['name'];
             }else{
-                $contentdata[$k]['categoryname'] = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
+                $hotdata[$k]['categoryname'] = M('articleCategory')->where(['id'=>$v['categoryid']])->find()['name'];
             }
 
-            $contentdata[$k]['create_time'] = date('Y-m-d',$v['publishedtime']);
+            $hotdata[$k]['create_time'] = date('Y-m-d',$v['publishedtime']);
 
         }
-        $data['data'] = $contentdata;
-        $data['code'] = 0;
-        $data['msg']='';
-        $data['count'] = $contentmodel->where($where)->count();
+        $data['data'] = $hotdata;
         $this->ajaxReturn($data);
     }
 
