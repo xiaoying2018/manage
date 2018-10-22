@@ -1379,9 +1379,12 @@ class FrontEndApiController extends Controller
     public function gethotarticle(){
         header('Access-Control-Allow-Origin:*');
         $times = I('get.times')?I('get.times'):5;
-        $hotdata = M('article')->field('id,title,hits,publishedTime')->order('upsnum desc')->limit($times)->select();
+        $hotdata = M('article')->field('id,title,hits,publishedTime,thumb')->order('upsnum desc')->limit($times)->select();
         foreach ($hotdata as $k=>$v){
             $hotdata[$k]['create'] = date('Y-m',$v['publishedtime']);
+            if(substr($v['thumb'],0,1)=='.'){
+                $hotdata[$k]['thumb'] = substr($v['thumb'],1);
+            }
         }
         $this->ajaxreturn($hotdata);
     }
