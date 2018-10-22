@@ -206,7 +206,11 @@ class RecomController extends BaseController
 
             $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
             foreach ($schlooldata as $k=>$v){
-                $schlooldata[$k]['update'] = date('Y-m-d H:i:s',$v['update_time']);
+                if(!empty($v['update_time'])){
+                    $schlooldata[$k]['update'] = date('Y-m-d H:i:s',$v['update_time']);
+                }
+                $schlooldata[$k]['create'] = date('Y-m-d H:i:s',$v['create_time']);
+
             }
             $tag = [];
             $data['data'] = $schlooldata;
