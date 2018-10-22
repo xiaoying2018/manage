@@ -106,6 +106,7 @@
              'vote'=>'Manage/FrontEndApi/vote',  //点赞
              'reads'=>'Manage/FrontEndApi/reads',  //阅读量
              'mantouarticle/contentssearch'=>'Manage/FrontEndApi/getarticlelistformantou',  //内容列表
+
              ##地区联动
              'getarea'=>'Manage/FrontEndApi/getarea',
              ##日本院校库前台接口
@@ -137,6 +138,8 @@
              'changeweb'=>'Manage/FrontEndApi/changeweb',  //website
              ##背景提升
              'backdetail'=>'Manage/FrontEndApi/getbackdetail',
+             ##馒头留学相似案例
+             'mantoucase/getsamecasebyschoolname'=>'Manage/FrontEndApi/getsamecasebyschoolname',
              //馒头留学院校库前段接口
              'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
              'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情

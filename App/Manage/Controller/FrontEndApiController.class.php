@@ -1369,4 +1369,10 @@ class FrontEndApiController extends Controller
         $data['count'] = $contentmodel->where($where)->count();
         $this->ajaxReturn($data);
     }
+
+    public function getsamecasebyschoolname(){
+        header('Access-Control-Allow-Origin:*');
+        $casedata = M('mxcrm.mx_cases')->where(['receive_college'=>I('get.name')])->select();
+        $this->ajaxreturn($casedata);
+    }
 }
