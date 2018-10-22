@@ -1389,7 +1389,7 @@ class FrontEndApiController extends Controller
     public function getsameschoolbyarea(){
         header('Access-Control-Allow-Origin:*');
         $limit = I('get.limit')?I('get.limit'):10;
-        $yuanxiaodata = M('yuanxiao')->where(['area'=>I('get.area')])->field('id,name,englishname')->limit($limit)->select();
+        $yuanxiaodata = M('yuanxiao')->where(['area'=>I('get.area')])->field('id,name,englishname,defaultimage')->limit($limit)->select();
         $this->ajaxreturn($yuanxiaodata);
     }
 
