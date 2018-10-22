@@ -105,6 +105,7 @@
              'article/getarticlebytags'=>'Manage/FrontEndApi/getarticlebytags',  //根据标签获取资讯
              'vote'=>'Manage/FrontEndApi/vote',  //点赞
              'reads'=>'Manage/FrontEndApi/reads',  //阅读量
+             'mantouarticle/contentssearch'=>'Manage/FrontEndApi/getarticlelistformantou',  //内容列表
              ##地区联动
              'getarea'=>'Manage/FrontEndApi/getarea',
              ##日本院校库前台接口
