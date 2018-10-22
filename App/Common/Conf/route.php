@@ -142,6 +142,8 @@
              'backdetail'=>'Manage/FrontEndApi/getbackdetail',
              ##馒头留学相似案例
              'mantoucase/getsamecasebyschoolname'=>'Manage/FrontEndApi/getsamecasebyschoolname',
+             ##馒头留学同城学校
+             'mantou/getsameschoolbyarea'=>'Manage/FrontEndApi/getsameschoolbyarea',
              //馒头留学院校库前段接口
              'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
              'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情
