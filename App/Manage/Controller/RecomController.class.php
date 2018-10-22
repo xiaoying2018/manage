@@ -204,7 +204,7 @@ class RecomController extends BaseController
                 $where['name_cn'] = ['like',['%' . $searchname . '%']];
             }
 
-            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('create_time desc')->select();
             foreach ($schlooldata as $k=>$v){
                 if(!empty($v['update_time'])){
                     $schlooldata[$k]['update'] = date('Y-m-d H:i:s',$v['update_time']);
