@@ -163,7 +163,7 @@
                             <label for="zhaosheng_info" class="layui-form-label">招生信息:</label>
                         </div>
                         <div class="layui-col-sm8">
-                            <textarea id="zhaosheng_info" name="zhaosheng_info" style="display: none;">{$data.yuanxiao.zhaosheng_info}</textarea>
+                            <textarea id="zhaosheng_info" name="enrollmentdesc" style="display: none;">{$data.yuanxiao.enrollmentdesc}</textarea>
                         </div>
                         <hr>
                         <div class="layui-form-item">
@@ -385,7 +385,7 @@
 
                 form.on('submit(zhaosheng)', function(data){
                     data.field.yuanxiao_id=yuanxiao_id;
-                    data.field.zhaosheng_info=layedit.getContent(zhaosheng_info)
+                    data.field.enrollmentdesc=layedit.getContent(zhaosheng_info)
                     $.ajax({
                         url:"/yuanxiao/updateYuanXiao",
                         data:data.field,

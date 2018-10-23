@@ -19,6 +19,9 @@ class YuanxiaoController extends BaseController
     }
 
 
+
+
+
     public function showAddYuanXiao()
     {
         $yuanxiao_model=D('Yuanxiao');
@@ -41,8 +44,11 @@ class YuanxiaoController extends BaseController
                 'msg'=>$yuanxiao_model->getError()
             ));
         }else{
-            Log::write(json_encode($data));
+            //Log::write(json_encode($data));
             // 验证通过 可以进行其他数据操作
+            $yuanxiao_sysno=$yuanxiao_model->query('select max(`sysno`) as sysno from manage.yuanxiao limit 1');
+            $data['sysno']=intval($yuanxiao_sysno[0]['sysno'])+1;
+
             $yuanxiao_model->add($data);
             $this->ajaxReturn(array(
                 'status'=>true
@@ -72,7 +78,7 @@ class YuanxiaoController extends BaseController
             $where['category'] = array('like',array('%' . I('get.category') . '%'));
         }
         $count = $yuanxiao_model->where($where)->count();
-        $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        $yuanxiao = $yuanxiao_model->where($where)->limit(($page - 1) * $offset, $offset)->order('id desc')->select();
         $data['data'] = $yuanxiao;
         $data['code'] = 0;
         $data['msg']='';

@@ -107,7 +107,7 @@
                 var table = layui.table,
                     layer = layui.layer;
                 // 表格实例
-                table.render({
+                var yuanxiao_table=table.render({
                     elem: '#lists',// DOM ID
                     // height: 315,// 高度
                     url: '/yuanxiao/search',// 数据接口
@@ -228,6 +228,7 @@
                             success:function (res) {
                                 if (res.status == 1) {
                                     layer.alert('删除成功!');
+                                    yuanxiao_table.reload();
                                 }else{
                                     layer.alert(res.msg);
                                 }

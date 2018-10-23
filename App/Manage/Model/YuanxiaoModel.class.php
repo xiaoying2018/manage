@@ -108,7 +108,7 @@ class YuanxiaoModel extends RelationModel
         array('name_en','/^[A-Za-z]+$/','学校英文名称只能输入英文！',self::VALUE_VALIDATE,'regex'),
         array('email','email','请输入正确的邮箱！',self::VALUE_VALIDATE),
         array('build_at','/^\d{4}$/','请输入成立时间！',self::VALUE_VALIDATE,'regex'),
-        array('web_site','url','请输入正确的官网地址！',self::VALUE_VALIDATE),
+        //array('web_site','url','请输入正确的官网地址【http://】！',self::VALUE_VALIDATE),
         array('fee_year','currency','请输入正确的年学费！',self::VALUE_VALIDATE),
         array('must_fee','currency','请输入正确的需缴纳学费！',self::VALUE_VALIDATE),
 
@@ -132,6 +132,11 @@ class YuanxiaoModel extends RelationModel
     {
         $user =session('xy_manager');
         return $user['id'];
+    }
+
+    public function __before_insert()
+    {
+
     }
 
 }

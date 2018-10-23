@@ -64,6 +64,9 @@
              float: none;
              width: auto;
         }
+        .lay-row{
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -88,39 +91,39 @@
                 <div class="layui-tab-item layui-show">
 
                     <form class="layui-form form-horizontal" id="form1">
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="Name" class="layui-form-label"><span class="m-warning">*</span>学校名称(中文):</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="Name" name="Name" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="text" id="Name" name="name" required="required" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
 
                             <div class="layui-col-sm2">
                                 <label for="EnglishName" class="layui-form-label">学校名称(英文):</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="EnglishName" name="EnglishName"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="EnglishName" name="englishname"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
-                        <!--<div class="layui-row">-->
-                            <!--<div class="layui-col-sm2">-->
-                                <!--<label for="name_as" class="layui-form-label">学校名称(别名):</label>-->
-                            <!--</div>-->
-                            <!--<div class="layui-col-sm4">-->
-                                <!--<input type="text" id="name_as" name="name_as"  lay-verify="" autocomplete="off" class="layui-input">-->
-                            <!--</div>-->
-                            <!--<div class="layui-col-sm2">-->
+                        <div class="layui-row layui-form-item">
+                            <div class="layui-col-sm2">
+                                <label for="name_as" class="layui-form-label">学校名称(别名):</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="name_as" name="name_as"  lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm2">
 
-                                <!--<label for="has_college" class="layui-form-label">是否包含大学院:</label>-->
-                            <!--</div>-->
-                            <!--<div class="layui-col-sm4">-->
-                                <!--<input type="checkbox" id="has_college" name="has_college" lay-skin="switch" autocomplete="off">-->
-                            <!--</div>-->
-                        <!--</div>-->
+                                <label for="has_college" class="layui-form-label">是否包含大学院:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="checkbox" id="has_college" name="has_college" lay-skin="switch" autocomplete="off">
+                            </div>
+                        </div>
                         <hr>
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="country" class="layui-form-label"><span class="m-warning">*</span>国家:</label>
                             </div>
@@ -132,11 +135,11 @@
                                     </foreach>
                                 </select>
                             </div>
-                            <div class="layui-col-sm2">
+                            <div class="layui-col-sm2 ">
                                 <label for="Attribute" class="layui-form-label"><span class="m-warning">*</span>属性:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <select name="Attribute" id="Attribute"  lay-verify="required"  >
+                                <select name="attribute" id="Attribute"  lay-verify="required"  >
                                     <option value="">请选择</option>
                                     <foreach name="data.property" item="vo" key="key">
                                         <option value="{$key}">{$vo}</option>
@@ -144,7 +147,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="category" class="layui-form-label"><span class="m-warning">*</span>类型:</label>
                             </div>
@@ -157,7 +160,7 @@
                                 </select>
 
                             </div>
-                            <div class="layui-col-sm2">
+                            <div class="layui-col-sm2 ">
                                 <label for="location" class="layui-form-label">位置:</label>
                             </div>
                             <div class="layui-col-sm4">
@@ -171,12 +174,12 @@
                         </div>
 
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="Area" class="layui-form-label">所在区域:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <select name="Area" id="Area"  lay-verify="" style="height: 600%" >
+                                <select name="area" id="Area"  lay-verify="" style="height: 600%" >
                                     <option value="">请选择</option>
                                     <foreach name="data.region" item="vo" key="key">
                                         <option value="{$key}">{$vo}</option>
@@ -193,7 +196,7 @@
 
                         </div>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="tel" class="layui-form-label">电话:</label>
                             </div>
@@ -208,7 +211,7 @@
                             </div>
                         </div>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="email" class="layui-form-label">邮箱:</label>
                             </div>
@@ -219,22 +222,22 @@
 
                         <hr>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="build_at" class="layui-form-label">成立时间(年):</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="build_at" name="build_at"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="build_at" name="createTime"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-col-sm2">
                                 <label for="web_site" class="layui-form-label">官网:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="web_site" name="web_site"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="web_site" name="weburl"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="zip_code" class="layui-form-label">邮编:</label>
                             </div>
@@ -245,12 +248,12 @@
                                 <label for="fee_year" class="layui-form-label">年学费(日元):</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="fee_year" name="fee_year"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="fee_year" name="schoolfee"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="must_fee" class="layui-form-label">需缴纳学费(日元):</label>
                             </div>
@@ -265,35 +268,35 @@
                             </div>
                         </div>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="at_school_num" class="layui-form-label">在校人数:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="at_school_num" name="at_school_num"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="at_school_num" name="schooltotalstudent"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-col-sm2">
                                 <label for="national_num" class="layui-form-label">国际学校人数:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="national_num" name="national_num"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="national_num" name="interstudent"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
 
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
                             <div class="layui-col-sm2">
                                 <label for="like_num" class="layui-form-label">受关注数:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <input type="text" id="like_num" name="like_num"  lay-verify="" autocomplete="off" class="layui-input">
+                                <input type="text" id="like_num" name="likenumber"  lay-verify="" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-col-sm2">
                                 <label for="work_convince" class="layui-form-label">打工方便度:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <select name="work_convince" id="work_convince"  lay-verify="" style="height: 600%" >
+                                <select name="work" id="work_convince"  lay-verify="" style="height: 600%" >
                                     <option value="">请选择</option>
                                     <option value="1">一颗星</option>
                                     <option value="2">两颗星</option>
@@ -304,13 +307,13 @@
                             </div>
                         </div>
 
-                        <div class="layui-row">
+                        <div class="layui-row layui-form-item">
 
                             <div class="layui-col-sm2">
                                 <label for="guid_start" class="layui-form-label">升学指导:</label>
                             </div>
                             <div class="layui-col-sm4">
-                                <select name="guid_start" id="guid_start"  lay-verify="" style="height: 600%" >
+                                <select name="schooltype" id="guid_start"  lay-verify="" style="height: 600%" >
                                     <option value="">请选择</option>
                                     <option value="1">一颗星</option>
                                     <option value="2">两颗星</option>
@@ -319,7 +322,52 @@
                                     <option value="5">五颗星</option>
                                 </select>
                             </div>
+                            <div class="layui-col-sm2">
+                                <label for="rank" class="layui-form-label">国内排名:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="rank" name="rank"    lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+
                         </div>
+
+                        <div class="layui-row layui-form-item">
+
+                            <div class="layui-col-sm2">
+                                <label for="worldrank" class="layui-form-label">世界排名:</label>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <input type="text" id="worldrank" name="worldrank"    lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+
+                            <div class="layui-col-sm2">
+                                <label for="worldrank" class="layui-form-label">背景图片:</label>
+                            </div>
+                            <div class="layui-col-sm3">
+                                <input type="text" id="backgroundimage" name="backgroundimage"    lay-verify="" autocomplete="off" class="layui-input">
+
+                            </div>
+                            <div class="layui-col-sm1">
+                                <div class="layui-input-inline">
+                                    <button  class="layui-btn" type="button"  id="upload_image_1">上传图片</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row layui-form-item">
+                            <div class="layui-col-sm2">
+                                <label for="worldrank" class="layui-form-label">默认图片:</label>
+                            </div>
+                            <div class="layui-col-sm3">
+                                <input type="text" id="defaultimage" name="defaultimage"    lay-verify="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-col-sm1">
+                                <div class="layui-input-inline">
+                                    <button  class="layui-btn" type="button"  id="upload_image_2">上传图片</button>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <hr>
                         <div class="layui-form-item">
 
@@ -378,42 +426,39 @@
                 laydate = layui.laydate,
                 upload = layui.upload;
 
-            //拖拽上传
-            upload.render({
-                elem: '#uploadone'
-                ,url: '/uploadone'
+            var uploadInst1 = upload.render({
+                elem: '#upload_image_1' //绑定元素
+                ,url: '/uploadone_yuanxiao'
                 ,done: function(res){
                     if (res.status){
-                        console.log(res.data)
                         layer.msg('上传成功');
-                        $('#uploadfile').val(res.data);
-                        $('#logo_sqr').val(res.data);
-                        $('#faceimg').attr('src',res.truepath);
+                        $('#backgroundimage').val(res.truepath);
                     }else{
                         layer.alert("Error : "+ res.msg, {icon: 2});
                     }
                 }
             });
+
+            var uploadInst2 = upload.render({
+                elem: '#upload_image_2' //绑定元素
+                ,url: '/uploadone_yuanxiao'
+                ,done: function(res){
+                    if (res.status){
+                        layer.msg('上传成功');
+                        $('#defaultimage').val(res.truepath);
+                    }else{
+                        layer.alert("Error : "+ res.msg, {icon: 2});
+                    }
+                }
+            });
+
+
 
             laydate.render({
                 elem: '#build_at' //指定元素
                 ,type: 'year'
             });
 
-
-            //拖拽上传
-            upload.render({
-                elem: '#uploadone2'
-                ,url: '/uploadkoubei'
-                ,done: function(res){
-                    if (res.status){
-                        layer.msg('上传成功');
-                        $('#uploadfile2').val(res.data.img);
-                    }else{
-                        layer.alert("Error : "+ res.msg, {icon: 2});
-                    }
-                }
-            });
 
 
 
@@ -466,69 +511,7 @@
 
                 return false;
             });
-            //多文件列表示例
-            var demoListView = $('#demoList')
-                ,uploadListIns = upload.render({
-                elem: '#testList'
-                ,url: '/uploadall/'
-                ,accept: 'file'
-                ,multiple: true
-                ,auto: false
-                ,bindAction: '#testListAction'
-                ,choose: function(obj){
-                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                    //读取本地文件
-                    obj.preview(function(index, file, result){
-                        var tr = $(['<tr id="upload-'+ index +'">'
-                            ,'<td>'+ file.name +'</td>'
-                            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
-                            ,'<td>等待上传</td>'
-                            ,'<td></td>'
-                            ,'<td>'
-                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
-                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
-                            ,'</td>'
-                            ,'</tr>'].join(''));
 
-                        //单个重传
-                        tr.find('.demo-reload').on('click', function(){
-                            obj.upload(index, file);
-                        });
-
-                        //删除
-                        tr.find('.demo-delete').on('click', function(){
-                            delete files[index]; //删除对应的文件
-                            tr.remove();
-                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                        });
-
-                        demoListView.append(tr);
-                    });
-                }
-                ,done: function(res, index, upload){
-                    if(res){ //上传成功
-                        console.log(res)
-                        arr_ += res.file_id + ','
-                        console.log(arr_)
-                        $('#arr').val(arr_)
-                        var tr = demoListView.find('tr#upload-'+ index)
-                            ,tds = tr.children();
-//                    tds.eq(0).html("<a class='litebox_file'  href=" + res.filepath + " title='点击查看大图' data-litebox-group='group-1'>" + res.filename + "</a>");
-                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                        tds.eq(3).html('<img src="'+res.filepath+'" style="height: 5%">');
-                        tds.eq(4).html('<button class="layui-btn layui-btn-xs layui-btn-danger file-delete" data_fildid="'+res.file_id+'">删除</button>'); //清空操作
-//                    tds.eq(4).html('');
-                        return delete this.files[index]; //删除文件队列已经上传成功的文件
-                    }
-                    this.error(index, upload);
-                }
-                ,error: function(index, upload){
-                    var tr = demoListView.find('tr#upload-'+ index)
-                        ,tds = tr.children();
-                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
-                }
-            });
 
         });
     </script>

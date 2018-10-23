@@ -98,7 +98,7 @@
             <input type="hidden" name="yuanxiao_id" id="yuanxiao_id" value="{$data.yuanxiao.id}" >
             <div class="layui-tab-item layui-show">
                 <form class="layui-form form-horizontal" id="form1">
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="name" class="layui-form-label"><span class="m-warning">*</span>学校名称(中文):</label>
                         </div>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="name_as" class="layui-form-label">学校名称(别名):</label>
                         </div>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="country" class="layui-form-label"><span class="m-warning">*</span>国家:</label>
                         </div>
@@ -157,7 +157,7 @@
                     </div>
 
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="category" class="layui-form-label"><span class="m-warning">*</span>类型:</label>
                         </div>
@@ -184,7 +184,7 @@
                     </div>
 
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="area" class="layui-form-label">所在区域:</label>
                         </div>
@@ -206,7 +206,7 @@
 
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="tel" class="layui-form-label">电话:</label>
                         </div>
@@ -221,7 +221,7 @@
                         </div>
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="email" class="layui-form-label">邮箱:</label>
                         </div>
@@ -232,7 +232,7 @@
 
                     <hr>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="createtime" class="layui-form-label">成立时间(年):</label>
                         </div>
@@ -247,7 +247,7 @@
                         </div>
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="zip_code" class="layui-form-label">邮编:</label>
                         </div>
@@ -263,7 +263,7 @@
                     </div>
 
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="must_fee" class="layui-form-label">需缴纳学费(日元):</label>
                         </div>
@@ -278,7 +278,7 @@
                         </div>
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="schooltotalstudent" class="layui-form-label">在校人数:</label>
                         </div>
@@ -295,7 +295,7 @@
 
 
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
                         <div class="layui-col-sm2">
                             <label for="likenumber" class="layui-form-label">受关注数:</label>
                         </div>
@@ -317,7 +317,7 @@
                         </div>
                     </div>
 
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
 
                         <div class="layui-col-sm2">
                             <label for="schooltype" class="layui-form-label">升学指导:</label>
@@ -336,11 +336,11 @@
                             <label for="rank" class="layui-form-label">国内排名:</label>
                         </div>
                         <div class="layui-col-sm4">
-                            <input type="text" id="rank" name="Rank" value="{$data.yuanxiao.rank}"   lay-verify="" autocomplete="off" class="layui-input">
+                            <input type="text" id="rank" name="rank" value="{$data.yuanxiao.rank}"   lay-verify="" autocomplete="off" class="layui-input">
                         </div>
 
                     </div>
-                    <div class="layui-row">
+                    <div class="layui-row layui-form-item">
 
 
                         <div class="layui-col-sm2">
@@ -348,6 +348,34 @@
                         </div>
                         <div class="layui-col-sm4">
                             <input type="text" id="worldrank" name="worldrank" value="{$data.yuanxiao.worldrank}"   lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+
+                        <div class="layui-col-sm2">
+                            <label for="worldrank" class="layui-form-label">背景图片:</label>
+                        </div>
+                        <div class="layui-col-sm3">
+                            <input type="text" id="backgroundimage" name="backgroundimage"  value="{$data.yuanxiao.backgroundimage}"  lay-verify="" autocomplete="off" class="layui-input">
+
+                        </div>
+                        <div class="layui-col-sm1">
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn" type="button"  id="upload_image_1">上传图片</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="layui-row layui-form-item">
+                        <div class="layui-col-sm2">
+                            <label for="worldrank" class="layui-form-label">默认图片:</label>
+                        </div>
+                        <div class="layui-col-sm3">
+                            <input type="text" id="defaultimage" name="defaultimage"  value="{$data.yuanxiao.defaultimage}"   lay-verify="" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-col-sm1">
+                            <div class="layui-input-inline">
+                                <button  class="layui-btn" type="button"  id="upload_image_2">上传图片</button>
+                            </div>
                         </div>
 
                     </div>
@@ -403,7 +431,7 @@
                     <input type="hidden" id="zhuanye_check_ids">
                 </form>
 
-                <div class="layui-row">
+                <div class="layui-row layui-form-item">
                     <table id="yuanxiao_zhuanye_lists" lay-filter="zhuanye"></table>
                 </div>
 
@@ -567,6 +595,34 @@
                     table=layui.table,
                     upload = layui.upload;
                 var yuanxiao_id=$('#yuanxiao_id').val();
+
+
+                var uploadInst1 = upload.render({
+                    elem: '#upload_image_1' //绑定元素
+                    ,url: '/uploadone_yuanxiao'
+                    ,done: function(res){
+                        if (res.status){
+                            layer.msg('上传成功');
+                            $('#backgroundimage').val(res.truepath);
+                        }else{
+                            layer.alert("Error : "+ res.msg, {icon: 2});
+                        }
+                    }
+                });
+
+                var uploadInst2 = upload.render({
+                    elem: '#upload_image_2' //绑定元素
+                    ,url: '/uploadone_yuanxiao'
+                    ,done: function(res){
+                        if (res.status){
+                            layer.msg('上传成功');
+                            $('#defaultimage').val(res.truepath);
+                        }else{
+                            layer.alert("Error : "+ res.msg, {icon: 2});
+                        }
+                    }
+                });
+
                 var image_upload_lists=table.render({
                     elem: '#image_upload_lists',// DOM ID
                     // height: 315,// 高度
