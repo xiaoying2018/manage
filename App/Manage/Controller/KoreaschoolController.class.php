@@ -34,6 +34,11 @@ class KoreaschoolController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
+            $a = M('schoolKorea')->where(['name_cn'=>$par['name_cn']])->find();
+//            $this->ajaxReturn($a);
+            if(!empty($a)){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
@@ -75,6 +80,10 @@ class KoreaschoolController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
+            $a = M('schoolKorea')->where(['name_cn'=>$par['name_cn']])->find();
+            if(!empty($a) && $par['ids'] != $a['school_id']){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             if(substr($par['logo_long'],0,1)=='.'){
                 $par['logo_long'] = substr($par['logo_long'],1);
             }
@@ -161,7 +170,7 @@ class KoreaschoolController extends BaseController
                 $where['name_cn'] = ['like',['%' . $searchname . '%']];
             }
 
-            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+            $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('id desc')->select();
             $tag = [];
             $data['data'] = $schlooldata;
             $data['code'] = 0;

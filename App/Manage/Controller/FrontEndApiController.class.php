@@ -622,7 +622,7 @@ class FrontEndApiController extends Controller
                     $tag[] = $v1['tagname'];
                 }
             }
-            $newsdata['tags'] = $tag;
+            $newsdata['tags'] = array_unique($tag);
             $this->ajaxreturn(['status' => true, 'data' => $newsdata]);
         } else {
             $this->ajaxreturn(['status' => false, 'msg' => '暂无数据']);
@@ -1379,12 +1379,13 @@ class FrontEndApiController extends Controller
     public function gethotarticle(){
         header('Access-Control-Allow-Origin:*');
         $times = I('get.times')?I('get.times'):5;
-        $hotdata = M('article')->field('id,title,hits,publishedTime,thumb')->order('upsnum desc')->limit($times)->select();
+        $hotdata = M('article')->where(['countryid'=>3])->field('id,title,hits,publishedTime,thumb,body')->order('upsnum desc')->limit($times)->select();
         foreach ($hotdata as $k=>$v){
             $hotdata[$k]['create'] = date('Y-m',$v['publishedtime']);
             if(substr($v['thumb'],0,1)=='.'){
                 $hotdata[$k]['thumb'] = substr($v['thumb'],1);
             }
+            $hotdata[$k]['des'] = mb_substr(strip_tags($v['body']),0,100,'utf-8');
         }
         $this->ajaxreturn($hotdata);
     }
@@ -1392,7 +1393,10 @@ class FrontEndApiController extends Controller
     public function getsameschoolbyarea(){
         header('Access-Control-Allow-Origin:*');
         $limit = I('get.limit')?I('get.limit'):10;
-        $yuanxiaodata = M('yuanxiao')->where(['area'=>I('get.area')])->field('id,name,englishname,defaultimage')->limit($limit)->select();
+        $yuanxiaodata = M('yuanxiao')->where(['area'=>I('get.area')])->field('id,name,englishname,defaultimage,description')->limit($limit)->select();
+        foreach ($yuanxiaodata as $k=>$v){
+            $yuanxiaodata[$k]['des'] = mb_substr(strip_tags($v['description']),0,50,'utf-8');
+        }
         $this->ajaxreturn($yuanxiaodata);
     }
 

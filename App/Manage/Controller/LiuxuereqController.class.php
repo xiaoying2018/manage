@@ -260,7 +260,7 @@ class LiuxuereqController extends BaseController
                 $offset = I('get.limit');
                 $start = ($page-1)*$offset;
                 $end = ($page-1)*$offset+$offset;
-                $catedatas = $catemodel->order('orders')->select();
+                $catedatas = $catemodel->order('orders')->order('id desc')->select();
                 $catedata = $this->tree($catedatas,0,0);
 //            $this->ajaxReturn($catedata);
                 foreach ($catedata as $k=>$v){

@@ -34,6 +34,9 @@ class SchoolController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
+            if(!empty(M('school')->where(['name_cn'=>$par['name_cn']])->find())){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
@@ -80,7 +83,9 @@ class SchoolController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
-
+            if(!empty(M('school')->where(['name_cn'=>$par['name_cn']])->find())){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             $fileids = trim($par['fileids'],',');
             if(!empty($fileids)){
                 $filearr = explode(',',$fileids);
@@ -125,7 +130,10 @@ class SchoolController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
-
+            $a = M('school')->where(['name_cn'=>$par['name_cn']])->find();
+            if(!empty($a) && $par['ids'] != $a['id']){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
             // 执行更新操作
             $fileids = trim($par['fileids'],',');
@@ -186,7 +194,10 @@ class SchoolController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
-//$this->ajaxReturn($par);
+            $a = M('school')->where(['name_cn'=>$par['name_cn']])->find();
+            if(!empty($a) && $par['ids'] != $a['id']){
+                $this->ajaxReturn(['status'=>false,'msg'=>'该学校已存在！']);
+            }
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
             // 执行更新操作
             $fileids = trim($par['fileids'],',');
@@ -286,7 +297,7 @@ class SchoolController extends BaseController
 
         $count = $schoolmodel->where($where)->count();
 
-        $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->select();
+        $schlooldata = $schoolmodel->where($where)->limit(($page - 1) * $offset, $offset)->order('id desc')->select();
         $tag = [];
         $data['data'] = $schlooldata;
         $data['code'] = 0;

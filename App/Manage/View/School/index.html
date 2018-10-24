@@ -107,7 +107,7 @@
                         {field: 'competition', title: '录取比例'},
                         {field: 'hits', title: '浏览量'},
                         {field: 'address', title: '地址'},
-//                        {field: 'phone', title: '招生联系人'},
+                        {field: 'category_school', title: '学校类型'},
 //                        {field: 'email', title: '邮箱'},
 //                        {field: 'update_user', title: '更新者'},
 //                        {field: 'update_time', title: '更新时间'},
@@ -218,6 +218,7 @@
                             success:function (res) {
                                 if (res.status == 1) {
                                     layer.alert('删除成功!');
+                                    parent.window.location.reload(true);
                                 }else{
                                     layer.alert(res.msg);
                                 }

@@ -199,6 +199,7 @@
                             success:function (res) {
                                 if (res.status == 1) {
                                     layer.alert('删除成功!');
+                                    parent.window.location.reload(true);
                                 }else{
                                     layer.alert(res.msg);
                                 }

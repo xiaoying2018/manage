@@ -32,6 +32,9 @@ class TagsController extends BaseController
 
 //            if (!$par['pid'] || $par['pid'] !=0) $this->ajaxReturn(['status'=>false,'msg'=>'父分类不能为空']);// 参数过滤
             if (!$par['tagname']) $this->ajaxReturn(['status'=>false,'msg'=>'标签名不能为空']);// 参数过滤
+            if(!empty(M('tags')->where(['tagname'=>$par['tagname']])->find())){
+                $this->ajaxReturn(['status'=>false,'msg'=>'已有相同标签,请重新填写！']);
+            }
             // TODO 数据验证
 //            $par['create_user'] = session('xy_manager')['name'];// 创建者
 //            $par['create_time'] = time();// 更新时间
@@ -63,7 +66,7 @@ class TagsController extends BaseController
             $page = I('get.page');
             $offset = I('get.limit');
 //            $nowpage = ($page-1)*$offset;
-            $catedata = $catemodel->limit(($page - 1) * $offset, $offset)->select();
+            $catedata = $catemodel->limit(($page - 1) * $offset, $offset)->order('id desc')->select();
             $catedatas = $catemodel->select();
 //            $catedata = $this->tree($catedata,0,0);
 //            foreach ($catedata as $k=>$v){
