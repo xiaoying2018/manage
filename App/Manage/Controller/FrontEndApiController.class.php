@@ -1268,7 +1268,7 @@ class FrontEndApiController extends Controller
         $where = array();
         $page = I('get.page')?I('get.page'):1;
         $offset = I('get.limit')?I('get.limit'):10;
-        if(empty(I('get.category')) || I('get.category')==1){
+        if(I('get.category')==1){
             $where['category'] = '语言学校';
         }elseif ( I('get.category')==2){
             $where['category'] = '专门学校';
