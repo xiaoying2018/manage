@@ -1,10 +1,10 @@
 <?php
 
-	return array(
-		/* 路由设置 */
-    	'URL_ROUTER_ON' => true,// 开启路由
+return array(
+    /* 路由设置 */
+    'URL_ROUTER_ON' => true,// 开启路由
 
-    	 'URL_ROUTE_RULES' => array(
+    'URL_ROUTE_RULES' => array(
         // login
         'login$' => 'Manage/Login/show',// 登录页面
         'dologin' => 'Manage/Login/dologin',// 登录验证
@@ -12,6 +12,12 @@
 
         // 站点配置
         'basesetting$' => 'Manage/Basesetting/index',// 站点配置页
+
+        // 友情链接
+        'footerlink$' => 'Manage/Links/footer',// 底部友链
+        'footerlink/create' => 'Manage/Links/footerlink_create',// 新增底部友链
+        'footerlink/edit' => 'Manage/Links/footerlink_edit',// 修改底部友链
+        'footerlink/changestatus' => 'Manage/Links/changestatus',// 修改底部友链状态
 
         // 用户
         'user$' => 'Manage/User/index',// 用户列表页
@@ -65,7 +71,7 @@
 
         /** =========================================================
          * 无需经过权限判断的
-         ========================================================== */
+         * ========================================================== */
 
         // 前端页面所需系统接口 需要绕过权限判断的接口 TODO 后面抽空把列表页接口放在列表页同方法中 (AJAX请求返回数据,普通请求返回视图). dragon.
         'pretree/api' => 'Manage/FrontEndApi/preTreeApi',// 权限树数据接口
@@ -98,138 +104,137 @@
         'crontab/update/studentcallnum' => 'Manage/XiaoyingApi/addStudentCallNum',// 定时更新学员call值 每天加5个 wait
         'xy/call/sendsms' => 'Manage/XiaoyingApi/sendsms',// 发送短信验证码 wait
 
-             ##资讯前端接口
-             'article/catesearch'=>'Manage/FrontEndApi/catesearch',  //分类列表
-             'article/contentssearch'=>'Manage/FrontEndApi/contentssearch',  //内容列表
-             'article/detailsearch'=>'Manage/FrontEndApi/detailsearch',  //内容详情
-             'article/getarticlebytags'=>'Manage/FrontEndApi/getarticlebytags',  //根据标签获取资讯
-             ##热门资讯
-             'article/hotlist'=>'Manage/FrontEndApi/gethotarticle',  //获取热门资讯
-             'vote'=>'Manage/FrontEndApi/vote',  //点赞
-             'reads'=>'Manage/FrontEndApi/reads',  //阅读量
-             'mantouarticle/contentssearch'=>'Manage/FrontEndApi/getarticlelistformantou',  //内容列表
+        ##资讯前端接口
+        'article/catesearch' => 'Manage/FrontEndApi/catesearch',  //分类列表
+        'article/contentssearch' => 'Manage/FrontEndApi/contentssearch',  //内容列表
+        'article/detailsearch' => 'Manage/FrontEndApi/detailsearch',  //内容详情
+        'article/getarticlebytags' => 'Manage/FrontEndApi/getarticlebytags',  //根据标签获取资讯
+        ##热门资讯
+        'article/hotlist' => 'Manage/FrontEndApi/gethotarticle',  //获取热门资讯
+        'vote' => 'Manage/FrontEndApi/vote',  //点赞
+        'reads' => 'Manage/FrontEndApi/reads',  //阅读量
+        'mantouarticle/contentssearch' => 'Manage/FrontEndApi/getarticlelistformantou',  //内容列表
 
-             ##地区联动
-             'getarea'=>'Manage/FrontEndApi/getarea',
-             ##日本院校库前台接口
-             'getlangschool'=>'Manage/FrontEndApi/schoolsearch1',   //语言学校列表
-             'getjapschool'=>'Manage/FrontEndApi/schoolsearch2',   //日本学校列表
-             'getschooldetail'=>'Manage/FrontEndApi/schooldetail',   //日本语言学校和日本大学学校详情
-             'clicks'=>'Manage/FrontEndApi/clicks',  //增加浏览次数
-             'school/xueli'=>'Manage/FrontEndApi/getxueli', //专业学历列表
-             'school/cate'=>'Manage/FrontEndApi/getcate', //  专业分类
-             'school/schoolprogram'=>'Manage/FrontEndApi/getschoolprogram', //获取学校的专业
-             'school/programdetail'=>'Manage/FrontEndApi/getprogramdetail', //获取专业详情
-             ##韩国
-             'getkoreaschool'=>'Manage/FrontEndApi/schoolsearch3',//学校列表
-             'getkoreadetail'=>'Manage/FrontEndApi/koreaschooldetail',//学校详情
-             ##新加坡
-             'getsgpschool'=>'Manage/FrontEndApi/schoolsearch4',//学校列表
-             'getsgpdetail'=>'Manage/FrontEndApi/sgpschooldetail',//学校详情
-             'sgpmajordetail'=>'Manage/FrontEndApi/sgpmajordetail',//学校专业
-             ##推荐位图片前台获取
-             'getrecom'=>'Manage/FrontEndApi/getrecom',
-             ##国家跳转链接
-             'getcountrylink'=>'Manage/FrontEndApi/getcountrylink',
-             ##留学申请
-             'getcountry'=>'Manage/FrontEndApi/getcountry',  //获取所有国家
-             'getliuxuelist'=>'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
-             'getliuxuecatelist'=>'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
-             'getliuxuedetail'=>'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情
+        ##地区联动
+        'getarea' => 'Manage/FrontEndApi/getarea',
+        ##日本院校库前台接口
+        'getlangschool' => 'Manage/FrontEndApi/schoolsearch1',   //语言学校列表
+        'getjapschool' => 'Manage/FrontEndApi/schoolsearch2',   //日本学校列表
+        'getschooldetail' => 'Manage/FrontEndApi/schooldetail',   //日本语言学校和日本大学学校详情
+        'clicks' => 'Manage/FrontEndApi/clicks',  //增加浏览次数
+        'school/xueli' => 'Manage/FrontEndApi/getxueli', //专业学历列表
+        'school/cate' => 'Manage/FrontEndApi/getcate', //  专业分类
+        'school/schoolprogram' => 'Manage/FrontEndApi/getschoolprogram', //获取学校的专业
+        'school/programdetail' => 'Manage/FrontEndApi/getprogramdetail', //获取专业详情
+        ##韩国
+        'getkoreaschool' => 'Manage/FrontEndApi/schoolsearch3',//学校列表
+        'getkoreadetail' => 'Manage/FrontEndApi/koreaschooldetail',//学校详情
+        ##新加坡
+        'getsgpschool' => 'Manage/FrontEndApi/schoolsearch4',//学校列表
+        'getsgpdetail' => 'Manage/FrontEndApi/sgpschooldetail',//学校详情
+        'sgpmajordetail' => 'Manage/FrontEndApi/sgpmajordetail',//学校专业
+        ##推荐位图片前台获取
+        'getrecom' => 'Manage/FrontEndApi/getrecom',
+        ##国家跳转链接
+        'getcountrylink' => 'Manage/FrontEndApi/getcountrylink',
+        ##留学申请
+        'getcountry' => 'Manage/FrontEndApi/getcountry',  //获取所有国家
+        'getliuxuelist' => 'Manage/FrontEndApi/getliuxuelist',  //根据国家列表
+        'getliuxuecatelist' => 'Manage/FrontEndApi/getliuxuecatelist',  //根据国家列表
+        'getliuxuedetail' => 'Manage/FrontEndApi/getliuxuedetail',  //留学申请详情
 
-             'changeweb'=>'Manage/FrontEndApi/changeweb',  //website
-             ##背景提升
-             'backdetail'=>'Manage/FrontEndApi/getbackdetail',
-             ##馒头留学相似案例
-             'mantoucase/getsamecasebyschoolname'=>'Manage/FrontEndApi/getsamecasebyschoolname',
-             ##馒头留学同城学校
-             'mantou/getsameschoolbyarea'=>'Manage/FrontEndApi/getsameschoolbyarea',
-             //馒头留学院校库前段接口
-             'yuanxiao/api/index'=>'Manage/FrontEndApi/getYuanLists',//院校列表
-             'yuanxiao/api/detail'=>'Manage/FrontEndApi/getYuanXiao',//院校详情
+        'changeweb' => 'Manage/FrontEndApi/changeweb',  //website
+        ##背景提升
+        'backdetail' => 'Manage/FrontEndApi/getbackdetail',
+        ##馒头留学相似案例
+        'mantoucase/getsamecasebyschoolname' => 'Manage/FrontEndApi/getsamecasebyschoolname',
+        ##馒头留学同城学校
+        'mantou/getsameschoolbyarea' => 'Manage/FrontEndApi/getsameschoolbyarea',
+        //馒头留学院校库前段接口
+        'yuanxiao/api/index' => 'Manage/FrontEndApi/getYuanLists',//院校列表
+        'yuanxiao/api/detail' => 'Manage/FrontEndApi/getYuanXiao',//院校详情
 
 
+        // 提供给其他站点的数据接口 ixy = i.xiaoying.net
+        'ixy/koubei/get' => 'Manage/Ixiaoying/koubei',// 口碑
+        'ixy/koubei/upstar' => 'Manage/Ixiaoying/upstar',// 口碑点赞
 
-             // 提供给其他站点的数据接口 ixy = i.xiaoying.net
-             'ixy/koubei/get' => 'Manage/Ixiaoying/koubei',// 口碑
-             'ixy/koubei/upstar' => 'Manage/Ixiaoying/upstar',// 口碑点赞
+        //标签管理
+        'tags/index' => 'Manage/Tags/index',  //分类列表
+        'tags/create' => 'Manage/Tags/add', //新增分类
+        'tags/delete' => 'Manage/Tags/delete', //删除
 
-             //标签管理
-             'tags/index' => 'Manage/Tags/index',  //分类列表
-             'tags/create'=>'Manage/Tags/add', //新增分类
-             'tags/delete'=>'Manage/Tags/delete', //删除
+        //日本学校管理
+        'school/getone' => 'Manage/School/getone',  //列表
+        'school/index' => 'Manage/School/index',  //列表
+        'school/search' => 'Manage/School/search',
+        ##语言学校
+        'school/addlschool' => 'Manage/School/add1',    //新增语言学校
+        'school/delete1' => 'Manage/School/delete1',
+        'school/edit1' => 'Manage/School/edit1',     //语言学校修改
+        ##日本大学
+        'school/addcschool' => 'Manage/School/add2',    //新增语言学校
+        'school/edit2' => 'Manage/School/edit2',     //语言学校修改
 
-             //日本学校管理
-             'school/getone'=>'Manage/School/getone',  //列表
-             'school/index'=>'Manage/School/index',  //列表
-             'school/search'=>'Manage/School/search',
-             ##语言学校
-             'school/addlschool'=>'Manage/School/add1',    //新增语言学校
-             'school/delete1'=>'Manage/School/delete1',
-             'school/edit1'=>'Manage/School/edit1',     //语言学校修改
-             ##日本大学
-             'school/addcschool'=>'Manage/School/add2',    //新增语言学校
-             'school/edit2'=>'Manage/School/edit2',     //语言学校修改
+        ##韩国学校
+        'koreaschool/search' => 'Manage/Koreaschool/search',
+        'koreaschool/add' => 'Manage/Koreaschool/add',    //新增韩国学校
+        'koreaschool/edit' => 'Manage/Koreaschool/edit',  //修改韩国学校
+        'koreaschool/delete' => 'Manage/Koreaschool/delete',  //修改韩国学校
 
-             ##韩国学校
-             'koreaschool/search'=>'Manage/Koreaschool/search',
-             'koreaschool/add'=>'Manage/Koreaschool/add',    //新增韩国学校
-             'koreaschool/edit'=>'Manage/Koreaschool/edit',  //修改韩国学校
-             'koreaschool/delete'=>'Manage/Koreaschool/delete',  //修改韩国学校
+        'uploadall' => 'Manage/FrontEndApi/uploadall',//院校多图片上传接口
+        'delfile' => 'Manage/File/delfile',        //删除图片
+        ##新加坡学校
+        'sgpschool/search' => 'Manage/Sgpschool/search',
+        'sgpschool/add' => 'Manage/Sgpschool/add',    //新增新加坡学校
+        'sgpschool/edit' => 'Manage/Sgpschool/edit',  //修改新加坡学校
+        'sgpschool/delete' => 'Manage/Sgpschool/delete',  //修改新加坡学校
 
-             'uploadall'=>'Manage/FrontEndApi/uploadall',//院校多图片上传接口
-             'delfile'=>'Manage/File/delfile',        //删除图片
-             ##新加坡学校
-             'sgpschool/search'=>'Manage/Sgpschool/search',
-             'sgpschool/add'=>'Manage/Sgpschool/add',    //新增新加坡学校
-             'sgpschool/edit'=>'Manage/Sgpschool/edit',  //修改新加坡学校
-             'sgpschool/delete'=>'Manage/Sgpschool/delete',  //修改新加坡学校
+        //文章资讯
+        'articlecate/search' => 'Manage/Articlecate/search',
+        'articlecate/addcate' => 'Manage/Articlecate/addcate', //新增分类
+        'articlecate/editcate' => 'Manage/Articlecate/editcate',      //分类修改
+        'articlecate/deletecate' => 'Manage/Articlecate/deletecate', //删除分类
+        'articlecate/getallcate' => 'Manage/Articlecate/getallcate',   //所有分类
 
-             //文章资讯
-             'articlecate/search'=>'Manage/Articlecate/search',
-             'articlecate/addcate'=>'Manage/Articlecate/addcate', //新增分类
-             'articlecate/editcate'=>'Manage/Articlecate/editcate',      //分类修改
-             'articlecate/deletecate'=>'Manage/Articlecate/deletecate', //删除分类
-             'articlecate/getallcate' =>'Manage/Articlecate/getallcate',   //所有分类
+        'article/search' => 'Manage/Article/search', //列表接口
+        'article/create' => 'Manage/Article/add',   //新增
+        'article/edit' => 'Manage/Article/edit',   //修改
+        'article/delete' => 'Manage/Article/delete',  //删除
 
-             'article/search'=>'Manage/Article/search', //列表接口
-             'article/create'=>'Manage/Article/add',   //新增
-             'article/edit'=>'Manage/Article/edit',   //修改
-             'article/delete'=>'Manage/Article/delete',  //删除
+        //推荐位图片管理
+        'recom/index' => 'Manage/Recom/index',   //首页
+        'recom/search' => 'Manage/Recom/search', //列表接口
+        'recom/create' => 'Manage/Recom/add',   //新增
+        'recom/edit' => 'Manage/Recom/edit',   //修改
 
-             //推荐位图片管理
-             'recom/index'=>'Manage/Recom/index',   //首页
-             'recom/search'=>'Manage/Recom/search', //列表接口
-             'recom/create'=>'Manage/Recom/add',   //新增
-             'recom/edit'=>'Manage/Recom/edit',   //修改
+        //国家管理
+        'country/index' => 'Manage/Country/index', //首页
+        'country/search' => 'Manage/Country/search', //列表接口
+        'country/create' => 'Manage/Country/add',   //新增
+        'country/edit' => 'Manage/Country/edit',   //修改
 
-             //国家管理
-             'country/index'=>'Manage/Country/index', //首页
-             'country/search'=>'Manage/Country/search', //列表接口
-             'country/create'=>'Manage/Country/add',   //新增
-             'country/edit'=>'Manage/Country/edit',   //修改
+        //留学申请
+        'Liuxuereq/index' => 'Manage/Liuxuereq/index', //首页
+        'Liuxuereq/search' => 'Manage/Liuxuereq/search', //列表接口
+        'Liuxuereq/create' => 'Manage/Liuxuereq/add',   //新增
+        'Liuxuereq/edit' => 'Manage/Liuxuereq/edit',   //修改
+        'Liuxuereq/delete' => 'Manage/Liuxuereq/delete',   //删除
+        //背景提升
+        'Background/index' => 'Manage/Background/index', //首页
+        'Background/search' => 'Manage/Background/search', //列表接口
+        'Background/create' => 'Manage/Background/add',   //新增
+        'Background/edit' => 'Manage/Background/edit',   //修改
+        'Background/delete' => 'Manage/Background/delete',   //删除
+        ##留学申请分类
+        'Liuxuereq/cateindex' => 'Manage/Liuxuereq/cateindex', //分类首页
+        'Liuxuereq/catesearch' => 'Manage/Liuxuereq/catesearch', //分类列表接口
+        'Liuxuereq/catecreate' => 'Manage/Liuxuereq/cateadd',   //分类新增
+        'Liuxuereq/cateedit' => 'Manage/Liuxuereq/cateedit',   //分类修改
+        'Liuxuereq/catedelete' => 'Manage/Liuxuereq/catedelete',   //分类修改
+        'Liuxuereq/getallcate' => 'Manage/Liuxuereq/getallcate',
 
-             //留学申请
-             'Liuxuereq/index'=>'Manage/Liuxuereq/index', //首页
-             'Liuxuereq/search'=>'Manage/Liuxuereq/search', //列表接口
-             'Liuxuereq/create'=>'Manage/Liuxuereq/add',   //新增
-             'Liuxuereq/edit'=>'Manage/Liuxuereq/edit',   //修改
-             'Liuxuereq/delete'=>'Manage/Liuxuereq/delete',   //删除
-             //背景提升
-             'Background/index'=>'Manage/Background/index', //首页
-             'Background/search'=>'Manage/Background/search', //列表接口
-             'Background/create'=>'Manage/Background/add',   //新增
-             'Background/edit'=>'Manage/Background/edit',   //修改
-             'Background/delete'=>'Manage/Background/delete',   //删除
-             ##留学申请分类
-             'Liuxuereq/cateindex'=>'Manage/Liuxuereq/cateindex', //分类首页
-             'Liuxuereq/catesearch'=>'Manage/Liuxuereq/catesearch', //分类列表接口
-             'Liuxuereq/catecreate'=>'Manage/Liuxuereq/cateadd',   //分类新增
-             'Liuxuereq/cateedit'=>'Manage/Liuxuereq/cateedit',   //分类修改
-             'Liuxuereq/catedelete'=>'Manage/Liuxuereq/catedelete',   //分类修改
-             'Liuxuereq/getallcate' =>'Manage/Liuxuereq/getallcate',
-
-             'gethf' =>'Manage/FrontEndApi/ddd2',
+        'gethf' => 'Manage/FrontEndApi/ddd2',
     ),
-	);
+);
 
