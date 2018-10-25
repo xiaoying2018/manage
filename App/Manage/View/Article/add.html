@@ -94,7 +94,7 @@
         <div class="layui-form-item">
             <label for="" class="layui-form-label">标签</label>
             <div class="layui-input-block">
-                <select name="tagsid[]" required="required" lay-verify="required"  xm-select="select1">
+                <select name="tagsid[]" id="tags" required="required" lay-verify="required"  xm-select="select1">
                     <option value="">请选择</option>
                     <volist name="tags" id="vo">
                         <option value="{$vo.id}">{$vo.tagname}</option>
@@ -102,6 +102,7 @@
                 </select>
             </div>
         </div>
+
 
 
         <script type="text/javascript">
@@ -408,7 +409,7 @@
 //            alert(1)
             // 格式化状态字段的值
             if (data.field.status == 'on'){data.field.status = 1;}else{data.field.status = 0;}
-
+//            data.field.tagsid = $('#tags').val()
             // JS 提交表单
             $.ajax({
                 url:"/article/create",

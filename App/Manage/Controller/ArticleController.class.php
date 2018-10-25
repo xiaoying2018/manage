@@ -35,7 +35,11 @@ class ArticleController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
-            $this->ajaxReturn($par);
+            if(!empty($par['tagsid'])){
+                $par['tagsid'] = implode(',',$par['tagsid']);
+            }
+//            $this->ajaxReturn($par);
+
 //            if (!$par['pid'] || $par['pid'] !=0) $this->ajaxReturn(['status'=>false,'msg'=>'父分类不能为空']);// 参数过滤
 //            if (!$par['catename']) $this->ajaxReturn(['status'=>false,'msg'=>'分类名不能为空']);// 参数过滤
             // TODO 数据验证
@@ -71,6 +75,10 @@ class ArticleController extends BaseController
         if (IS_POST && IS_AJAX)// 如果修改
         {
             $par = I('post.');// 参数接收
+            if(!empty($par['tagsid'])){
+                $par['tagsid'] = implode(',',$par['tagsid']);
+            }
+
 //            $this->ajaxreturn($par);
             $par['categoryId'] = $par['newscate'];
             if (!$par['ids']) $this->ajaxReturn(['status'=>false,'msg'=>'缺少关键参数']);// 缺少关键参数
@@ -104,6 +112,12 @@ class ArticleController extends BaseController
         }
         $this->country = M('country')->select();
         $this->info = $info;// 分配数据到模板
+        if(!empty($info['tagsid'])){
+            $this->tags = implode(',',array_column(M('tags')->where(['id'=>['in',$info['tagsid']]])->select(),'id'));
+//            var_dump($this->tags);
+        }
+        $this->tagsdata = M('tags')->select();
+
         $this->id = $id;
         $this->display();// 展示模板
     }

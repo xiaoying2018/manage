@@ -10,6 +10,7 @@
     <link rel="icon" href="__PUBLIC__/favicon.ico">
     <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css">
     <link rel="stylesheet" href="__PUBLIC__/manage/css/common.css"><!-- 此文件必须在layui.css之后引用 -->
+    <link rel="stylesheet" href="__PUBLIC__/new/formselect/formSelects-v4.css">
     <!--<script src="/Public/jquery.min.js"></script>-->
     <script src="__PUBLIC__/layui/layui.js"></script>
     <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
@@ -109,6 +110,18 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label for="" class="layui-form-label">标签</label>
+                <div class="layui-input-block">
+                    <select name="tagsid[]" id="tags" required="required" lay-verify="required"  xm-select="select1">
+                        <option value="">请选择</option>
+                        <volist name="tagsdata" id="vo">
+                            <option value="{$vo.id}">{$vo.tagname}</option>
+                        </volist>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" value="{$tags}" id="tagsids">
+            <div class="layui-form-item">
                 <label for="source" class="layui-form-label"> 来源名称</label>
                 <div class="layui-input-block">
                     <input type="text" id="source" name="source" required="" lay-verify="" autocomplete="off" class="layui-input" value="{$info.source}">
@@ -195,6 +208,18 @@
         var form = layui.form,
             layer = layui.layer,
             upload = layui.upload;
+
+        layui.config({
+            base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+        }).extend({ //设定模块别名
+            formSelects: 'formSelects-v4'
+        });
+
+        layui.use(['formSelects'], function() {
+            formSelects = layui.formSelects;
+            formSelects.render('select1');
+            formSelects.value('select1', $("#tagsids").val().split(','));
+        });
 
         form.on('select(nowcid1)', function(data){
             //地区联动
