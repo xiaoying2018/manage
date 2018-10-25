@@ -35,7 +35,7 @@ class ArticleController extends BaseController
         if (IS_POST && IS_AJAX)// 新增
         {
             $par = I('post.');// 参数接收
-
+            $this->ajaxReturn($par);
 //            if (!$par['pid'] || $par['pid'] !=0) $this->ajaxReturn(['status'=>false,'msg'=>'父分类不能为空']);// 参数过滤
 //            if (!$par['catename']) $this->ajaxReturn(['status'=>false,'msg'=>'分类名不能为空']);// 参数过滤
             // TODO 数据验证
@@ -60,6 +60,7 @@ class ArticleController extends BaseController
         }
 //        var_dump($catedata);
         $this->country = M('country')->select();
+        $this->tags = M('tags')->select();
         $this->assign('catedata',$catedata);
         $this->display();
     }
