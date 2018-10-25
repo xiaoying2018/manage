@@ -612,17 +612,20 @@ class FrontEndApiController extends Controller
         $tagsmodel = new TagsModel();
         $tagsdata = $tagsmodel->select();
         $newsdata = $newsmodel->where(['id' => $contentid])->find();
+        $tagsdata = M('tags')->where(['id'=>['in',explode(',',$newsdata['tagsid'])]])->select();
+//        $this->ajaxreturn($tagsids);
+        $newsdata['tags'] = $tagsdata;
         if (!empty($newsdata)) {
             $newsdata['newscate'] = M('articleCategory')->where(['id' => $newsdata['newscate']])->find()['catename'];
             $newsdata['create_time'] = date('Y-m-d H:i:s', $newsdata['create_time']);
             $newsdata['create_user'] = M('user')->where(['id' => $newsdata['create_user']])->find()['name'];
-            $tag = [];
-            foreach($tagsdata as $k1=>$v1){
-                if(strpos($newsdata['body'],$v1['tagname'])!==false){
-                    $tag[] = $v1['tagname'];
-                }
-            }
-            $newsdata['tags'] = array_unique($tag);
+//            $tag = [];
+//            foreach($tagsdata as $k1=>$v1){
+//                if(strpos($newsdata['body'],$v1['tagname'])!==false){
+//                    $tag[] = $v1['tagname'];
+//                }
+//            }
+//            $newsdata['tags'] = array_unique($tag);
             $this->ajaxreturn(['status' => true, 'data' => $newsdata]);
         } else {
             $this->ajaxreturn(['status' => false, 'msg' => '暂无数据']);
