@@ -15,6 +15,15 @@
     <script type="text/javascript" src="__PUBLIC__/jquery-2.1.1.js"></script>
     <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.config.js"></script>
     <script type="text/javascript" src="__PUBLIC__/new/utf8-php/ueditor.all.js"></script>
+
+    <!--<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/new/select/css/demo.css">-->
+    <!--<link href="__PUBLIC__/new/select/dist/css/component-chosen.css" rel="stylesheet">-->
+    <!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+    <!--<script type="text/javascript" src="__PUBLIC__/new/select/js/chosen.jquery.js"></script>-->
+
+    <link rel="stylesheet" href="__PUBLIC__/new/formselect/formSelects-v4.css">
+    <script src="__PUBLIC__/new/formselect/formSelects-v4.min.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
@@ -83,6 +92,51 @@
                 <input type="text"  required="required" lay-verify="required"  id="treeselecttest" lay-filter="demo" name="categoryId" placeholder="分类" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label for="" class="layui-form-label">标签</label>
+            <div class="layui-input-block">
+                <select name="tagsid[]" lay-filter="" id="" required="" lay-verify="" style="height: 600%" xm-select="select1">
+                    <option value="">请选择</option>
+                    <volist name="tags" id="vo">
+                        <option value="{$vo.id}">{$vo.tagname}</option>
+                    </volist>
+                </select>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            $('.form-control-chosen').chosen({
+                allow_single_deselect: true,
+                width: '100%'
+            });
+            $('.form-control-chosen-required').chosen({
+                allow_single_deselect: false,
+                width: '100%'
+            });
+            $('.form-control-chosen-search-threshold-100').chosen({
+                allow_single_deselect: true,
+                disable_search_threshold: 100,
+                width: '100%'
+            });
+            $('.form-control-chosen-optgroup').chosen({
+                width: '100%'
+            });
+
+            $(function() {
+                $('[title="clickable_optgroup"]').addClass('chosen-container-optgroup-clickable');
+            });
+            $(document).on('click', '[title="clickable_optgroup"] .group-result', function() {
+                var unselected = $(this).nextUntil('.group-result').not('.result-selected');
+                if(unselected.length) {
+                    unselected.trigger('mouseup');
+                } else {
+                    $(this).nextUntil('.group-result').each(function() {
+                        $('a.search-choice-close[data-option-array-index="' + $(this).data('option-array-index') + '"]').trigger('click');
+                    });
+                }
+            });
+        </script>
         <div class="layui-form-item">
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label"><span class="m-warning">*</span> 标题</label>
@@ -260,11 +314,15 @@
     </form>
 </div>
 <script>
-    layui.use(['form','layer','element','upload'], function(){
+    layui.use(['form','layer','element','formSelects'], function(){
         $ = layui.jquery;
         var form = layui.form,
             layer = layui.layer,
-            upload = layui.upload;
+            upload = layui.upload,
+            formSelects =  layui.formSelects;
+
+        //多选select
+
 
         form.on('select(nowcid1)', function(data){
             //地区联动
