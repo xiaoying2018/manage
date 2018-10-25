@@ -23,7 +23,6 @@
     <!--<script type="text/javascript" src="__PUBLIC__/new/select/js/chosen.jquery.js"></script>-->
 
     <link rel="stylesheet" href="__PUBLIC__/new/formselect/formSelects-v4.css">
-    <script src="__PUBLIC__/new/formselect/formSelects-v4.min.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <!--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->
@@ -95,7 +94,7 @@
         <div class="layui-form-item">
             <label for="" class="layui-form-label">标签</label>
             <div class="layui-input-block">
-                <select name="tagsid[]" lay-filter="" id="" required="" lay-verify="" style="height: 600%" xm-select="select1">
+                <select name="tagsid[]" required="required" lay-verify="required"  xm-select="select1">
                     <option value="">请选择</option>
                     <volist name="tags" id="vo">
                         <option value="{$vo.id}">{$vo.tagname}</option>
@@ -106,22 +105,22 @@
 
 
         <script type="text/javascript">
-            $('.form-control-chosen').chosen({
-                allow_single_deselect: true,
-                width: '100%'
-            });
-            $('.form-control-chosen-required').chosen({
-                allow_single_deselect: false,
-                width: '100%'
-            });
-            $('.form-control-chosen-search-threshold-100').chosen({
-                allow_single_deselect: true,
-                disable_search_threshold: 100,
-                width: '100%'
-            });
-            $('.form-control-chosen-optgroup').chosen({
-                width: '100%'
-            });
+            // $('.form-control-chosen').chosen({
+            //     allow_single_deselect: true,
+            //     width: '100%'
+            // });
+            // $('.form-control-chosen-required').chosen({
+            //     allow_single_deselect: false,
+            //     width: '100%'
+            // });
+            // $('.form-control-chosen-search-threshold-100').chosen({
+            //     allow_single_deselect: true,
+            //     disable_search_threshold: 100,
+            //     width: '100%'
+            // });
+            // $('.form-control-chosen-optgroup').chosen({
+            //     width: '100%'
+            // });
 
             $(function() {
                 $('[title="clickable_optgroup"]').addClass('chosen-container-optgroup-clickable');
@@ -314,15 +313,23 @@
     </form>
 </div>
 <script>
-    layui.use(['form','layer','element','formSelects'], function(){
+    layui.use(['form','layer','element','upload'], function(){
         $ = layui.jquery;
         var form = layui.form,
             layer = layui.layer,
-            upload = layui.upload,
-            formSelects =  layui.formSelects;
+            upload = layui.upload;
 
-        //多选select
+        layui.config({
+            base: '/Public/layui/lay/modules/' //假设这是你存放拓展模块的根目录
+        }).extend({ //设定模块别名
+            formSelects: 'formSelects-v4'
+        });
 
+
+        layui.use(['formSelects'], function() {
+            formSelects = layui.formSelects;
+            formSelects.render('select1');
+        });
 
         form.on('select(nowcid1)', function(data){
             //地区联动
@@ -397,6 +404,7 @@
 
         // 监听提交
         form.on('submit(*)', function(data){
+            console.log("标签选择的value数组：",layui.formSelects.value('select1', 'val'));
 //            alert(1)
             // 格式化状态字段的值
             if (data.field.status == 'on'){data.field.status = 1;}else{data.field.status = 0;}
@@ -453,6 +461,7 @@
             }
         })
     });
+
 </script>
 </body>
 
