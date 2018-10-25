@@ -638,16 +638,16 @@ class FrontEndApiController extends Controller
         if (!$tags) $this->ajaxReturn(['status' => false, 'msg' => '缺少关键参数']);
         $page = I('get.page')?I('get.page'):1;
         $limit = I('get.limit')?I('get.limit'):10;
-        $newdata = [];
-        $count = M('article')->where(['body'=>['like',['%' . $tags . '%']]])->count();
-        $articledata = M('article')->where(['body'=>['like',['%' . $tags . '%']]])->limit(($page-1)*$limit,$limit)->select();
-        foreach ($articledata as $K=>$v){
-            if(strpos($v['body'],$tags)!==false){
-                $newdata[] = $v;
-            }
-        }
-        if(!empty($newdata)){
-            $this->ajaxreturn(['status'=>true,'data'=>$newdata,'count'=>$count]);
+//        $newdata = [];
+        $count = M('article')->where(['tagsid'=>['like',['%' . $tags . '%']]])->count();
+        $articledata = M('article')->where(['tagsid'=>['like',['%' . $tags . '%']]])->limit(($page-1)*$limit,$limit)->select();
+//        foreach ($articledata as $K=>$v){
+//            if(strpos($v['body'],$tags)!==false){
+//                $newdata[] = $v;
+//            }
+//        }
+        if(!empty($articledata)){
+            $this->ajaxreturn(['status'=>true,'data'=>$articledata,'count'=>$count]);
         }else{
             $this->ajaxreturn(['status'=>false,'data'=>[],'count'=>0]);
         }
