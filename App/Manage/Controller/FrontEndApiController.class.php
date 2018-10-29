@@ -642,8 +642,9 @@ class FrontEndApiController extends Controller
         $page = I('get.page')?I('get.page'):1;
         $limit = I('get.limit')?I('get.limit'):10;
 //        $newdata = [];
-        $count = M('article')->where(['tagsid'=>['like',['%' . $tags . '%']]])->count();
-        $articledata = M('article')->where(['tagsid'=>['like',['%' . $tags . '%']]])->limit(($page-1)*$limit,$limit)->select();
+        $map['_string']="FIND_IN_SET($tags,tagsid)";
+        $count = M('article')->where($map)->count();
+        $articledata = M('article')->where($map)->limit(($page-1)*$limit,$limit)->select();
 //        foreach ($articledata as $K=>$v){
 //            if(strpos($v['body'],$tags)!==false){
 //                $newdata[] = $v;
